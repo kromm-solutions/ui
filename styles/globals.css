@@ -1,11 +1,24 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
 @import "./themes.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @custom-variant fixed (&:is(.layout-fixed *));
+
+/* Per-style variants (vendored from reui.io's multi-style architecture).
+   Utilities prefixed with `style-<name>:` resolve only while an ancestor
+   (in practice <body>) carries the matching `style-<name>` class. The
+   registry build collapses these tokens per style before shipping, so the
+   variants are authoring-time machinery, not a consumer requirement. */
+@custom-variant style-vega (&:where(.style-vega *));
+@custom-variant style-nova (&:where(.style-nova *));
+@custom-variant style-lyra (&:where(.style-lyra *));
+@custom-variant style-maia (&:where(.style-maia *));
+@custom-variant style-mira (&:where(.style-mira *));
+@custom-variant style-luma (&:where(.style-luma *));
+@custom-variant style-sera (&:where(.style-sera *));
+@custom-variant style-rhea (&:where(.style-rhea *));
 
 @theme inline {
   --breakpoint-3xl: 1600px;
@@ -195,6 +208,24 @@
 
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Thin themed scrollbar (vendored from reui.io). */
+@utility scrollbar {
+  scrollbar-color: var(--input) transparent;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-input rounded-full;
   }
 }
 
