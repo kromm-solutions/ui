@@ -45,3 +45,9 @@ next-env.d.ts
 .contentlayer
 .content-collections
 .source
+# local tool binaries (antivirus-safe esbuild copy; keep out of git)
+/.esb-copy/
+
+
+# registry style-variant materialisations (scripts/build-registry.ts)
+/.generated/

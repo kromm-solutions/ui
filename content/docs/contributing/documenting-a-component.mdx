@@ -1,0 +1,329 @@
+﻿---
+title: Documenting a component
+description: "How to document a registry component: examples, metadata, the MDX page and the checks that keep them in sync."
+---
+
+A component page is a view, not a new source of truth. Every preview, snippet and
+installation block on it reads a file that already exists in the registry, so the
+page only points at what is already there.
+
+## What a component page is made of
+
+| Artifact         | Path                                                                                              | Role                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Variant example  | `registry-kromm-ui/bases/<base>/examples/<component>/<component>-<variant>.tsx`                   | The runnable demo. `ComponentPreview` renders it and shows its source. |
+| Variant metadata | `registry-kromm-ui/bases/<base>/examples/<component>/meta.json`                                   | Name, title, description and order of every variant.                   |
+| Component        | `registry-kromm-ui/bases/<base>/kromm-ui/<component>/` and its entry in that base's `registry.ts` | What `npx kromm-ui add` installs.                                      |
+| Page             | `content/docs/components/<base>/<component>.mdx`                                                  | The documentation itself. One page per base.                           |
+| Sidebar entry    | `content/docs/components/<base>/meta.json`                                                        | Lists the slug under `pages`, in order.                                |
+| Generated        | `registry-kromm-ui/_meta/`, `public/r/styles/`                                                    | Rewritten by `pnpm registry:all`. Never edit them by hand.             |
+
+## Before you start
+
+- The component exists in `registry-kromm-ui/bases/<base>/kromm-ui/<component>/` and is
+  exported from that base's `registry.ts`.
+- The change lands on all three bases, unless one base is explicitly accepted.
+- `pnpm registry:all` passes before you touch a page. A page that documents something the
+  registry does not ship cannot be made honest by prose.
+
+## 1. Write one example per variant
+
+Naming rule: `examples/<component>/<component>-<variant>.tsx`. Variants are semantic
+(`default`, `field`, `collapsible`), never numbered, and the `c-` prefix is not used.
+
+An example is written like a consumer: it imports the component the way an installed
+project would and stays self-contained. It must not import from `@/components/ui/*`; that
+folder belongs to the site, and `pnpm registry:verify` fails when an example reaches into
+it. A demo snippet inside a template literal is content, not an import, so it is allowed.
+
+## 2. Declare the variants in meta.json
+
+```json
+[
+  {
+    "name": "signature-pad-default",
+    "title": "Default",
+    "description": "Signature pad with undo, clear and save actions",
+    "order": 1
+  },
+  {
+    "name": "signature-pad-field",
+    "title": "Form Field",
+    "description": "Signature pad integrated with a form field",
+    "order": 2
+  }
+]
+```
+
+| Field         | Rule                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------- |
+| `name`        | The file basename. `<name>.tsx` must sit next to `meta.json`, or verification fails.   |
+| `title`       | Short label in title case, no trailing period. Names the variant section on the page.  |
+| `description` | One sentence, no trailing period. Keep it factual: it travels into generated metadata. |
+| `order`       | Integer from `1`. Controls the variant order in the generated metadata.                |
+
+`pnpm registry:metadata` copies these entries into `registry-kromm-ui/_meta/`. That output
+is generated: edit `meta.json` and regenerate instead.
+
+## 3. Write the page
+
+The path maps to the URL one to one:
+`content/docs/components/base/signature-pad.mdx` is served at
+`/docs/components/base/signature-pad`.
+
+```mdx
+---
+title: Signature Pad
+description: Create a canvas for users to draw signatures.
+---
+```
+
+- `title` is required. It becomes the H1 and the sidebar label.
+- `description` is the line under the H1 and the page's meta description. Always set it.
+- The base is read from the URL, so there is no `base` field to add.
+
+### Register it in the sidebar
+
+Add the slug to `pages` in `content/docs/components/<base>/meta.json`:
+
+```json
+{
+  "title": "Base UI",
+  "pages": ["code-block", "signature-pad", "your-component"]
+}
+```
+
+A folder whose `meta.json` declares `pages` renders only what that array lists. A page
+left out is still reachable by URL, but it disappears from the sidebar, the command
+palette, prev/next and `llms.txt`.
+
+### Page order
+
+Follow the order the existing pages use, so every component reads the same way:
+
+1. Frontmatter.
+2. One import per variant, from `@/registry-kromm-ui/bases/<base>/examples/<component>/...`.
+3. A lead `ComponentPreview` with the default variant.
+4. `## Installation` - `CodeTabs` with a `Command` tab and a `Manual` tab.
+5. `## Usage` - the import a consumer writes, then the minimal JSX.
+6. `## Composition` - the part tree in a `text` fence.
+7. One `## <Variant>` section per example, each with a one-line explanation and a preview.
+8. `## API` - a prop table (prop, type, default, description) when the component takes props.
+9. `## Accessibility` - only claims you can trace back to the code: names, roles, keyboard
+   and announcements.
+
+### The Installation block
+
+The two tabs answer two different questions. `Command` is the installed path; `Manual` is
+the copy-and-own path, so it must show every file the registry item ships, with the same
+targets the item declares:
+
+````mdx
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx kromm-ui add signature-pad
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install @base-ui/react
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource
+        name="signature-pad"
+        base="base"
+        title="components/ui/signature-pad.tsx"
+      />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+````
+
+Install only what the base needs: `@base-ui/react` for `base`, `react-aria-components` for
+`aria`, `@shadcn/react` for `radix`, plus any package the component itself imports. The
+CLI tab stays identical across bases.
+
+When the item ships several files, add one `ComponentSource` per file and point at it with
+`src`, exactly as `code-block.mdx` does:
+
+```mdx
+<ComponentSource
+  src="registry-kromm-ui/bases/base/kromm-ui/code-block/code-block-copy.tsx"
+  title="components/ui/code-block/code-block-copy.tsx"
+/>
+```
+
+## ComponentPreview and ComponentSource
+
+`ComponentPreview` renders the demo and, under it, the example's source in a collapsible
+code panel. `ComponentSource` renders a code panel on its own; the preview uses it
+internally.
+
+| Prop        | Type    | Use                                                                    |
+| ----------- | ------- | ---------------------------------------------------------------------- |
+| `name`      | string  | Resolves a registry file by name. Pair it with `base`.                 |
+| `src`       | string  | Repo-root-relative path to a file. Always set it for example previews. |
+| `title`     | string  | Filename shown in the code panel header.                               |
+| `base`      | string  | The base used to resolve `name`.                                       |
+| `preview`   | boolean | Default `true`. Drop the rendered demo with `preview={false}`.         |
+| `code`      | boolean | Default `true`. Drop the code panel with `code={false}`.               |
+| `className` | string  | Extra classes on the preview surface.                                  |
+
+`ComponentSource` takes the same `name`, `src`, `title` and `base`, plus `collapsible`
+(default `true`) and `language`.
+
+Resolution runs in this order:
+
+1. `src`, when given, wins: the file is read straight from the repository root.
+2. `name` plus `base` tries `registry/bases/<base>/ui/<name>.tsx`, then
+   `registry/bases/<base>/<name>.tsx`, then
+   `registry-kromm-ui/bases/<base>/kromm-ui/<name>/<name>.tsx`, then
+   `registry-kromm-ui/bases/<base>/kromm-ui/<name>.tsx`.
+
+That makes `name` fine for a single-file component. For a multi-file component it shows
+only the first match and can hide a file the consumer needs, so use `src` per file. The
+panel title is `title`, the language comes from the title's extension, and the copy button
+copies the file contents. Nothing about the source is repeated in the MDX.
+
+## Keep the bases aligned
+
+Write the three pages with the same prose and the same section order. Only three things
+change: the import path, the `base` prop, and the dependency in the Manual tab. A reader
+switching base should see the same documentation over a different implementation. When a
+base genuinely diverges, document the difference on the page instead of letting the pages
+drift apart.
+
+The switcher at the top of the page always links to all three bases, so a missing page in
+one base becomes a broken link.
+
+## Verify
+
+```bash
+pnpm registry:all   # metadata -> registry build -> verify
+pnpm check          # lint and formatting
+pnpm typecheck      # when TypeScript changed
+```
+
+`pnpm registry:verify` fails when a `meta.json` entry has no matching `.tsx`, when
+`registry-kromm-ui/_meta/` was never generated for a component, when an example imports
+from `@/components/ui/*`, or when a page reads examples from the old
+`registry-kromm-ui/meta` path. Docs-only changes still need `pnpm check`, and the page is
+only compiled by `pnpm dev` or `pnpm build`.
+
+Derived surfaces - mobile navigation, the command palette, the sitemap and `llms.txt` -
+read the page tree and pick the new page up on their own. The header navigation is a
+hardcoded list in `components/layout/site-header.tsx`: add the link there only when the
+page deserves site-wide placement.
+
+## Checklist
+
+- [ ] One example per variant at `.../examples/<component>/<component>-<variant>.tsx`.
+- [ ] `meta.json` lists every variant, with names matching the files.
+- [ ] Page at `content/docs/components/<base>/<component>.mdx` with `title` and `description`.
+- [ ] Slug added to `pages` in `content/docs/components/<base>/meta.json`.
+- [ ] Imports point at `registry-kromm-ui/bases/<base>/examples/...`, never at `meta/`.
+- [ ] The Manual tab lists every file the item ships.
+- [ ] `pnpm registry:all` and `pnpm check` pass.
+- [ ] Nothing edited under `_meta/` or `public/r/`.
+
+## Full template
+
+````mdx
+---
+title: Component Name
+description: One sentence about what the component does.
+---
+
+import { ComponentNameDefault } from "@/registry-kromm-ui/bases/base/examples/component-name/component-name-default";
+import { ComponentNameField } from "@/registry-kromm-ui/bases/base/examples/component-name/component-name-field";
+
+<ComponentPreview
+  name="component-name-default"
+  src="registry-kromm-ui/bases/base/examples/component-name/component-name-default.tsx"
+>
+  <ComponentNameDefault />
+</ComponentPreview>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx kromm-ui add component-name
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install @base-ui/react
+      ```
+
+      <Step>Copy and paste the following code into your project.</Step>
+
+      <ComponentSource
+        name="component-name"
+        base="base"
+        title="components/ui/component-name.tsx"
+      />
+
+      <Step>Update the import paths to match your project setup.</Step>
+    </Steps>
+
+  </TabsContent>
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { ComponentName } from "@/components/kromm-ui/component-name";
+```
+
+```tsx showLineNumbers
+<ComponentName />
+```
+
+## Composition
+
+```text
+ComponentName
+├── ComponentNamePart
+└── ComponentNameAction
+```
+
+## Default
+
+<ComponentPreview
+  name="component-name-default"
+  src="registry-kromm-ui/bases/base/examples/component-name/component-name-default.tsx"
+>
+  <ComponentNameDefault />
+</ComponentPreview>
+
+## Field
+
+<ComponentPreview
+  name="component-name-field"
+  src="registry-kromm-ui/bases/base/examples/component-name/component-name-field.tsx"
+>
+  <ComponentNameField />
+</ComponentPreview>
+````

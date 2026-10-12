@@ -1,0 +1,171 @@
+import type { Registry } from "shadcn/schema";
+
+export const ui: Registry["items"] = [
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/accordion.tsx", type: "registry:ui" }],
+    name: "accordion",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["class-variance-authority"],
+    files: [{ path: "ui/alert.tsx", type: "registry:ui" }],
+    name: "alert",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/aspect-ratio.tsx", type: "registry:ui" }],
+    name: "aspect-ratio",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["class-variance-authority"],
+    files: [{ path: "ui/badge.tsx", type: "registry:ui" }],
+    name: "badge",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui", "class-variance-authority"],
+    files: [{ path: "ui/button.tsx", type: "registry:ui" }],
+    name: "button",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/card.tsx", type: "registry:ui" }],
+    name: "card",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/collapsible.tsx", type: "registry:ui" }],
+    name: "collapsible",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["cmdk", "radix-ui"],
+    files: [{ path: "ui/command.tsx", type: "registry:ui" }],
+    name: "command",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/context-menu.tsx", type: "registry:ui" }],
+    name: "context-menu",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/dialog.tsx", type: "registry:ui" }],
+    name: "dialog",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["vaul"],
+    files: [{ path: "ui/drawer.tsx", type: "registry:ui" }],
+    name: "drawer",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/dropdown-menu.tsx", type: "registry:ui" }],
+    name: "dropdown-menu",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["class-variance-authority"],
+    files: [{ path: "ui/field.tsx", type: "registry:ui" }],
+    name: "field",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/input.tsx", type: "registry:ui" }],
+    name: "input",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/kbd.tsx", type: "registry:ui" }],
+    name: "kbd",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/label.tsx", type: "registry:ui" }],
+    name: "label",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/laptop-mockup.tsx", type: "registry:ui" }],
+    name: "laptop-mockup",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/native-select.tsx", type: "registry:ui" }],
+    name: "native-select",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/phone-mockup.tsx", type: "registry:ui" }],
+    name: "phone-mockup",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/popover.tsx", type: "registry:ui" }],
+    name: "popover",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/separator.tsx", type: "registry:ui" }],
+    name: "separator",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/sheet.tsx", type: "registry:ui" }],
+    name: "sheet",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui", "class-variance-authority"],
+    files: [{ path: "ui/sidebar.tsx", type: "registry:ui" }],
+    name: "sidebar",
+    type: "registry:ui",
+  },
+  {
+    files: [{ path: "ui/skeleton.tsx", type: "registry:ui" }],
+    name: "skeleton",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["sonner", "next-themes"],
+    files: [{ path: "ui/sonner.tsx", type: "registry:ui" }],
+    name: "sonner",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/tabs.tsx", type: "registry:ui" }],
+    name: "tabs",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["motion"],
+    files: [{ path: "ui/text-flip.tsx", type: "registry:ui" }],
+    name: "text-flip",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui", "class-variance-authority"],
+    files: [{ path: "ui/toggle.tsx", type: "registry:ui" }],
+    name: "toggle",
+    type: "registry:ui",
+  },
+  {
+    dependencies: ["radix-ui"],
+    files: [{ path: "ui/tooltip.tsx", type: "registry:ui" }],
+    name: "tooltip",
+    type: "registry:ui",
+  },
+];

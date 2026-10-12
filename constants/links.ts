@@ -1,19 +1,19 @@
 export const GITHUB = {
   branch: "main",
-  org: "shadcn-labs",
-  repo: "shadcn-registry-starter",
-  user: "Aniket-508",
+  org: "kromm-solutions",
+  repo: "ui",
+  user: "kromm-solutions",
 } as const;
 
 const githubUrl = `https://github.com/${GITHUB.org}/${GITHUB.repo}`;
 
 export const LINK = {
-  DISCORD: "https://discord.gg/N6G36KhYK4",
+  DISCORD: `${githubUrl}/discussions`,
   GITHUB: githubUrl,
   LICENSE: `${githubUrl}/blob/${GITHUB.branch}/LICENSE`,
-  PORTFOLIO: "https://aniketpawar.com",
+  PORTFOLIO: "https://ui.kromm.io",
   SHADCN_MCP_DOCS: "https://ui.shadcn.com/docs/mcp",
   SPONSOR: `https://github.com/sponsors/${GITHUB.user}`,
-  X: "https://x.com/alaymanguy",
-  X_SHADCN_LABS: "https://x.com/shadcnlabs",
+  X: "https://x.com/kromm_solutions",
+  X_SHADCN_LABS: "https://x.com/kromm_solutions",
 } as const;

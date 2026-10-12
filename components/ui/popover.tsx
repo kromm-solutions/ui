@@ -1,11 +1,11 @@
 "use client";
 
+import { cn } from "cn";
 import { Popover as PopoverPrimitive } from "radix-ui";
 import { useCallback, useEffect, useRef } from "react";
 
-import { dropdownClose, dropdownOpen } from "@/audio/core";
 import { useFeedback } from "@/hooks/use-feedback";
-import { cn } from "@/lib/utils";
+import { dropdownClose, dropdownOpen } from "@/lib/audio/core";
 
 const Popover = ({
   onOpenChange,

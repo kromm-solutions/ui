@@ -1,0 +1,1 @@
+[{"name": "rich-text-editor-default", "title": "Rich Text Editor Default", "description": "Headless Tiptap editor with toolbar, bubble menu and block handle.", "order": 100}, {"name": "rich-text-editor-full", "title": "Rich Text Editor Full", "description": "Document control, highlights, mentions and task lists.", "order": 200}]

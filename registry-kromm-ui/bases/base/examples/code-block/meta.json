@@ -1,0 +1,14 @@
+[
+  {
+    "name": "code-block-default",
+    "title": "Default",
+    "description": "Highlighted code with a filename header and copy button",
+    "order": 1
+  },
+  {
+    "name": "code-block-collapsible",
+    "title": "Collapsible",
+    "description": "Long snippet clamped to a fixed height with an expand toggle",
+    "order": 2
+  }
+]

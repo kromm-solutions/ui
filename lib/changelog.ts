@@ -7,10 +7,26 @@ import { source } from "@/lib/source";
 export interface ChangelogPageData {
   title: string;
   description?: string;
+  version?: string;
+  tags?: string[];
 }
 
 export type ChangelogPage = ReturnType<typeof source.getPages>[number] & {
   date: Date | null;
+};
+
+const toDate = (value: unknown): Date | null => {
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? null : value;
+  }
+
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = new Date(value);
+
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  return null;
 };
 
 export const getDateFromFile = (slugs: string[]) => {
@@ -40,10 +56,6 @@ export const getChangelogPages = () =>
     .filter((page) => page.slugs[0] === "changelog" && page.slugs.length > 1)
     .map((page) => ({
       ...page,
-      date: getDateFromFile(page.slugs),
+      date: toDate(page.data.date) ?? getDateFromFile(page.slugs),
     }))
-    .toSorted((a, b) => {
-      const dateA = a.date?.getTime() ?? 0;
-      const dateB = b.date?.getTime() ?? 0;
-      return dateB - dateA;
-    });
+    .toSorted((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0));

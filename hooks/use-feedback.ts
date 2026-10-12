@@ -5,9 +5,9 @@ import { defineSound } from "@web-kits/audio";
 import { useCallback } from "react";
 import { useWebHaptics } from "web-haptics/react";
 
-import * as audio from "@/audio/core";
 import { useHapticsEnabled } from "@/hooks/use-haptic-toggle";
 import { useSoundEnabled } from "@/hooks/use-sound-toggle";
+import * as audio from "@/lib/audio/core";
 
 type PatchSoundKey = keyof typeof audio._patch.sounds;
 type KebabToCamel<K extends string> = K extends `${infer A}-${infer B}`

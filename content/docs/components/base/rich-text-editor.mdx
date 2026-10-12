@@ -1,0 +1,373 @@
+---
+title: Rich Text Editor
+description: Headless rich text editor on Tiptap with a toolbar, bubble menu and opt-in extensions.
+---
+
+import { RichTextEditorDefault } from "@/registry-kromm-ui/bases/base/examples/rich-text-editor/rich-text-editor-default";
+import { RichTextEditorFull } from "@/registry-kromm-ui/bases/base/examples/rich-text-editor/rich-text-editor-full";
+
+<ComponentPreview
+  name="rich-text-editor-default"
+  src="registry-kromm-ui/bases/base/examples/rich-text-editor/rich-text-editor-default.tsx"
+>
+  <RichTextEditorDefault />
+</ComponentPreview>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx kromm-ui add rich-text-editor
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+        <Steps>
+            <Step>Install the following dependencies:</Step>
+
+            ```bash
+            npm install @base-ui/react @tiptap/react @tiptap/pm @tiptap/starter-kit @tiptap/extension-highlight @tiptap/extension-mention @tiptap/extension-placeholder @tiptap/extension-table @tiptap/extension-table-cell @tiptap/extension-table-header @tiptap/extension-table-row @tiptap/extension-task-item @tiptap/extension-task-list lucide-react
+            ```
+            <Step>Copy and paste the following code into your project.</Step>
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/rich-text-editor.tsx"
+            title="components/ui/rich-text-editor/rich-text-editor.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/rich-text-editor-context.tsx"
+            title="components/ui/rich-text-editor/rich-text-editor-context.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/rich-text-editor-content.tsx"
+            title="components/ui/rich-text-editor/rich-text-editor-content.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/core/types.ts"
+            title="components/ui/rich-text-editor/core/types.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/core/extensions.ts"
+            title="components/ui/rich-text-editor/core/extensions.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/core/serialization.ts"
+            title="components/ui/rich-text-editor/core/serialization.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/core/marks.ts"
+            title="components/ui/rich-text-editor/core/marks.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/hooks/use-rich-text-editor.ts"
+            title="components/ui/rich-text-editor/hooks/use-rich-text-editor.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/hooks/use-editor-state.ts"
+            title="components/ui/rich-text-editor/hooks/use-editor-state.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/components/rich-text-editor-toolbar.tsx"
+            title="components/ui/rich-text-editor/components/rich-text-editor-toolbar.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/components/rich-text-editor-bubble-menu.tsx"
+            title="components/ui/rich-text-editor/components/rich-text-editor-bubble-menu.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/components/rich-text-editor-block-handle.tsx"
+            title="components/ui/rich-text-editor/components/rich-text-editor-block-handle.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/rich-text-editor/index.ts"
+            title="components/ui/rich-text-editor/index.ts"
+            />
+
+            <Step>Add the styles the editor content needs. They are scoped to the component, so they cannot restyle a consumer's own content.</Step>
+
+            ```css
+            @layer components {
+              :root {
+                --highlight-yellow: var(--chart-3);
+                --highlight-green: var(--chart-2);
+                --highlight-blue: var(--chart-1);
+                --highlight-pink: var(--chart-5);
+                --highlight-violet: var(--chart-4);
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap {
+                outline: none;
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap blockquote {
+                border-inline-start: 2px solid var(--border);
+                padding-inline-start: 1rem;
+                color: var(--muted-foreground);
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap pre {
+                background: var(--muted);
+                border-radius: var(--radius);
+                padding: 0.75rem 1rem;
+                font-family: var(--font-mono);
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap [data-type="mention"] {
+                background: color-mix(in oklab, var(--primary) 10%, transparent);
+                color: var(--primary);
+                border-radius: calc(var(--radius) / 2);
+                padding: 0 0.25rem;
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap .selection {
+                background: color-mix(in oklab, var(--primary) 15%, transparent);
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap .ProseMirror-selectednode {
+                outline: 2px solid color-mix(in oklab, var(--ring) 50%, transparent);
+              }
+
+              [data-slot="rich-text-editor-content"] .tiptap .is-empty::before {
+                content: attr(data-placeholder);
+                color: var(--muted-foreground);
+                float: inline-start;
+                height: 0;
+                pointer-events: none;
+              }
+            }
+            ```
+
+            <Step>Update the import paths to match your project setup.</Step>
+
+        </Steps>
+    </TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  RichTextEditor,
+  RichTextEditorContent,
+  RichTextEditorToolbar,
+  RichTextEditorToolbarGroup,
+  RichTextEditorToolbarSeparator,
+  RichTextEditorToolbarButton,
+  RichTextEditorBubbleMenu,
+  RichTextEditorBlockHandle,
+} from "@/components/ui/rich-text-editor";
+```
+
+Uncontrolled, with the starter feature set:
+
+```tsx showLineNumbers
+<RichTextEditor placeholder="Write something…" features={{ toolbar: true }}>
+  <RichTextEditorToolbar>
+    <RichTextEditorToolbarGroup>
+      <RichTextEditorToolbarButton command="toggleBold" />
+      <RichTextEditorToolbarButton command="toggleItalic" />
+      <RichTextEditorToolbarButton command="toggleHighlight" />
+    </RichTextEditorToolbarGroup>
+    <RichTextEditorToolbarSeparator />
+    <RichTextEditorToolbarGroup>
+      <RichTextEditorToolbarButton command="toggleBulletList" />
+      <RichTextEditorToolbarButton command="toggleTaskList" />
+    </RichTextEditorToolbarGroup>
+  </RichTextEditorToolbar>
+  <RichTextEditorContent />
+</RichTextEditor>
+```
+
+Controlled, reading the document on every change:
+
+```tsx showLineNumbers
+const [doc, setDoc] = React.useState<JSONContent | null>(null);
+
+<RichTextEditor
+  value={doc}
+  onValueChange={setDoc}
+  features={{ toolbar: true, tasks: true, highlights: true }}
+>
+  <RichTextEditorToolbar />
+  <RichTextEditorContent />
+</RichTextEditor>
+```
+
+`value` takes a Tiptap `JSONContent` document. Pass `defaultValue` instead to let the
+editor manage its own state; `onValueChange` fires in both modes.
+
+## Composition
+
+```text
+RichTextEditor
+├── RichTextEditorToolbar
+│   ├── RichTextEditorToolbarGroup
+│   ├── RichTextEditorToolbarSeparator
+│   └── RichTextEditorToolbarButton
+├── RichTextEditorContent
+├── RichTextEditorBubbleMenu   (only when features.bubbleMenu)
+└── RichTextEditorBlockHandle  (only when features.blockHandle)
+```
+
+## Features
+
+Every extension is opt-in through the `features` prop, so the installed item never loads
+code you do not ask for. `features={{ toolbar: true }}` is the minimal working set.
+
+| Feature | Extension(s) | What it adds |
+| ------- | ------------ | ------------ |
+| — | StarterKit | Paragraphs, h1–h3, bold, italic, lists, blockquote, code and hr |
+| `tables` | Table, TableRow, TableHeader, TableCell | Tables with column resizing |
+| `tasks` | TaskList, TaskItem | Checkable task lists with line-through styling |
+| `mentions` | Mention | `@` mentions with `data-id` / `data-label` |
+| `highlights` | Highlight (multicolor) | Five highlight colors backed by theme tokens |
+| `bubbleMenu` | — | Floating menu over the current selection |
+| `blockHandle` | — | Add/drag handle rendered beside the hovered block |
+
+### Toolbar
+
+`RichTextEditorToolbar` is a compound part. Group buttons with
+`RichTextEditorToolbarGroup` and separate them with `RichTextEditorToolbarSeparator`.
+Each `RichTextEditorToolbarButton` takes a `command` name (`toggleBold`,
+`toggleHeading1`, `toggleBulletList`, …) and reflects its pressed state from the editor.
+
+### Table
+
+With `features={{ tables: true }}` the editor ships resizable columns: the rendered
+`.column-resize-handle` uses `bg-primary`, and the selected cell paints an
+`bg-primary/10` overlay. Tables render inside a `.tableWrapper` so wide tables scroll
+horizontally instead of breaking the layout.
+
+### Task list
+
+`TaskList`/`TaskItem` render a real checkbox per item. Checked items paint their text
+with `text-muted-foreground` and `line-through`, matching the rest of the theme.
+
+### Mentions
+
+`@` opens a suggestion list; inserted mentions render as a chip with
+`data-type="mention"`, `data-id` and `data-label`, painted with `bg-primary/10` and
+`text-primary`.
+
+### Highlights
+
+Five colors — yellow, green, blue, pink, violet — mapped to `--highlight-*` CSS
+variables instead of hardcoded palette values, so highlights follow the active theme.
+Set `--highlight-*` in your stylesheet to retune them.
+
+### Placeholder
+
+`placeholder` renders through `data-placeholder` on empty nodes: floated, unpainted
+(`height: 0`), non-interactive, and painted with `text-muted-foreground`. It never
+becomes document content, so it is not read out as text.
+
+## Data model
+
+The editor stores a ProseMirror document. `RichTextEditorRef` exposes the imperative
+surface:
+
+| Method | Returns | Description |
+| ------ | ------- | ----------- |
+| `getJSON()` | `JSONContent` | The full document tree. Persist this. |
+| `getHTML()` | `string` | Serialized HTML for rendering outside the editor. |
+| `getText()` | `string` | Plain text, blocks joined by newlines. |
+| `setContent(doc)` | `void` | Replace the document programmatically. |
+| `focus()` | `void` | Move focus into the editable area. |
+| `clear()` | `void` | Empty the document and emit `onValueChange(null)`. |
+| `isEmpty()` | `boolean` | Whether the document has no content. |
+| `can().undo()` / `can().redo()` | `boolean` | History availability for toolbar state. |
+
+Access it with a ref, or from inside the tree with `useRichTextEditor()`:
+
+```tsx showLineNumbers
+const ref = React.useRef<RichTextEditorRef>(null);
+
+const save = async () => {
+  const json = ref.current?.getJSON();
+  await fetch("/api/posts", {
+    method: "POST",
+    body: JSON.stringify({ content: json }),
+  });
+};
+```
+
+## API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` | `JSONContent \| null` | - | Controlled document. |
+| `defaultValue` | `JSONContent \| null` | - | Initial document for uncontrolled usage. |
+| `onValueChange` | `(doc: JSONContent \| null) => void` | - | Fires on every document change, in both modes. |
+| `placeholder` | `string` | - | Placeholder shown on empty nodes. |
+| `readOnly` | `boolean` | `false` | Renders content without editing. |
+| `disabled` | `boolean` | `false` | Disables editing and paints at reduced opacity. |
+| `features` | `RichTextEditorFeatures` | `{}` | Opt-in extensions: `toolbar`, `tables`, `tasks`, `mentions`, `highlights`, `bubbleMenu`, `blockHandle`. |
+| `className` | `string` | - | Applied to the outer surface. |
+
+## Styling & tokens
+
+The editor content is styled through theme tokens only; no fixed colors ship inside:
+
+| Token | Used for |
+| ----- | -------- |
+| `bg-background` / `text-foreground` | Editor surface and body text |
+| `text-muted-foreground` | List markers, blockquotes, placeholders, checked tasks |
+| `bg-muted` | Code blocks, table headers |
+| `border-border` | Horizontal rules and table borders |
+| `bg-primary` / `text-primary` | Drop cursor, table resize handle, links, mention chips |
+| `bg-primary/10` | Mention chips and selected table cells |
+| `bg-primary/15` | Text selection |
+| `outline-ring/50` | Outline on a selected node (`ProseMirror-selectednode`) |
+| `--highlight-yellow` / `--highlight-green` / `--highlight-blue` / `--highlight-pink` / `--highlight-violet` | Highlight mark colors, mapped to chart tokens by default |
+
+## Accessibility
+
+- The editable area exposes `role="textbox"` with `aria-multiline="true"` and an
+  accessible name; provide one with `aria-label` or a surrounding `Field` label.
+- Toolbar buttons are real buttons with accessible names and a pressed state that
+  follows `editor.isActive(...)`, so the formatting state is announced, not only
+  painted.
+- Undo and redo disable themselves through `can().undo()` / `can().redo()` instead of
+  performing no-ops.
+- Task checkboxes are keyboard-focusable and expose their checked state.
+- The placeholder is generated content (`::before`), so it is never read as part of
+  the document.
+- Node outlines rely on `outline-ring`, which stays visible in forced colors mode.
+
+## Default
+
+<ComponentPreview
+  name="rich-text-editor-default"
+  src="registry-kromm-ui/bases/base/examples/rich-text-editor/rich-text-editor-default.tsx"
+>
+  <RichTextEditorDefault />
+</ComponentPreview>
+
+## Full document
+
+A document exercising every extension: a resizable table, a task list, `@` mentions and
+multicolor highlights.
+
+<ComponentPreview
+  name="rich-text-editor-full"
+  src="registry-kromm-ui/bases/base/examples/rich-text-editor/rich-text-editor-full.tsx"
+>
+  <RichTextEditorFull />
+</ComponentPreview>

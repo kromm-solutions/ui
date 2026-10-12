@@ -1,0 +1,23 @@
+---
+title: Your component
+description: Basic usage of the YourComponent template.
+base: base
+---
+
+import { YourComponent } from "@/registry-kromm-ui/bases/base/kromm-ui/your-component";
+
+<ComponentPreview name="your-component" base="base">
+  <YourComponent />
+</ComponentPreview>
+
+## Usage
+
+After you add the component with the CLI, import it from your UI folder:
+
+```tsx
+import { YourComponent } from "@/components/kromm-ui/your-component";
+
+export function MyComponent() {
+  return <YourComponent />;
+}
+```

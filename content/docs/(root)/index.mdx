@@ -1,81 +1,73 @@
 ---
 title: Introduction
-description: A template for building and publishing your own shadcn registry components.
+description: A shadcn-compatible component registry that ships every component on three headless bases - Base UI, React Aria and Radix.
 ---
 
-A **ready-to-use template** for creating and publishing custom components to the [shadcn registry](https://ui.shadcn.com/docs/registry).
+Kromm UI is a registry of components compatible with shadcn, plus the
+documentation site you are reading. It is not a product app: the published
+artifact is the registry (`public/r/`) and these docs.
+
+Every component ships on three headless bases - `base` (Base UI),
+`aria` (React Aria) and `radix` (Radix) - so you choose the primitive layer
+that fits your stack without changing styling or API.
 
 ## What You Get
 
-- 📦 **Simple structure** - One component file + one config file
-- 📚 **Documentation site** - Powered by Fumadocs
-- 🎨 **Registry compatible** - Works with `npx shadcn add`
-- 🤖 **[Agent ready](https://www.mintlify.com/score/startercn)** - Ships with `llms.txt`, `llms-full.txt`, API catalog routes, and agent skill discovery endpoints
-- 🔊 **[Web audio feedback](https://audio.raphaelsalaja.com/)** - Built-in interaction sounds powered by `@web-kits/audio`
-- 📳 **[Web haptics](https://haptics.lochie.me/)** - Optional haptic feedback for supported devices via `web-haptics`
-- ✨ **[Motion animations](https://motion.dev/)** - Uses `motion` for animated UI states and transitions
-- 🎯 **[Animated icons](https://lucide-animated.com/)** - Includes reusable animated icons for buttons, sharing, and navigation
-- 🔄 **[View transitions](https://nextjs.org/docs/app/api-reference/config/next-config-js/viewTransition)** - Uses Next.js view transitions for smoother page changes
-- 🚀 **Deploy ready** - Deploy anywhere
+- Three bases, always - a component change lands on all three bases, unless a
+  single base is explicitly accepted.
+- shadcn compatible - the registry works with the standard CLI.
+- Copy-and-own - installing a component copies readable code into your
+  project; there is no runtime dependency to fight.
+- Documentation site - Fumadocs (MDX), command palette (⌘K), sitemap, OG
+  images, prev/next navigation.
+- Agent ready - `llms.txt`, `llms-full.txt`, API catalog routes and agent
+  skill discovery endpoints.
+- Web audio feedback - interaction sounds powered by `@web-kits/audio`.
+- Web haptics - optional haptic feedback for supported devices via
+  `web-haptics`.
+- Motion animations - `motion` for animated UI states and transitions.
+- Animated icons - reusable animated icons for buttons, sharing and
+  navigation.
+- View transitions - Next.js view transitions for smoother page changes.
 
 ## Tech Stack
 
-- `Next.js 16` + App Router
-- `React 19`
-- `Tailwind CSS 4`
-- `Fumadocs`
-- `motion`
-- `@web-kits/audio`
-- `web-haptics`
-- `shiki` + `rehype-pretty-code`
+- Next.js 16 (App Router)
+- React 19
+- Tailwind CSS 4
+- Base UI + Radix + React Aria
+- Fumadocs (MDX)
+- shiki + rehype-pretty-code
+- oxlint / oxfmt via ultracite
 
 ## How It Works
 
-1. Edit your component at `registry/new-york/your-component.tsx`
-2. Update `registry.json` with your component name and details
-3. Run `pnpm registry:build`
-
-That's it. Deploy your app and users can install your component:
+1. Source components live in
+   `registry-kromm-ui/bases/<base>/kromm-ui/<component>/` together with their
+   `registry.ts`.
+2. `pnpm registry:all` regenerates `_meta/` and builds `public/r/`. Never edit
+   those by hand.
+3. Users install a copy of each component into their own project:
 
 ```bash
-npx shadcn@latest add https://your-site.com/r/your-component.json
+npx shadcn@latest add https://your-site.com/r/<component>.json
 ```
 
 ## FAQ
 
-<Accordion type="multiple">
+### Why copy/paste instead of npm packages?
 
-<AccordionItem value="faq-1">
-<AccordionTrigger>
-Why copy/paste instead of npm packages?
-</AccordionTrigger>
-<AccordionContent>
+The shadcn philosophy gives you ownership of the code. You can customize
+components to your exact needs without fighting library constraints.
 
-The shadcn philosophy gives you **ownership** of the code. You can customize components to your exact needs without fighting library constraints.
+### Why three bases?
 
-</AccordionContent>
-</AccordionItem>
+Headless libraries solve the same accessibility problems with different APIs
+and trade-offs. Kromm UI keeps the styled layer constant, so moving from
+Radix to Base UI or React Aria is a drop-in change, not a redesign.
 
-<AccordionItem value="faq-2">
-<AccordionTrigger>
-Which frameworks are supported?
-</AccordionTrigger>
-<AccordionContent>
+### Can I publish my own components?
 
-Any React framework: Next.js, Remix, Astro, Gatsby, Vite, etc.
-
-</AccordionContent>
-</AccordionItem>
-
-<AccordionItem value="faq-3">
-<AccordionTrigger>
-Can I publish multiple components?
-</AccordionTrigger>
-<AccordionContent>
-
-Yes! Add more files to `registry/new-york/` and list them in `registry.json`.
-
-</AccordionContent>
-</AccordionItem>
-
-</Accordion>
+Yes. Add them under `registry-kromm-ui/bases/<base>/kromm-ui/`, export them
+in the corresponding `registry.ts`, run `pnpm registry:all`, and deploy - the
+docs and registry files propagate automatically.

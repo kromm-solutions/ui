@@ -1,0 +1,11 @@
+{
+  "title": "Contributing",
+  "pages": [
+    "index",
+    "adding-a-component",
+    "documenting-a-component",
+    "the-registry-pipeline",
+    "working-across-bases",
+    "code-style"
+  ]
+}

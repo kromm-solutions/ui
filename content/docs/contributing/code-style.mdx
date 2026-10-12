@@ -1,0 +1,120 @@
+﻿---
+title: Code style
+description: "ultracite, oxlint and oxfmt in this repo: the commands, the pre-commit hook and the rules that bite most often."
+---
+
+Lint and formatting come from ultracite, which wires [oxlint](https://oxc.rs) for
+rules and [oxfmt](https://oxc.rs) for formatting. Both are configured at the repository
+root:
+
+- `oxlint.config.ts` extends `ultracite/oxlint/{core,react,next,vitest}` and turns off
+  `arrow-body-style` and `func-style`.
+- `oxfmt.config.ts` extends `ultracite/oxfmt`: 80 columns, double quotes, semicolons,
+  2-space indent, LF, `trailingComma: "es5"`, sorted imports and sorted `package.json`.
+- Both ignore `public/r/`, `.agents/`, `.cursor/`, `.changeset/`, `.claude/`,
+  `.web-kits/`, `_archive/` and `lib/audio/`.
+
+## Commands
+
+```bash
+pnpm check   # ultracite check â€” reports, writes nothing
+pnpm fix     # ultracite fix â€” rewrites what it can
+```
+
+`pnpm typecheck` (`tsc --noEmit`) is separate and still required when TypeScript changed.
+
+## The pre-commit hook
+
+`lefthook.yml` runs `pnpm fix {staged_files}` on commit for `/*.{js,jsx,ts,tsx,json,jsonc,css}`
+and stages the result (`stage_fixed: true`), so a commit carries the formatted version of
+what you staged.
+
+MDX is not in that glob: prose pages are not rewritten by the hook, and `content/docs/`
+is only compiled by `pnpm dev` or `pnpm build`.
+
+## Rules that bite most often
+
+### `interface` for object shapes
+
+`typescript-eslint(consistent-type-definitions)` rejects `type` aliases for object types.
+
+```ts
+// bad
+type SignaturePen = { color?: string; width?: number };
+
+// good
+interface SignaturePen {
+  color?: string;
+  width?: number;
+}
+```
+
+Union types and primitives stay `type`.
+
+### Sorted object keys
+
+`sort-keys` requires alphabetical keys in object literals, including registry entries and
+CSS objects.
+
+```ts
+// bad
+{ title: "Signature Pad", name: "signature-pad", type: "registry:ui" }
+
+// good
+{ name: "signature-pad", title: "Signature Pad", type: "registry:ui" }
+```
+
+When sorting fights readability â€” a config object that mirrors a spec â€” group it behind a
+comment instead of reordering by hand; `pnpm fix` applies the order it wants.
+
+### Type-only imports at the top level
+
+`import/consistent-type-specifier-style` prefers a top-level `import type` over inline
+specifiers.
+
+```ts
+// bad
+import { codeToHtml, type ShikiTransformer } from "shiki";
+
+// good
+import type { ShikiTransformer } from "shiki";
+import { codeToHtml } from "shiki";
+```
+
+### No `Array#forEach`
+
+`unicorn(no-array-for-each)` wants a `for...of` loop, which can `break` and `return`.
+
+```ts
+// bad
+points.forEach((point) => draw(point));
+
+// good
+for (const point of points) {
+  draw(point);
+}
+```
+
+### No use before define
+
+`no-use-before-define` catches hooks and helpers referenced before their declaration â€” the
+usual cause is a `useMemo` used inside an earlier hook call. Declare the value first.
+
+### Comments on their own line
+
+`no-inline-comments` rejects a trailing comment on a line of code. Put the comment above
+the line it explains.
+
+## Generated files
+
+`_meta/` and `public/r/` are outputs of the registry pipeline. Never hand-edit or
+hand-format them: the next `pnpm registry:all` overwrites the change. See
+[The registry pipeline](/docs/contributing/the-registry-pipeline).
+
+## Recommended flow
+
+```bash
+pnpm fix        # format and auto-fix what it can
+pnpm check      # confirm nothing is left
+pnpm typecheck  # when TypeScript changed
+```

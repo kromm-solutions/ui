@@ -1,0 +1,18 @@
+[
+  {
+    "description": "Signature pad with undo, clear and save actions",
+    "name": "signature-pad-default",
+    "order": 1,
+    "title": "Default",
+    "file": "registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-default.tsx",
+    "path": "registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-default.tsx"
+  },
+  {
+    "description": "Signature pad integrated with a form field",
+    "name": "signature-pad-field",
+    "order": 2,
+    "title": "Form Field",
+    "file": "registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-field.tsx",
+    "path": "registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-field.tsx"
+  }
+]

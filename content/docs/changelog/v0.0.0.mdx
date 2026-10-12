@@ -1,0 +1,71 @@
+---
+version: "v0.0.0"
+title: "Bootstrap from startercn"
+description: "Bootstrap from startercn template with Next.js 16, React 19 and Fumadocs."
+date: 2026-09-08
+tags: ["initial", "setup"]
+---
+
+Released on 2026-09-08
+
+Kromm UI starts from the shadcn Fumadocs starter `startercn`.
+
+- [Scaffold](#scaffold) – Next.js 16 App Router, React 19, Tailwind v4.
+- [Docs](#docs) – Fumadocs MDX structure with root, components and installation.
+- [Registry](#registry) – shadcn-compatible registry scaffolding.
+- [UI Primitives](#ui-primitives) – Base component library under `components/ui/`.
+- [Tooling](#tooling) – pnpm, ultracite, lefthook, CI.
+
+---
+
+### Scaffold
+
+Project initialized from `startercn` template:
+
+```json title="package.json"
+{
+  "name": "startercn",
+  "dependencies": {
+    "next": "16.2.4",
+    "react": "19.2.5",
+    "tailwindcss": "^4.2.4",
+    "fumadocs-core": "^16.8.4"
+  }
+}
+```
+
+App Router structure under `app/(app)/docs`.
+
+### Docs
+
+Fumadocs MDX under `content/docs/` with meta configuration.
+
+```json title="content/docs/meta.json"
+{
+  "root": true,
+  "pages": ["(root)", "components"]
+}
+```
+
+### Registry
+
+Registry foundation with `registry.json`, `public/r/registry.json` and schemas in `lib/registry.ts`.
+
+### UI Primitives
+
+Base components shipped:
+
+`accordion`, `alert`, `badge`, `button`, `card`, `collapsible`, `command`, `context-menu`, `dialog`, `drawer`, `dropdown-menu`, `input`, `kbd`, `native-select`, `popover`, `separator`, `sheet`, `sidebar`, `skeleton`, `sonner`, `tabs`, `text-flip`, `toggle`, `tooltip`
+
+### Tooling
+
+- `pnpm` workspace
+- `ultracite` for lint/format
+- `lefthook.yml` for git hooks
+- CI workflow in `.github/workflows/ci.yml`
+
+---
+
+### Commits
+
+- `1ce2e97 Initial commit` (2026-09-08)

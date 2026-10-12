@@ -1,103 +1,91 @@
 ---
 title: Installation
-description: How to use this template to build your own shadcn component.
+description: How to install components from the kromm registry in your project.
 ---
 
-## Building Your Component
+## Prerequisites
 
-### 1. Fork the Template
-
-Click "Use this template" on [GitHub](https://github.com/shadcn-labs/startercn).
-
-### 2. Install Dependencies
+Your project must already use the shadcn setup with Tailwind CSS. If not, run:
 
 ```bash
-pnpm install
+npx shadcn@latest init
 ```
 
-### 3. Create Your Component
+## 1. Choose your base and style
 
-Replace the placeholder at `registry/new-york/your-component.tsx`:
+Every component ships on three headless bases — `base` (Base UI), `aria`
+(React Aria) and `radix` (Radix) — and eight visual styles (`vega`, `nova`,
+`maia`, `lyra`, `mira`, `luma`, `sera`, `rhea`). The distribution URL of an
+item encodes both axes:
 
-```tsx
-import { forwardRef, HTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
-
-export interface MyButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "outline";
-}
-
-const MyButton = forwardRef<HTMLButtonElement, MyButtonProps>(
-  ({ className, variant = "default", ...props }, ref) => {
-    return (
-      <button
-        ref={ref}
-        className={cn(
-          "rounded-md px-4 py-2 font-medium",
-          variant === "default" && "bg-primary text-primary-foreground",
-          variant === "outline" && "border border-input",
-          className
-        )}
-        {...props}
-      />
-    );
-  }
-);
-
-MyButton.displayName = "MyButton";
-
-export { MyButton };
+```
+/r/styles/{base}-{style}/{name}.json
 ```
 
-### 4. Update registry.json
+For example, the `signature-pad` in the Radix base with the Vega style:
 
-```json
-{
-  "name": "your-name/your-registry",
-  "homepage": "https://your-site.com",
-  "items": [
-    {
-      "name": "my-button",
-      "type": "registry:ui",
-      "title": "My Button",
-      "description": "A custom button component.",
-      "files": [
-        {
-          "path": "registry/new-york/my-button.tsx",
-          "type": "registry:ui",
-          "target": "components/ui/my-button.tsx"
-        }
-      ]
-    }
-  ]
-}
+```
+/r/styles/radix-vega/signature-pad.json
 ```
 
-### 5. Build & Deploy
+## 2. Register the namespace
+
+Add the `@kromm` namespace to the `registries` field of your `components.json`
+once, pointing at your preferred base and style:
 
 ```bash
-pnpm registry:build
-pnpm build
+npx shadcn@latest registry add @kromm=https://ui.kromm.io/r/styles/radix-vega/{name}.json
 ```
 
-Deploy your app and your component is live!
-
----
-
-## Installing Components
-
-To install a component from any registry built with this template:
+Then add any item:
 
 ```bash
-npx shadcn@latest add https://example.com/r/my-button.json
+npx shadcn@latest add @kromm/signature-pad
 ```
 
-Then use it:
+To switch bases or styles, register another alias, for example
+`@kromm-base=https://ui.kromm.io/r/styles/base-vega/{name}.json`.
 
-```tsx
-import { MyButton } from "@/components/ui/my-button";
+## 3. Browse the registry
 
-export function Demo() {
-  return <MyButton variant="outline">Click me</MyButton>;
-}
+```bash
+npx shadcn@latest list @kromm
+npx shadcn@latest search @kromm --query signature
+
 ```
+
+## Install by URL
+
+Every item is also served as a plain JSON endpoint, no namespace needed:
+
+```bash
+npx shadcn@latest add https://ui.kromm.io/r/styles/radix-vega/signature-pad.json
+```
+
+## Themes and fonts
+
+Themes live under `/r/themes/<theme>.json` and fonts under
+`/r/fonts/font-<name>.json` / `/r/fonts/font-heading-<name>.json`:
+
+```bash
+npx shadcn@latest add https://ui.kromm.io/r/themes/emerald.json
+npx shadcn@latest add https://ui.kromm.io/r/fonts/font-inter.json
+```
+
+## Publishing to this registry
+
+The registry is generated, never hand-edited:
+
+1. Author the component under `registry-kromm-ui/bases/<base>/kromm-ui/<name>/`,
+   plus its examples under `registry-kromm-ui/bases/<base>/examples/<name>/`
+   with a `meta.json`.
+2. Declare the item in `registry-kromm-ui/bases/<base>/kromm-ui/registry.ts`.
+3. Rebuild the pipeline:
+
+```bash
+pnpm registry:all
+```
+
+That runs `build-metadata` → `build-registry` → `verify-registry` and
+regenerates `public/r/`. See [Contributing](/docs/contributing) for the full
+conventions.

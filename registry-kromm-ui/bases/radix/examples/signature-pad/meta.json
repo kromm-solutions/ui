@@ -1,0 +1,14 @@
+[
+  {
+    "name": "signature-pad-default",
+    "title": "Default",
+    "description": "Signature pad with undo, clear and save actions",
+    "order": 1
+  },
+  {
+    "name": "signature-pad-field",
+    "title": "Form Field",
+    "description": "Signature pad integrated with a form field",
+    "order": 2
+  }
+]

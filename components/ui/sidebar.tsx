@@ -2,6 +2,7 @@
 
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
+import { cn } from "cn";
 import { PanelLeftIcon } from "lucide-react";
 import { Slot } from "radix-ui";
 import {
@@ -33,7 +34,6 @@ import {
 import type { FeedbackType } from "@/hooks/use-feedback";
 import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -273,7 +273,7 @@ const SidebarTrigger = ({
   const { toggleSidebar } = useSidebar();
 
   const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
+    (event: Parameters<NonNullable<React.ComponentProps<typeof Button>["onClick"]>>[0]) => {
       onClick?.(event);
       toggleSidebar();
     },

@@ -22,6 +22,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
+      "@/kromm/*": ["./kromm/*"],
+      "@ui/*": ["./components/ui/*"],
       "react": ["./node_modules/@types/react"]
     }
   },
@@ -30,9 +32,13 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "scripts/build-registry.mts",
+    "scripts/**/*.ts",
     "next.config.mjs",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "registry-kromm-ui/_meta",
+    "registry-kromm-ui/bases/**/blocks/**"
+  ]
 }

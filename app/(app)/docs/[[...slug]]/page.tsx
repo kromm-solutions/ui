@@ -3,17 +3,18 @@ import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// import { DocsBaseSwitcher } from "@/components/docs-base-switcher";
-import { DocsCopyPage } from "@/components/docs-copy-page";
-import { DocsKeyboardShortcuts } from "@/components/docs-keyboard-shortcuts";
-import { DocsNavLink } from "@/components/docs-nav-link";
-import { DocsShareMenu } from "@/components/docs-share-menu";
-import { DocsTableOfContents } from "@/components/docs-toc";
-import { DocsTocFooter } from "@/components/docs-toc-footer";
-import { PageTransition } from "@/components/page-transition";
+import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
+import { DocsCopyPage } from "@/components/docs/docs-copy-page";
+import { DocsKeyboardShortcuts } from "@/components/docs/docs-keyboard-shortcuts";
+import { DocsNavLink } from "@/components/docs/docs-nav-link";
+import { DocsShareMenu } from "@/components/docs/docs-share-menu";
+import { DocsTableOfContents } from "@/components/docs/docs-toc";
+import { DocsTocFooter } from "@/components/docs/docs-toc-footer";
+import { PageTransition } from "@/components/layout/page-transition";
 import { Badge } from "@/components/ui/badge";
 import { ROUTES } from "@/constants/routes";
 import { formatTitleFromSlug } from "@/lib/docs";
+import { filterTreeByBase } from "@/lib/page-tree";
 import { getPageImage, getPageMarkdownUrl, source } from "@/lib/source";
 import { absoluteUrl } from "@/lib/utils";
 import { mdxComponents } from "@/mdx-components";
@@ -72,6 +73,19 @@ const buildBreadcrumbs = (
   return items;
 };
 
+const getBaseSwitcher = (slug?: string[]) => {
+  if (slug?.[0] === "components" && slug[1] && slug[2]) {
+    return (
+      <DocsBaseSwitcher
+        base={slug[1]}
+        component={slug.slice(2).join("/")}
+        className="mb-4"
+      />
+    );
+  }
+  return null;
+};
+
 const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
   const params = await props.params;
   const page = source.getPage(params.slug);
@@ -82,7 +96,13 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
 
   const doc = page.data;
   const MdxContent = doc.body;
-  const neighbours = findNeighbour(source.pageTree, page.url);
+
+  const activeBase =
+    params.slug?.[0] === "components" && params.slug[1]
+      ? params.slug[1]
+      : "base";
+  const filteredTree = filterTreeByBase(source.pageTree, activeBase);
+  const neighbours = findNeighbour(filteredTree, page.url);
   const markdownUrl = getPageMarkdownUrl(page).url;
 
   const { links } = doc as { links?: { doc?: string; api?: string } };
@@ -178,16 +198,7 @@ const Page = async (props: { params: Promise<{ slug?: string[] }> }) => {
                 ) : null}
               </div>
               <div className="w-full flex-1 *:data-[slot=alert]:first:mt-0">
-                {/* {params.slug &&
-                params.slug[0] === "components" &&
-                params.slug[1] &&
-                params.slug[2] && (
-                  <DocsBaseSwitcher
-                    base={params.slug[1]}
-                    component={params.slug.slice(2).join("/")}
-                    className="mb-4"
-                  />
-                )} */}
+                {getBaseSwitcher(params.slug)}
                 <MdxContent components={mdxComponents} />
               </div>
             </div>

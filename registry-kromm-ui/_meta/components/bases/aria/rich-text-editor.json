@@ -1,0 +1,18 @@
+[
+  {
+    "description": "Headless Tiptap editor with toolbar, bubble menu and block handle.",
+    "name": "rich-text-editor-default",
+    "order": 100,
+    "title": "Rich Text Editor Default",
+    "file": "registry-kromm-ui/bases/aria/examples/rich-text-editor/rich-text-editor-default.tsx",
+    "path": "registry-kromm-ui/bases/aria/examples/rich-text-editor/rich-text-editor-default.tsx"
+  },
+  {
+    "description": "Document control, highlights, mentions and task lists.",
+    "name": "rich-text-editor-full",
+    "order": 200,
+    "title": "Rich Text Editor Full",
+    "file": "registry-kromm-ui/bases/aria/examples/rich-text-editor/rich-text-editor-full.tsx",
+    "path": "registry-kromm-ui/bases/aria/examples/rich-text-editor/rich-text-editor-full.tsx"
+  }
+]

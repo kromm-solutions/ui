@@ -1,0 +1,18 @@
+[
+  {
+    "description": "Highlighted code with a filename header and copy button",
+    "name": "code-block-default",
+    "order": 1,
+    "title": "Default",
+    "file": "registry-kromm-ui/bases/base/examples/code-block/code-block-default.tsx",
+    "path": "registry-kromm-ui/bases/base/examples/code-block/code-block-default.tsx"
+  },
+  {
+    "description": "Long snippet clamped to a fixed height with an expand toggle",
+    "name": "code-block-collapsible",
+    "order": 2,
+    "title": "Collapsible",
+    "file": "registry-kromm-ui/bases/base/examples/code-block/code-block-collapsible.tsx",
+    "path": "registry-kromm-ui/bases/base/examples/code-block/code-block-collapsible.tsx"
+  }
+]

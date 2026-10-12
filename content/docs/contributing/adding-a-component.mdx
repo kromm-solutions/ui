@@ -1,0 +1,131 @@
+﻿---
+title: Adding a component
+description: "The source-side flow for shipping a new component: examples, meta.json, the kromm-ui folder, its registry.ts entry and the three-base rule."
+---
+
+Everything starts in `registry-kromm-ui/`. The `public/r/` JSON is produced from this
+folder, never written directly, so a component only has to be defined once â€” here.
+
+There are four pieces per base: the examples, their `meta.json`, the component folder and
+its entry in that base's `registry.ts`. Skipping any of them either hides the component
+from the docs or ships an item the consumer cannot install.
+
+## 1. Write one example per variant
+
+```
+registry-kromm-ui/bases/<base>/examples/<component>/<component>-<variant>.tsx
+```
+
+Examples are the runnable demos. They are written like a consumer would write them: they
+import the component the way an installed project would, and they stay self-contained.
+
+- Names are semantic â€” `default`, `field`, `collapsible`. Never numbered.
+- The `c-` prefix is not used.
+- `pnpm registry:verify` fails when an example imports from `@/components/ui/*`. That
+  folder belongs to the site, not to the registry item.
+
+`signature-pad` is the reference with more than one variant:
+`registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-default.tsx` and
+`signature-pad-field.tsx`.
+
+## 2. Declare the variants in meta.json
+
+```json
+[
+  {
+    "name": "signature-pad-default",
+    "title": "Default",
+    "description": "Signature pad with undo, clear and save actions",
+    "order": 1
+  },
+  {
+    "name": "signature-pad-field",
+    "title": "Form Field",
+    "description": "Signature pad integrated with a form field",
+    "order": 2
+  }
+]
+```
+
+| Field         | Rule                                                            |
+| ------------- | --------------------------------------------------------------- |
+| `name`        | The file basename. `<name>.tsx` must sit next to `meta.json`.   |
+| `title`       | Short label in title case, no trailing period.                  |
+| `description` | One sentence. It travels into generated metadata.               |
+| `order`       | Integer from `0`. Controls the order of the variants in the UI. |
+
+`pnpm registry:metadata` validates this array with zod and copies it into
+`registry-kromm-ui/_meta/`. A `name` without a matching `.tsx` is silently dropped from the
+generated file but fails `pnpm registry:verify`.
+
+## 3. Add the component
+
+```
+registry-kromm-ui/bases/<base>/kromm-ui/<component>/
+```
+
+A component folder keeps the implementation and its private parts together. The barrel
+`index.ts` is what consumers import; everything else is an implementation detail.
+
+Then register it in that base's `registry.ts`:
+
+```ts
+{
+  name: "signature-pad",
+  title: "Signature Pad",
+  type: "registry:ui",
+  files: [
+    {
+      path: "registry-kromm-ui/bases/base/kromm-ui/signature-pad/index.ts",
+      type: "registry:ui",
+    },
+  ],
+}
+```
+
+Two fields are worth remembering:
+
+- `target` â€” when the item ships several files, give each one a `target` so the
+  installed files land together in one folder instead of next to each other:
+  `target: "@ui/code-block/code-block.tsx"`. Shipping only the barrel would install a
+  relative import that points at a file the consumer never received.
+- `dependencies` â€” list every npm package the component imports. `code-block` declares
+  `["shiki", "lucide-react"]`. A missing entry installs code that cannot resolve.
+
+`registry-kromm-ui/bases/base/kromm-ui/code-block/` is the reference for a multi-file item
+with `target`s, `dependencies` and scoped `css`.
+
+## 4. Land it on the three bases
+
+The catalog ships three bases: `base` (Base UI), `aria` (React Aria) and `radix` (Radix).
+A component change lands in all three, or the user explicitly accepts one base only.
+
+The API should stay identical across bases â€” same props, same part names â€” while the
+primitive underneath changes. See
+[Working across bases](/docs/contributing/working-across-bases) for the porting flow and
+what may legitimately differ.
+
+## 5. Build and verify
+
+```bash
+pnpm registry:all   # metadata -> registry build -> verify
+```
+
+This regenerates `_meta/`, rebuilds `public/r/styles/<base>-<style>/` and runs the
+registry checks. If it passes, the item is installable with:
+
+```bash
+npx kromm-ui add <component>
+```
+
+## Checklist
+
+- [ ] Component folder at `registry-kromm-ui/bases/<base>/kromm-ui/<component>/`.
+- [ ] One example per variant at `.../examples/<component>/<component>-<variant>.tsx`.
+- [ ] `meta.json` lists every variant, with `name` matching the file.
+- [ ] `registry.ts` entry with every shipped file, its `target` and its `dependencies`.
+- [ ] The change landed on the three bases, or the omission is explicit.
+- [ ] `pnpm registry:all` passes.
+- [ ] The docs page exists â€” see
+      [Documenting a component](/docs/contributing/documenting-a-component).
+- [ ] Nothing edited under `_meta/` or `public/r/`.

@@ -1,0 +1,69 @@
+﻿---
+title: Contributing
+description: "How to add components, keep the registry honest and ship docs that match what kromm-ui installs."
+---
+
+Kromm UI is not a product app. What this repository publishes is a shadcn-compatible
+registry - the JSON under `public/r/` that `npx kromm-ui add` reads - plus the
+documentation site that explains it. Every rule below exists to keep those two artifacts
+in sync.
+
+## The golden rules
+
+| Rule                        | What it means                                                                                                                  |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| One source of truth         | An element is defined in exactly one place. If it exists twice, one of them is already wrong.                                  |
+| Unidirectional flow         | `registry-kromm-ui/` (source) → `_meta/` (generated) → `public/r/` (distribution). Never edit the last two by hand.            |
+| Strict layer separation     | `registry/` holds base primitives (shadcn). `registry-kromm-ui/` holds the own catalog. They never mix.                        |
+| Copy-and-own                | `npx kromm-ui add` copies files into the consumer's project. An installed component is a copy, not a reference.                |
+| Single dependency direction | `examples/` → `kromm-ui/` → `registry/bases/<base>/ui` → npm. There are no inverse references.                                 |
+| Three bases                 | `base` (Base UI), `aria` (React Aria) and `radix` (Radix). A component change lands in all three, or the omission is explicit. |
+
+## Setup
+
+```bash
+pnpm install
+pnpm dev
+```
+
+`pnpm dev` runs `pnpm registry:metadata` first (`predev`), so `_meta/` is regenerated
+before the docs load. `pnpm build` does the same through `prebuild`, then compiles the
+registry and the site.
+
+## Commands
+
+| Command                  | What it does                                                      |
+| ------------------------ | ----------------------------------------------------------------- |
+| `pnpm dev`               | Next dev server. `predev` regenerates `_meta/`.                   |
+| `pnpm build`             | `registry:build` + `next build`. `prebuild` regenerates `_meta/`. |
+| `pnpm typecheck`         | `tsc --noEmit`.                                                   |
+| `pnpm check`             | `ultracite check` - lint and formatting, no writes.               |
+| `pnpm fix`               | `ultracite fix` - rewrites what it can.                           |
+| `pnpm registry:metadata` | Regenerates `registry-kromm-ui/_meta/`.                           |
+| `pnpm registry:build`    | Builds `public/r/`.                                               |
+| `pnpm registry:verify`   | Runs the registry checks.                                         |
+| `pnpm registry:all`      | `metadata` → `build` → `verify`.                                  |
+
+## In this section
+
+- [Adding a component](/docs/contributing/adding-a-component) - the source-side flow:
+  examples, `meta.json`, the component folder and its `registry.ts` entry.
+- [Documenting a component](/docs/contributing/documenting-a-component) - the MDX page,
+  the preview blocks and the sidebar entry.
+- [The registry pipeline](/docs/contributing/the-registry-pipeline) - what each script
+  generates, what `registry:verify` checks and how to read its failures.
+- [Working across bases](/docs/contributing/working-across-bases) - porting a change to
+  all three bases and keeping their documentation aligned.
+- [Code style](/docs/contributing/code-style) - ultracite, oxlint and oxfmt, and the
+  rules that bite most often in this codebase.
+
+## Before you call it done
+
+```bash
+pnpm registry:all   # when the registry changed
+pnpm check          # every change
+pnpm typecheck      # when TypeScript changed
+```
+
+Docs-only changes still need `pnpm check`, and the pages only get compiled by `pnpm dev`
+or `pnpm build`. Nothing under `_meta/` or `public/r/` is ever edited by hand.

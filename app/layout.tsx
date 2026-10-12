@@ -1,8 +1,8 @@
 import { SoundProvider } from "@web-kits/audio/react";
 import type { Metadata } from "next";
 
-import { Analytics } from "@/components/analytics";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@/components/layout/analytics";
+import { ThemeProvider } from "@/components/layout/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { META_THEME_COLORS } from "@/constants/site";
 import { fontVariables } from "@/lib/fonts";
@@ -19,7 +19,7 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => (
-  <html lang="en" suppressHydrationWarning>
+  <html lang="en" className={cn(fontVariables)} suppressHydrationWarning>
     <head>
       <JsonLdScripts />
       <script
@@ -53,3 +53,4 @@ const RootLayout = ({
 );
 
 export default RootLayout;
+

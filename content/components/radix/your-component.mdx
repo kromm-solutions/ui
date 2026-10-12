@@ -1,0 +1,53 @@
+---
+title: Your component
+description: Basic usage of the YourComponent template.
+base: radix
+---
+
+import { YourComponent } from "@/registry-kromm-ui/bases/radix/kromm-ui/your-component";
+
+<ComponentPreview name="your-component" base="radix">
+  <YourComponent />
+</ComponentPreview>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx kromm-ui add your-component
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+    <Steps>
+      <Step>Install the following dependency:</Step>
+
+      ```bash
+      npm install @shadcn/react
+      ```
+      <Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  name="your-component"
+  base="radix"
+  title="components/ui/your-component.tsx"
+/>
+    </Steps>
+  </TabsContent>  
+</CodeTabs>
+
+## Usage
+
+After you add the component with the CLI, import it from your UI folder:
+
+```tsx
+import { YourComponent } from "@/components/kromm-ui/your-component";
+
+export function MyComponent() {
+  return <YourComponent />;
+}
+```

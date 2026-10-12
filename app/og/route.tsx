@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-import { LogoMark } from "@/components/logo";
+import { LogoMark } from "@/components/layout/logo";
 import { SITE } from "@/constants/site";
 
 export const GET = (request: Request) => {

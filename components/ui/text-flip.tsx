@@ -1,10 +1,9 @@
 "use client";
 
+import { cn } from "cn";
 import type { Transition, Variants } from "motion/react";
 import { AnimatePresence, motion } from "motion/react";
 import { Children, useEffect, useState } from "react";
-
-import { cn } from "@/lib/utils";
 
 const defaultVariants: Variants = {
   animate: { opacity: 1, y: 0 },

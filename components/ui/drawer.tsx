@@ -1,12 +1,12 @@
 "use client";
 
+import { cn } from "cn";
 import * as React from "react";
 import { useCallback, useEffect, useRef } from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
-import { drawerClose, drawerOpen } from "@/audio/core";
 import { useFeedback } from "@/hooks/use-feedback";
-import { cn } from "@/lib/utils";
+import { drawerClose, drawerOpen } from "@/lib/audio/core";
 
 const Drawer = ({
   onOpenChange,

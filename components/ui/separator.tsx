@@ -1,25 +1,25 @@
 "use client";
 
-import { Separator as SeparatorPrimitive } from "radix-ui";
+import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
+import { cn } from "cn";
 
-import { cn } from "@/lib/utils";
-
-const Separator = ({
+function Separator({
   className,
   orientation = "horizontal",
-  decorative = true,
   ...props
-}: React.ComponentProps<typeof SeparatorPrimitive.Root>) => (
-  <SeparatorPrimitive.Root
-    data-slot="separator"
-    decorative={decorative}
-    orientation={orientation}
-    className={cn(
-      "bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
-      className
-    )}
-    {...props}
-  />
-);
+}: React.ComponentProps<typeof SeparatorPrimitive>) {
+  return (
+    <SeparatorPrimitive
+      data-slot="separator"
+      orientation={orientation}
+      className={cn(
+        "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
+        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
 export { Separator };

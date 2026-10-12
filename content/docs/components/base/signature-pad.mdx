@@ -1,0 +1,110 @@
+---
+title: Signature Pad
+description: Create a canvas for users to draw signatures.
+---
+
+import { SignaturePadDefault } from "@/registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-default";
+import { SignaturePadField } from "@/registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-field";
+
+<ComponentPreview
+  name="signature-pad-default"
+  src="registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-default.tsx"
+>
+  <SignaturePadDefault />
+</ComponentPreview>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx kromm-ui add signature-pad
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+        <Steps>
+            <Step>Install the following dependency:</Step>
+
+            ```bash
+            npm install @base-ui/react
+            ```
+            <Step>Copy and paste the following code into your project.</Step>
+
+            <ComponentSource
+            name="signature-pad"
+            base="base"
+            title="components/ui/signature-pad.tsx"
+            />
+
+            <Step>Update the import paths to match your project setup.</Step>
+
+        </Steps>
+    </TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  SignaturePad,
+  SignaturePadCanvas,
+  SignaturePadClear,
+  SignaturePadSave,
+  SignaturePadUndo,
+  SignaturePadAction,
+  SignaturePadActions,
+} from "@/components/kromm-ui/signature-pad";
+```
+
+```tsx showLineNumbers
+<SignaturePad>
+  <SignaturePadCanvas />
+  <SignaturePadActions>
+    <SignaturePadAction>
+      <SignaturePadUndo />
+      <SignaturePadClear />
+      <SignaturePadSave />
+    </SignaturePadAction>
+  </SignaturePadActions>
+</SignaturePad>
+```
+
+## Composition
+
+Use the following composition to build a `SignaturePad`:
+
+```text
+SignaturePad
+├── SignaturePadCanvas
+└── SignaturePadActions
+    └── SignaturePadAction
+        ├── SignaturePadUndo
+        ├── SignaturePadClear
+        └── SignaturePadSave
+```
+
+## Default
+
+<ComponentPreview
+  name="signature-pad-default"
+  src="registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-default.tsx"
+>
+  <SignaturePadDefault />
+</ComponentPreview>
+
+## Field
+
+A complete signing form built with the `Field` family: a `FieldSet` with a legend, grouped
+inputs, validation errors, and the pad as the signature control.
+
+<ComponentPreview
+  name="signature-pad-field"
+  src="registry-kromm-ui/bases/base/examples/signature-pad/signature-pad-field.tsx"
+>
+  <SignaturePadField />
+</ComponentPreview>

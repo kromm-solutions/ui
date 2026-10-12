@@ -1,0 +1,103 @@
+﻿---
+title: The registry pipeline
+description: "What each script generates, what registry:verify actually checks and how to read its failures without editing generated output."
+---
+
+The registry moves in one direction only. Source files are authored by hand; everything
+downstream is regenerated.
+
+```text
+registry-kromm-ui/            registry-kromm-ui/_meta/           public/r/
+(examples, kromm-ui,   ──►    components/bases/<base>/    ──►    styles/<base>-<style>/
+ registry.ts files)           <component>.json                   themes/, fonts/
+      AUTHORED                     GENERATED                         GENERATED
+```
+
+Two folders are written by scripts and never by hand: `registry-kromm-ui/_meta/`
+(gitignored) and `public/r/`. If a change only exists in one of them, it does not exist -
+edit the source and regenerate.
+
+## The scripts
+
+| Command                  | Script                       | Output                                  |
+| ------------------------ | ---------------------------- | --------------------------------------- |
+| `pnpm registry:metadata` | `scripts/build-metadata.ts`  | `registry-kromm-ui/_meta/`              |
+| `pnpm registry:build`    | `scripts/build-registry.ts`  | `public/r/styles/`, `themes/`, `fonts/` |
+| `pnpm registry:verify`   | `scripts/verify-registry.ts` | Exit code and diagnostics               |
+| `pnpm registry:all`      | The three above, in order    | Everything                              |
+
+`predev` and `prebuild` run `registry:metadata` automatically, so `_meta/` is fresh before
+the site compiles.
+
+### registry:metadata
+
+`build-metadata.ts` deletes `_meta/` and rebuilds it from the examples:
+
+1. Walks `registry-kromm-ui/bases/*/examples/*/`.
+2. Validates each `meta.json` with zod: an array of
+   `{ name, title, description, order }`, where `order` is a non-negative integer.
+3. For every entry, checks that `<name>.tsx` exists next to the `meta.json`. Entries
+   without a file are skipped.
+4. Writes `_meta/components/bases/<base>/<component>.json` with each entry plus its
+   repo-relative `file` and registry `path`.
+
+A malformed `meta.json` only warns here and is skipped; `registry:verify` is what turns it
+into a failure.
+
+### registry:build
+
+`build-registry.ts` compiles every `{base}-{style}` pair into a shadcn registry:
+
+1. Deletes `public/r/styles/`.
+2. For each base and style, loads two modules: the base primitives from
+   `registry/bases/<base>/registry` and the own catalog from
+   `registry-kromm-ui/bases/<base>/kromm-ui/registry`.
+3. Resolves each file path. A path that does not already start with `registry/` or
+   `registry-kromm-ui/` is prefixed with `registry/bases/<base>/`.
+4. Writes a temporary `registry-<base>-<style>.json`, runs
+   `pnpm exec shadcn build <temp> --output public/r/styles/<base>-<style>`, and deletes
+   the temporary file.
+5. Builds `public/r/themes/` and `public/r/fonts/` the same way, once each.
+6. Writes `public/r/styles/index.json` with `default` plus one entry per base and style.
+
+### registry:verify
+
+`verify-registry.ts` runs the checks that guard the rules. Today it implements three:
+
+| Check            | Fails when                                                                                                                                                       | Fix                                                                                                                 |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Meta consistency | A `meta.json` entry has no matching `.tsx`, a `meta.json` is invalid, or the expected `_meta/` file is missing.                                                  | Fix the `meta.json` or the file name, then rerun `pnpm registry:all`.                                               |
+| MDX imports      | `content/docs/components/<base>/signature-pad.mdx` references `registry-kromm-ui/meta`, or does not use `registry-kromm-ui/bases/<base>/examples/signature-pad`. | Point the page at the example files - see [Documenting a component](/docs/contributing/documenting-a-component).    |
+| Site imports     | An example contains `from "@/components/ui/..."`.                                                                                                                | Import from `registry/bases/<base>/ui/...` instead. Snippets inside a template literal are content and are ignored. |
+
+`scripts/verify-registry.ts` is the source of truth for this list; if a check is added or
+removed, update this table with it. Anything `ARCHITECTURE.md` mentions beyond these three
+is not enforced yet.
+
+Failures print `❌ <message>` and exit non-zero. They always point at a source file, never
+at `_meta/` or `public/r/`.
+
+## Lifecycle of a change
+
+```bash
+# 1. Edit the source
+#    registry-kromm-ui/bases/<base>/kromm-ui/<component>/...
+#    registry-kromm-ui/bases/<base>/examples/<component>/...
+
+# 2. Regenerate metadata, distribution and run the checks
+pnpm registry:all
+```
+
+If the registry is unchanged - prose, layout, a docs-only edit - there is nothing to
+regenerate. `pnpm check` is still required.
+
+## Rules that keep the flow honest
+
+- Never edit `_meta/` or `public/r/`. Both are outputs; a fix applied there disappears on
+  the next build.
+- Never move examples out of `examples/`. `registry:metadata` and `registry:verify` both
+  scan that exact folder.
+- Keep `meta.json` descriptive: `title` and `description` travel into generated metadata,
+  and `order` controls the variant order wherever the variants are listed.
+- If `registry:verify` fails, fix the source it names. Editing the generated file it
+  compares against hides the problem instead of solving it.

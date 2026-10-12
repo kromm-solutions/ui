@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 
-import { LogoMark } from "@/components/logo";
+import { LogoMark } from "@/components/layout/logo";
 import { getPageImage, source } from "@/lib/source";
 
 export const revalidate = false;

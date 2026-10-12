@@ -1,0 +1,85 @@
+﻿---
+title: Working across bases
+description: "How a component change lands on base, aria and radix, what must stay identical and how to keep the three docs pages aligned."
+---
+
+The catalog ships three bases. They expose the same catalog over different primitives:
+
+| Base    | Primitive  | npm package             | Primitives live in         |
+| ------- | ---------- | ----------------------- | -------------------------- |
+| `base`  | Base UI    | `@base-ui/react`        | `registry/bases/base/ui/`  |
+| `aria`  | React Aria | `react-aria-components` | `registry/bases/aria/ui/`  |
+| `radix` | Radix      | `radix-ui`              | `registry/bases/radix/ui/` |
+
+`base` is not the original and `aria`/`radix` are not forks of it. Each is a first-class
+implementation.
+
+## The rule
+
+A component change lands in every base, or the user explicitly accepts one base only.
+An omission that nobody decided is drift, and drift is what makes the three pages
+disagree.
+
+Today `signature-pad` exists in all three bases and `code-block` exists only in `base`.
+The second case is the accepted single-base kind: it is simply absent from the other
+bases and from their pages, rather than half-implemented.
+
+## Dependency direction
+
+```text
+examples/  →  kromm-ui/  →  registry/bases/<base>/ui  →  npm
+```
+
+- Examples import the component from `@/registry-kromm-ui/bases/<base>/kromm-ui/<component>`
+  and, when a demo needs a primitive, from `@/registry/bases/<base>/ui/<primitive>`.
+- Components import base primitives from `@/registry/bases/<base>/ui/...`.
+- Base primitives import from npm.
+- Docs only read.
+
+There are no inverse references. `registry/` never imports from `registry-kromm-ui/`, and
+`registry-kromm-ui/` never imports from the site (`@/components/ui/*` - `registry:verify`
+fails on it).
+
+## What must be identical
+
+The public surface is the contract. Across bases keep:
+
+- The exported names - the component and every part (`SignaturePad`, `SignaturePadCanvas`,
+  `SignaturePadClear`, ...).
+- The props and their types. `value`, `defaultValue`, `onValueChange` and `pen` mean the
+  same thing in every base, including the `SignatureData` shape.
+- The behavior: undo, clear, read-only and disabled semantics.
+- The example variants and their `meta.json` entries.
+
+## What may differ
+
+- The primitive underneath, and therefore each component's internal composition.
+- The import path (`@/registry/bases/<base>/ui/...`).
+- The npm package the Manual tab of the Installation block tells the reader to install.
+- The internal file split inside `kromm-ui/<component>/`, as long as the barrel exports the
+  same surface.
+
+## Porting a change
+
+1. Implement and verify it in one base.
+2. Copy the public surface - not the file layout - into the other two.
+3. Point each implementation at its own `registry/bases/<base>/ui/` primitives.
+4. Update each base's `registry.ts` entry if the file list changed, including `target` and
+   `dependencies`.
+5. Run `pnpm registry:all`. The per-base output must stay consistent.
+6. Update the three docs pages in the same pass.
+
+When a base genuinely cannot match - a primitive has no equivalent - document the
+difference on that page instead of letting the pages drift apart in silence.
+
+## Keep the docs aligned
+
+Write the three pages with the same prose and the same section order. Only three things
+change between them: the import path, the `base` prop, and the dependency in the Manual
+tab of the Installation block. See
+[Documenting a component](/docs/contributing/documenting-a-component) for the page anatomy
+and the `ComponentPreview` / `ComponentSource` props.
+
+The base switcher at the top of a component page always links to all three bases, so a
+component missing from one base becomes a broken link. That is the visible cost of a
+single-base decision.

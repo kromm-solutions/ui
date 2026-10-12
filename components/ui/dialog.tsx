@@ -1,12 +1,12 @@
 "use client";
 
+import { cn } from "cn";
 import { XIcon } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import { useCallback, useEffect, useRef } from "react";
 
-import { modalOpen, modalClose } from "@/audio/core";
 import { useFeedback } from "@/hooks/use-feedback";
-import { cn } from "@/lib/utils";
+import { modalOpen, modalClose } from "@/lib/audio/core";
 
 const Dialog = ({
   onOpenChange,

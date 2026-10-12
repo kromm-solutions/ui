@@ -2,14 +2,18 @@ import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Callout } from "@/components/callout";
-import { CodeBlockCommand } from "@/components/code-block-command";
-import { CodeTabs } from "@/components/code-tabs";
-import { ComponentPreview } from "@/components/component-preview";
-import { ComponentSource } from "@/components/component-source";
-import { ComponentsList } from "@/components/components-list";
-import { CopyButton } from "@/components/copy-button";
-import { getIconForLanguageExtension } from "@/components/icons";
+import { Callout } from "@/components/docs/callout";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { CodeTabs } from "@/components/docs/code-tabs";
+import {
+  codeTabsListClassName,
+  codeTabsTriggerClassName,
+} from "@/components/docs/code-tabs-styles";
+import { ComponentPreview } from "@/components/docs/component-preview";
+import { ComponentSource } from "@/components/docs/component-source";
+import { ComponentsList } from "@/components/docs/components-list";
+import { CopyButton } from "@/components/docs/copy-button";
+import { getIconForLanguageExtension } from "@/components/layout/icons";
 import {
   Accordion,
   AccordionContent,
@@ -138,13 +142,7 @@ export const mdxComponents = {
     className,
     ...props
   }: React.ComponentProps<typeof TabsList>) => (
-    <TabsList
-      className={cn(
-        "justify-start gap-4 rounded-none bg-transparent px-0",
-        className
-      )}
-      {...props}
-    />
+    <TabsList className={cn(codeTabsListClassName, className)} {...props} />
   ),
   TabsTrigger: ({
     className,
@@ -152,10 +150,7 @@ export const mdxComponents = {
   }: React.ComponentProps<typeof TabsTrigger>) => (
     <TabsTrigger
       sound="tabSwitch"
-      className={cn(
-        "text-muted-foreground data-[state=active]:text-foreground data-[state=active]:border-primary dark:data-[state=active]:border-primary hover:text-primary rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base data-[state=active]:bg-transparent data-[state=active]:shadow-none dark:data-[state=active]:bg-transparent",
-        className
-      )}
+      className={cn(codeTabsTriggerClassName, className)}
       {...props}
     />
   ),

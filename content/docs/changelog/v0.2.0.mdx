@@ -1,0 +1,67 @@
+﻿---
+version: "v0.2.0"
+title: "Architecture Migration to registry-kromm-ui"
+description: "Architecture migration to registry-kromm-ui with source of truth and one-way flow."
+date: 2026-10-04
+tags: ["feat", "breaking", "architecture"]
+---
+
+Released on 2026-10-04
+
+This release restructures Kromm UI around a single source of truth and unidirectional flow.
+
+- [Source of Truth](#source-of-truth) â€“ `registry-kromm-ui/` is now the canonical catalog.
+- [Unidirectional Flow](#unidirectional-flow) â€“ `registry-kromm-ui/` â†’ `_meta/` â†’ `public/r/`.
+- [Strict Layer Separation](#strict-layer-separation) â€“ `registry/` vs `registry-kromm-ui/`.
+- [Three Bases](#three-bases) â€“ Base UI, React Aria, Radix enforced per component.
+- [Docs Grid](#docs-grid) â€“ Changelog and Components pages use grid views.
+- [Tooling](#tooling) â€“ Scripts for metadata, build and verify.
+
+---
+
+### Source of Truth
+
+Components are now defined in `registry-kromm-ui/bases/<base>/kromm-ui/<component>/`. No manual edits to `_meta/` or `public/r/`.
+
+```bash
+pnpm registry:all
+```
+
+Regenerates metadata and distribution.
+
+### Unidirectional Flow
+
+```
+registry-kromm-ui/ â†’ _meta/ (generated) â†’ public/r/ (distribution)
+```
+
+`_meta/` is gitignored. `public/r/` is read-only output.
+
+### Strict Layer Separation
+
+- `registry/` â€“ shadcn primitives.
+- `registry-kromm-ui/` â€“ own catalog.
+
+Dependencies flow one way: `examples/` â†’ `kromm-ui/` â†’ `registry/bases/<base>/ui` â†’ npm.
+
+### Three Bases
+
+Every component lands in three bases unless explicitly scoped. Base-specific documentation is under `content/docs/components/[base]/`.
+
+### Docs Grid
+
+Changelog index now renders a grid of releases with date, title and description.
+
+Components list remains grid with base filtering.
+
+### Tooling
+
+- `pnpm registry:metadata` â€“ regenerate `_meta/`
+- `pnpm registry:build` â€“ generate `public/r/`
+- `pnpm registry:verify` â€“ validate meta, imports and leaks
+
+---
+
+### Commits
+
+- Architecture migration to registry-kromm-ui source of truth

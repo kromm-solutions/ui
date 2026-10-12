@@ -1,0 +1,90 @@
+﻿---
+version: "v0.1.0"
+title: "Multi-base Registry Support"
+description: "Multi-base registry support with DocsBaseSwitcher and per-base documentation."
+date: 2026-09-16
+tags: ["feat", "registry"]
+---
+
+Released on 2026-09-16
+
+I have a lot of updates to share with you today:
+
+- [Multi-base Registry](#multi-base-registry) â€“ Support for Base UI, Radix UI and React Aria in the same registry.
+- [DocsBaseSwitcher](#docsbaseswitcher) â€“ Switch between bases directly from the docs.
+- [Per-base Documentation](#per-base-documentation) â€“ Components are now scoped by base under `/docs/components/[base]/`.
+- [Registry Resolver](#registry-resolver) â€“ Base-aware source resolution for previews and code.
+- [Workspace](#workspace) â€“ `pnpm-workspace.yaml` and VSCode settings aligned for multi-base.
+
+---
+
+### Multi-base Registry
+
+Kromm UI now supports three UI bases in parallel: `base`, `radix` and `aria`. The registry source is aware of the active base and resolves the correct implementation.
+
+```tsx title="lib/registry.ts"
+export const getRegistrySource = (base: string, component: string) => {
+  // base-aware resolution
+};
+```
+
+This allows the same component name to exist with different implementations per base without conflicts.
+
+### DocsBaseSwitcher
+
+New component `components/docs-base-switcher.tsx` lets users toggle the active base in the docs.
+
+```tsx
+import { DocsBaseSwitcher } from "@/components/docs/docs-base-switcher";
+
+<DocsBaseSwitcher />;
+```
+
+The switcher updates the URL, sidebar filtering and preview rendering in real time.
+
+### Per-base Documentation
+
+Documentation is now scoped:
+
+```
+content/docs/components/base/your-component.mdx
+content/docs/components/radix/your-component.mdx
+content/docs/components/aria/your-component.mdx
+```
+
+`content/docs/components/meta.json` now exposes base groups:
+
+```json
+{
+  "pages": ["index", "base", "radix", "aria"]
+}
+```
+
+### Registry Resolver
+
+`lib/registry.ts` was updated to handle base-specific sources.
+
+```ts
+getRegistryUiSourceCandidates(base);
+getRegistrySource(base, component);
+```
+
+`components/component-preview.tsx` and `components/component-source.tsx` are now base-aware.
+
+### Workspace
+
+`pnpm-workspace.yaml` was added to support multi-base packages and `.vscode/settings.json` was aligned.
+
+### Updating your project
+
+If you are following the registry, you can now select a base when adding components. Existing projects will continue to work with `base` as default.
+
+---
+
+### Thank you
+
+This is the first major architecture step for Kromm UI. The registry now maps 1:1 with the three bases and the docs reflect that structure.
+
+### Commits
+
+- `ff18307 feat(registry): implement multi-base support for component primitives` (2026-09-16)

@@ -1,0 +1,175 @@
+---
+title: Code Block
+description: Display syntax highlighted code with a filename header, copy button and optional collapse.
+---
+
+import { CodeBlockDefault } from "@/registry-kromm-ui/bases/base/examples/code-block/code-block-default";
+import { CodeBlockCollapsible } from "@/registry-kromm-ui/bases/base/examples/code-block/code-block-collapsible";
+
+<ComponentPreview
+  name="code-block-default"
+  src="registry-kromm-ui/bases/base/examples/code-block/code-block-default.tsx"
+>
+  <CodeBlockDefault />
+</ComponentPreview>
+
+## Installation
+
+<CodeTabs>
+  <TabsList>
+    <TabsTrigger value="cli">Command</TabsTrigger>
+    <TabsTrigger value="manual">Manual</TabsTrigger>
+  </TabsList>
+  <TabsContent value="cli">
+    ```bash
+    npx kromm-ui add code-block
+    ```
+  </TabsContent>
+  <TabsContent value="manual">
+        <Steps>
+            <Step>Install the following dependencies:</Step>
+
+            ```bash
+            npm install shiki lucide-react
+            ```
+            <Step>Copy and paste the following code into your project.</Step>
+
+            <ComponentSource
+            name="code-block"
+            base="base"
+            title="components/ui/code-block/code-block.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/code-block/code-block-copy.tsx"
+            title="components/ui/code-block/code-block-copy.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/code-block/code-block-collapse.tsx"
+            title="components/ui/code-block/code-block-collapse.tsx"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/code-block/highlight.ts"
+            title="components/ui/code-block/highlight.ts"
+            />
+
+            <ComponentSource
+            src="registry-kromm-ui/bases/base/kromm-ui/code-block/index.ts"
+            title="components/ui/code-block/index.ts"
+            />
+
+            <Step>Add the styles the highlighted output needs. They are scoped to the component, so they cannot affect other code blocks in your project.</Step>
+
+            ```css
+            @layer components {
+              [data-slot="code-block"] [data-line] {
+                display: inline-block;
+                width: 100%;
+              }
+
+              [data-slot="code-block"] [data-line] span {
+                color: var(--shiki-light);
+              }
+
+              .dark [data-slot="code-block"] [data-line] span {
+                color: var(--shiki-dark);
+              }
+
+              [data-slot="code-block"] [data-line-numbers] {
+                display: grid;
+                counter-reset: line;
+              }
+
+              [data-slot="code-block"] [data-line-numbers] [data-line]::before {
+                counter-increment: line;
+                content: counter(line);
+                display: inline-block;
+                width: 2rem;
+                padding-right: 1rem;
+                text-align: right;
+                color: var(--code-number, var(--muted-foreground));
+              }
+            }
+            ```
+
+            <Step>Update the import paths to match your project setup.</Step>
+
+        </Steps>
+    </TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { CodeBlock } from "@/components/ui/code-block";
+```
+
+```tsx showLineNumbers
+<CodeBlock code={source} filename="submit-button.tsx" language="tsx" />
+```
+
+`CodeBlock` highlights its input on the server with [shiki](https://shiki.style) using the
+`github-light` / `github-dark` pair, so it must be rendered in a server component. The
+highlighted output carries `--shiki-light` / `--shiki-dark` on every token, which is what the
+styles above consume.
+
+## Composition
+
+```text
+CodeBlock
+├── CodeBlockCopy        (header action, or floating when there is no filename)
+└── CodeBlockCollapse    (only when `collapsible`)
+```
+
+`CodeBlockCopy` and `CodeBlockCollapse` are exported too, for building your own chrome.
+
+## Default
+
+<ComponentPreview
+  name="code-block-default"
+  src="registry-kromm-ui/bases/base/examples/code-block/code-block-default.tsx"
+>
+  <CodeBlockDefault />
+</ComponentPreview>
+
+## Collapsible
+
+A long file clamped to `collapsedHeight` with an expand toggle. The toggle is a real button with
+`aria-expanded` / `aria-controls`, so the state is announced.
+
+<ComponentPreview
+  name="code-block-collapsible"
+  src="registry-kromm-ui/bases/base/examples/code-block/code-block-collapsible.tsx"
+>
+  <CodeBlockCollapsible />
+</ComponentPreview>
+
+## API
+
+| Prop              | Type      | Default   | Description                                                                 |
+| ----------------- | --------- | --------- | --------------------------------------------------------------------------- |
+| `code`            | `string`  | —         | Source to highlight.                                                        |
+| `language`        | `string`  | `"tsx"`   | Shiki language id. Unknown ids fall back to plain text instead of throwing. |
+| `filename`        | `string`  | —         | Renders the header and names the scroll region.                             |
+| `lineNumbers`     | `boolean` | `false`   | Numbered gutter.                                                            |
+| `collapsible`     | `boolean` | `false`   | Clamp the code to `collapsedHeight` with an expand toggle.                  |
+| `collapsedHeight` | `string`  | `"16rem"` | Visible height while collapsed.                                             |
+| `className`       | `string`  | —         | Applied to the outer surface.                                               |
+
+## Accessibility
+
+- The highlighted block is a focusable `role="region"` with an accessible name, so a keyboard
+  user can scroll long lines without a mouse.
+- That focus stop draws a `2px` ring inset inside the surface, so the rounded container cannot
+  clip it and the indicator stays visible.
+- The copy button has a name in both states (`Copy code` / `Copied`) and reports the result
+  through an `aria-live` status region.
+- The copy button cross-fades between its two icons; under `prefers-reduced-motion` the swap is
+  instant, and the state is never carried by motion alone (the name and the status region
+  change too).
+- If the clipboard is blocked by the browser, the button stays on `Copy code` instead of
+  claiming a copy that did not happen.
+- Line numbers are decorative: the gutter is generated by CSS, so it is never read twice.

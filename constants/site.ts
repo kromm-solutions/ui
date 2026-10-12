@@ -1,4 +1,4 @@
-export const FALLBACK_SITE_ORIGIN = "https://startercn.vercel.app" as const;
+export const FALLBACK_SITE_ORIGIN = "https://ui.kromm.io" as const;
 
 const getBaseUrl = () => {
   if (process.env.NODE_ENV !== "production") {
@@ -14,27 +14,32 @@ const getBaseUrl = () => {
 
 const baseUrl = getBaseUrl();
 
+export const REGISTRY_SCOPE = "@kromm" as const;
+
 export const SITE = {
   AUTHOR: {
-    NAME: "Aniket Pawar",
-    TWITTER: "@alaymanguy",
+    NAME: "Kromm Solutions",
+    TWITTER: "@kromm_solutions",
   },
   DESCRIPTION: {
-    LONG: "A starter kit for building and publishing your own shadcn registry components.",
-    SHORT: "Build your own shadcn registry",
+    LONG: "A shadcn registry of UI primitives, components, hooks, and blocks across Radix, Base UI and React Aria, in 8 styles and 24 themes. Install with the shadcn CLI and own the code.",
+    SHORT: "A shadcn registry by Kromm Solutions",
   },
   KEYWORDS: [
     "shadcn",
     "shadcn registry",
     "component registry",
     "shadcn components",
-    "next.js",
-    "tailwindcss",
+    "radix ui",
+    "base ui",
+    "react aria",
     "npx shadcn add",
   ] as const,
-  NAME: "startercn",
+  NAME: "kromm",
   OG_IMAGE: `${baseUrl}/og`,
   REGISTRY: baseUrl,
+  REGISTRY_SCOPE,
+  REGISTRY_URL_PATTERN: `${baseUrl}/r/{name}.json`,
   URL: baseUrl,
 };
 
