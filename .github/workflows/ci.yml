@@ -27,6 +27,9 @@ jobs:
       - name: Lint and format
         run: pnpm check
 
+      - name: Design-system lint (registry source, errors only)
+        run: pnpm lint:ds:errors
+
   typecheck:
     runs-on: ubuntu-latest
     steps:

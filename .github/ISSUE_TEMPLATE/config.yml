@@ -1,0 +1,6 @@
+# Bug reports and feature requests are handled by the templates above.
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://ui.kromm.io/docs
+    about: Read the docs before opening an issue.

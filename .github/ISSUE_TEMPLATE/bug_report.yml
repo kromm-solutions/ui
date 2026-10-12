@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a defect in a component, hook, docs page or the registry pipeline
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: item
+    attributes:
+      label: Affected item
+      description: Component, hook, theme or script involved (e.g. radix/dialog, use-file-upload, build-registry)
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: Observed behavior vs. what you expected
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: |
+        Minimal steps. If it is an install/registry issue, include the exact
+        `shadcn` command and your components.json namespace mapping.
+    validations:
+      required: true
+  - type: dropdown
+    id: base
+    attributes:
+      label: Headless base
+      options: ["base (Base UI)", "radix (Radix UI)", "aria (React Aria)", "all / not applicable"]
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: CLI/Terminal/Console output, if any
+      render: shell

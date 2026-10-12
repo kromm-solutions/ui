@@ -2,8 +2,8 @@ import { ExternalLink, Heart, Plus, Star } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 
-import { ExternalLinkButton } from "@/components/external-link-button";
-import { PageTransition } from "@/components/page-transition";
+import { ExternalLinkButton } from "@/components/docs/external-link-button";
+import { PageTransition } from "@/components/layout/page-transition";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LINK } from "@/constants/links";
 import { ROUTES } from "@/constants/routes";
@@ -13,7 +13,7 @@ import { createPageMetadata } from "@/seo/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   description:
-    "Support startercn — a template for building your own shadcn/ui registry. Sponsor tiers, stargazers, and how to contribute.",
+    "Support kromm ui — a multi-base component registry: headless primitives for Base UI, Radix and React Aria, build-time visual styles, and AI-agent tooling.",
   path: ROUTES.SPONSOR,
   title: "Sponsor",
 });
@@ -29,15 +29,17 @@ const SponsorPage = async () => {
             Support the project
           </h1>
           <p className="text-base text-muted-foreground text-balance">
-            startercn is a template for building your own shadcn/ui registry.
-            Every component is free and that&apos;s not changing.
+            kromm ui is a multi-base component registry: headless primitives
+            for Base UI, Radix and React Aria, visual styles compiled at build
+            time, and tooling designed for AI agents. Every component is free
+            and that&apos;s not changing.
           </p>
           <p className="text-sm text-muted-foreground text-balance">
-            I&apos;m not going to paywall features or gate components behind a
-            sponsorship tier. But if startercn made your project better, or you
-            just like that this exists in the open, sponsoring is a nice way to
-            say so. It helps me justify spending real time on it instead of
-            treating it like a side-of-desk thing.
+            We&apos;re not going to paywall features or gate components behind
+            a sponsorship tier. But if kromm ui made your project better, or
+            you just like that this exists in the open, sponsoring is a nice
+            way to say so. It helps us justify spending real time on it
+            instead of treating it like a side-of-desk thing.
           </p>
           <p className="text-sm text-muted-foreground text-balance">
             Any amount is genuinely appreciated. And if money&apos;s not your

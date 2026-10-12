@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a component, hook, style, theme or pipeline capability
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do that kromm ui doesn't cover today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: API sketch, component shape, or registry surface you have in mind
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options:
+        - "Primitive (registry/bases/*)"
+        - "Custom component (registry-kromm-ui)"
+        - "Hook"
+        - "Modes: style / theme / font"
+        - "Docs"
+        - "Tooling: scripts, lint, CI"
+    validations:
+      required: true
+  - type: checkboxes
+    id: bases
+    attributes:
+      label: Which headless bases does it need?
+      options:
+        - label: "base (Base UI)"
+        - label: "radix (Radix UI)"
+        - label: "aria (React Aria)"
