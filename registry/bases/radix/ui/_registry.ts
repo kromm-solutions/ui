@@ -95,18 +95,8 @@ export const ui: Registry["items"] = [
     type: "registry:ui",
   },
   {
-    files: [{ path: "ui/laptop-mockup.tsx", type: "registry:ui" }],
-    name: "laptop-mockup",
-    type: "registry:ui",
-  },
-  {
     files: [{ path: "ui/native-select.tsx", type: "registry:ui" }],
     name: "native-select",
-    type: "registry:ui",
-  },
-  {
-    files: [{ path: "ui/phone-mockup.tsx", type: "registry:ui" }],
-    name: "phone-mockup",
     type: "registry:ui",
   },
   {
@@ -148,12 +138,6 @@ export const ui: Registry["items"] = [
     dependencies: ["radix-ui"],
     files: [{ path: "ui/tabs.tsx", type: "registry:ui" }],
     name: "tabs",
-    type: "registry:ui",
-  },
-  {
-    dependencies: ["motion"],
-    files: [{ path: "ui/text-flip.tsx", type: "registry:ui" }],
-    name: "text-flip",
     type: "registry:ui",
   },
   {

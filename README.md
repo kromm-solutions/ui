@@ -59,9 +59,9 @@ Everything on [ui.kromm.io](https://ui.kromm.io) is served as static JSON from a
 
 | Base | What ships |
 | ------ | ---------- |
-| `base` (Base UI) | badge, button, card, code-block, field, input, kbd, label, native-select, rich-text-editor, separator, signature-pad, skeleton, tabs |
+| `base` (Base UI) | badge, button, card, code-block, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, rich-text-editor, separator, signature-pad, skeleton, tabs, text-flip |
 | `radix` (Radix UI) | accordion, alert, aspect-ratio, badge, button, card, collapsible, command, context-menu, dialog, drawer, dropdown-menu, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, popover, rich-text-editor, separator, sheet, sidebar, signature-pad, skeleton, sonner, tabs, text-flip, toggle, tooltip |
-| `aria` (React Aria) | badge, button, card, field, input, kbd, label, native-select, rich-text-editor, separator, signature-pad, skeleton |
+| `aria` (React Aria) | badge, button, card, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, rich-text-editor, separator, signature-pad, skeleton, text-flip |
 | hooks (all bases) | use-copy-to-clipboard, use-file-upload, use-scroll-position, use-slider-input |
 | themes & fonts | 24 themes (neutral, stone, zinc, mauve, olive, mist, taupe + hue accents), 47 font items (body + heading) |
 
@@ -77,7 +77,7 @@ All of it under every `base`-×-`style` combination in [`/r/styles`](/r/styles/i
 │   │   ├── kromm-ui/             #   custom components + registry.ts (ui, hooks)
 │   │   ├── examples/             #   demo examples (site previews)
 │   │   └── blocks/|components/   #   larger compositions
-│   ├── bases/shared/hooks/       #   hooks shared by all three bases
+│   ├── bases/shared/             #   hooks and UI components shared by all three bases
 │   └── _meta/                    #   generated metadata (do not edit by hand)
 ├── kromm/registry/               # bases / styles / themes / fonts definitions
 ├── scripts/                      # build-metadata, build-registry, verify-registry

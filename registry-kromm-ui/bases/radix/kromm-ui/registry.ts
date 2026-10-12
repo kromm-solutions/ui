@@ -59,6 +59,46 @@ export const ui: Registry["items"] = [
     files: signaturePadFiles,
   },
   {
+    dependencies: ["motion"],
+    description:
+      "A text flipper with customizable flip animations and interval timing.",
+    files: [
+      {
+        path: "registry-kromm-ui/bases/shared/ui/text-flip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    name: "text-flip",
+    title: "Text Flip",
+    type: "registry:ui",
+  },
+  {
+    description:
+      "Responsive laptop frame mockup with customizable chassis variants.",
+    files: [
+      {
+        path: "registry-kromm-ui/bases/shared/ui/laptop-mockup.tsx",
+        type: "registry:ui",
+      },
+    ],
+    name: "laptop-mockup",
+    title: "Laptop Mockup",
+    type: "registry:ui",
+  },
+  {
+    description:
+      "Responsive smartphone frame mockup with dynamic island and chassis variants.",
+    files: [
+      {
+        path: "registry-kromm-ui/bases/shared/ui/phone-mockup.tsx",
+        type: "registry:ui",
+      },
+    ],
+    name: "phone-mockup",
+    title: "Phone Mockup",
+    type: "registry:ui",
+  },
+  {
     name: "rich-text-editor",
     title: "Rich Text Editor",
     description:

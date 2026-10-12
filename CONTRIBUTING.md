@@ -31,7 +31,7 @@ CI runs all of the above on PRs and `main`.
 
 - `registry/bases/<base>/ui/` — stock base primitives (`base` = Base UI, `radix` = Radix UI, `aria` = React Aria). Treat as read-mostly: changes cascade to every style.
 - `registry-kromm-ui/bases/<base>/kromm-ui/` — components authored by this registry (rich-text-editor, signature-pad, code-block, …) plus each base's `registry.ts` (`export const ui`, `export const hooks`).
-- `registry-kromm-ui/bases/shared/` — files shared across bases (e.g. `hooks/`).
+- `registry-kromm-ui/bases/shared/` — files shared across bases (e.g. `hooks/`, `ui/`).
 - `registry-kromm-ui/bases/<base>/examples/<component>/` — demo files (`c-*.tsx`) with a hand-written `meta.json`. `registry-kromm-ui/_meta/` is regenerated from these by `pnpm registry:metadata`; never edit it by hand.
 
 ### Item registration
