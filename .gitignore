@@ -58,6 +58,9 @@ next-env.d.ts
 # local agent memory (not project content)
 /.agents/memory/
 
+# local ZCode session artifacts
+/.zcode/
+
 # OpenSpec artifacts (self-regenerated locally; fail CI lint scope if committed)
 /OPENSPEC.md
 /OPENSPEC.json
