@@ -1,8 +1,14 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Package root (packages/registry) — resolvable regardless of process.cwd().
-const PACKAGE_ROOT = path.resolve(import.meta.dirname, "..");
+// NOTE: keep fileURLToPath(import.meta.url); import.meta.dirname is undefined
+// when this module is bundled into the Next.js client runtime.
+const PACKAGE_ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  ".."
+);
 
 // Candidate roots, in order: the registry package (registry/, registry-kromm-ui/,
 // lib/, scripts/) and the current working directory (the Next.js app: content/,

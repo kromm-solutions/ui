@@ -42,6 +42,10 @@ export default defineConfig({
     "unicorn/no-lonely-if": "off",
     "unicorn/prefer-module": "off",
     "node/global-require": "off",
+    // Rewriting fileURLToPath(import.meta.url) to import.meta.dirname breaks
+    // modules that Next.js bundles for the browser (import.meta.dirname is
+    // undefined there) — e.g. kromm/read-file.ts via registry/selectors.ts.
+    "unicorn/prefer-import-meta-properties": "off",
     // False positives against the named-default export shapes common in
     // registry code.
     "import/no-named-as-default": "off",
