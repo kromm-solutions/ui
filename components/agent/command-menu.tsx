@@ -7,8 +7,7 @@ import {
   CircleDashedIcon,
   SquareDashedIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -37,6 +36,7 @@ import { useFeedback } from "@/hooks/use-feedback";
 import { useIsMac } from "@/hooks/use-is-mac";
 import { useMutationObserver } from "@/hooks/use-mutation-observer";
 import { usePackageManager } from "@/hooks/use-package-manager";
+import { BASE_NAMES } from "@/kromm/registry";
 import { EXCLUDED_SECTIONS, isComponentsFolder } from "@/lib/docs";
 import { trackEvent } from "@/lib/events";
 import {
@@ -44,7 +44,6 @@ import {
   getPagesFromFolder,
   filterTreeByBase,
 } from "@/lib/page-tree";
-import { BASE_NAMES } from "@/kromm/registry";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_BASE = "base";

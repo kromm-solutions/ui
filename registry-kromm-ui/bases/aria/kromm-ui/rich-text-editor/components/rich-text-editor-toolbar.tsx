@@ -25,7 +25,7 @@ import type { RichTextEditorState } from "../hooks/use-editor-state";
 import { useRichTextEditorState } from "../hooks/use-editor-state";
 import { useRichTextEditor } from "../rich-text-editor-context";
 
-interface RichTextEditorToolbarProps extends React.ComponentProps<"div"> {}
+type RichTextEditorToolbarProps = React.ComponentProps<"div">;
 
 export function RichTextEditorToolbar({
   className,
@@ -87,7 +87,9 @@ export interface RichTextEditorToolbarButtonProps extends ToolbarButtonBase {
   /** Command name or a custom chain runner. */
   command?: RichTextCommand;
   /** Optional custom runner; receives the editor. */
-  run?: (editor: NonNullable<ReturnType<typeof useRichTextEditor>["editor"]>) => void;
+  run?: (
+    editor: NonNullable<ReturnType<typeof useRichTextEditor>["editor"]>
+  ) => void;
   /** Override the active state (defaults to the command's state). */
   active?: boolean;
   /** Override disabled. */
@@ -95,7 +97,10 @@ export interface RichTextEditorToolbarButtonProps extends ToolbarButtonBase {
   "aria-label": string;
 }
 
-const COMMAND_ICONS: Record<RichTextCommand, React.ComponentType<{ className?: string }>> = {
+const COMMAND_ICONS: Record<
+  RichTextCommand,
+  React.ComponentType<{ className?: string }>
+> = {
   blockquote: TextQuote,
   bold: Bold,
   bulletList: List,
@@ -125,8 +130,12 @@ export function RichTextEditorToolbarButton({
   run,
   ...props
 }: RichTextEditorToolbarButtonProps) {
-  const { editor, disabled: contextDisabled, readOnly, features } =
-    useRichTextEditor();
+  const {
+    editor,
+    disabled: contextDisabled,
+    readOnly,
+    features,
+  } = useRichTextEditor();
   const state = useRichTextEditorState(editor);
 
   const commandStateKey = command ? COMMAND_STATE_KEYS[command] : null;
@@ -219,63 +228,84 @@ function runCommand(
   const chain = editor.chain().focus();
 
   switch (command) {
-    case "blockquote":
+    case "blockquote": {
       chain.toggleBlockquote().run();
       break;
-    case "bold":
+    }
+    case "bold": {
       chain.toggleBold().run();
       break;
-    case "bulletList":
+    }
+    case "bulletList": {
       chain.toggleBulletList().run();
       break;
-    case "code":
+    }
+    case "code": {
       chain.toggleCode().run();
       break;
-    case "codeBlock":
+    }
+    case "codeBlock": {
       chain.toggleCodeBlock().run();
       break;
-    case "heading1":
+    }
+    case "heading1": {
       chain.toggleHeading({ level: 1 }).run();
       break;
-    case "heading2":
+    }
+    case "heading2": {
       chain.toggleHeading({ level: 2 }).run();
       break;
-    case "heading3":
+    }
+    case "heading3": {
       chain.toggleHeading({ level: 3 }).run();
       break;
-    case "horizontalRule":
+    }
+    case "horizontalRule": {
       chain.setHorizontalRule().run();
       break;
-    case "insertTable":
+    }
+    case "insertTable": {
       editor
         .chain()
         .focus()
         .insertTable({ cols: 3, rows: 3, withHeaderRow: true })
         .run();
       break;
-    case "italic":
+    }
+    case "italic": {
       chain.toggleItalic().run();
       break;
-    case "orderedList":
+    }
+    case "orderedList": {
       chain.toggleOrderedList().run();
       break;
-    case "redo":
+    }
+    case "redo": {
       chain.redo().run();
       break;
-    case "strike":
+    }
+    case "strike": {
       chain.toggleStrike().run();
       break;
-    case "taskList":
+    }
+    case "taskList": {
       chain.toggleTaskList().run();
       break;
-    case "underline":
+    }
+    case "underline": {
       chain.toggleUnderline().run();
       break;
-    case "undo":
+    }
+    case "undo": {
       chain.undo().run();
       break;
-    case "unsetHighlights":
+    }
+    case "unsetHighlights": {
       chain.unsetHighlight().run();
       break;
+    }
+    default: {
+      break;
+    }
   }
 }

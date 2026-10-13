@@ -2,7 +2,6 @@ import { execSync } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { createJiti } from "jiti";
 import type { Registry } from "shadcn/schema";
@@ -10,7 +9,7 @@ import type { Registry } from "shadcn/schema";
 // Flat repo layout: this script lives in scripts/, so the repo root
 // (registry/, registry-kromm-ui/, kromm/) is one level up — never
 // process.cwd(). The distribution output is public/r at the repo root.
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const APP_PUBLIC_R = path.resolve(ROOT, "public", "r");
 
 // Style-aware sources carry Tailwind tokens like
@@ -41,10 +40,6 @@ const { BASES, STYLES, THEMES, fonts } = jiti("@/kromm/registry") as {
 // Style-variant resolution (vendored from reui.io's build-registry.mts).
 // ---------------------------------------------------------------------------
 const styleNamesPattern = STYLES.map((s) => s.name).join("|");
-const STYLE_VARIANT_TOKEN_RE = new RegExp(
-  `\\bstyle-(${styleNamesPattern}):([^\\s{}]+)`,
-  "g"
-);
 // Only single-line quoted strings are matched; multi-line template literals
 // with style tokens would survive as residuals and are caught by verify.
 const QUOTED_STYLE_VARIANT_RE = new RegExp(
@@ -56,12 +51,12 @@ function transformStyleVariants(code: string, styleName: string): string {
   return code.replace(
     QUOTED_STYLE_VARIANT_RE,
     (_match, quote: string, inner: string) => {
-      const resolved = inner.replace(
+      const resolved = inner.replaceAll(
         new RegExp(`\\bstyle-(${styleNamesPattern}):([^\\s{}]+)`, "g"),
         (_token, name: string, utility: string) =>
           name === styleName ? ` ${utility} ` : " "
       );
-      return `${quote}${resolved.replace(/\s+/g, " ").trim()}${quote}`;
+      return `${quote}${resolved.replaceAll(/\s+/g, " ").trim()}${quote}`;
     }
   );
 }
@@ -85,11 +80,13 @@ const IMPORT_PATTERNS = [
 ];
 
 function stripTemplateLiteralContent(code: string): string {
-  return code.replace(/`(?:\\[\s\S]|\${[^`]*}*|[^\\`])*`/g, (literal) =>
-    `\`${literal
-      .slice(1, -1)
-      .replace(/\{\{[^}]*\}\}/g, " ")
-      .replace(/[^{}\n]/g, " ")}\``
+  return code.replaceAll(
+    /`(?:\\[\s\S]|\${[^`]*}*|[^\\`])*`/g,
+    (literal) =>
+      `\`${literal
+        .slice(1, -1)
+        .replaceAll(/\{\{[^}]*\}\}/g, " ")
+        .replaceAll(/[^{}\n]/g, " ")}\``
   );
 }
 
@@ -136,7 +133,7 @@ async function inferItemDependencies(item: Registry["items"][number]) {
   }
   return {
     ...item,
-    dependencies: [...declared].sort((a, b) =>
+    dependencies: [...declared].toSorted((a, b) =>
       a.toLowerCase().localeCompare(b.toLowerCase())
     ),
   };
@@ -165,10 +162,10 @@ function resolveRegistryDeps(
   });
 }
 
-type BaseItems = {
+interface BaseItems {
   base: (typeof BASES)[number];
   items: Registry["items"];
-};
+}
 
 async function loadBaseItems(): Promise<BaseItems[]> {
   const result: BaseItems[] = [];

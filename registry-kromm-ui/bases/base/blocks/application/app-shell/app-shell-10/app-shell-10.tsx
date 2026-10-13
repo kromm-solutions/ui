@@ -1,56 +1,83 @@
 "use client";
 
-import { Badge } from "@/registry/bases/base/ui/badge";
-import { Button } from "@/registry/bases/base/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/registry/bases/base/ui/card";
-import { Field, FieldLabel, FieldDescription, FieldError } from "@/registry/bases/base/ui/field";
-import { Input } from "@/registry/bases/base/ui/input";
-import { NativeSelect, NativeSelectOption } from "@/registry/bases/base/ui/native-select";
-import { Separator } from "@/registry/bases/base/ui/separator";
-import { Switch } from "@/registry/bases/base/ui/switch";
 import { cn } from "cn";
-import { useState } from "react";
 import {
   Bell,
   Globe,
   Key,
   LayoutDashboard,
-  Mail,
   Moon,
   Shield,
   User,
   Users,
 } from "lucide-react";
+import { useState } from "react";
+
+import { Badge } from "@/registry/bases/base/ui/badge";
+import { Button } from "@/registry/bases/base/ui/button";
+import { Card, CardContent } from "@/registry/bases/base/ui/card";
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/registry/bases/base/ui/field";
+import { Input } from "@/registry/bases/base/ui/input";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/registry/bases/base/ui/native-select";
+import { Separator } from "@/registry/bases/base/ui/separator";
+import { Switch } from "@/registry/bases/base/ui/switch";
 
 const sections = [
-  { id: "general", icon: LayoutDashboard, label: "General", desc: "Basic account settings" },
-  { id: "profile", icon: User, label: "Profile", desc: "Personal information" },
-  { id: "account", icon: Shield, label: "Account", desc: "Security and login" },
-  { id: "notifications", icon: Bell, label: "Notifications", desc: "Email and push preferences" },
-  { id: "appearance", icon: Moon, label: "Appearance", desc: "Theme and display" },
-  { id: "team", icon: Users, label: "Team", desc: "Members and permissions" },
-  { id: "billing", icon: Key, label: "Billing", desc: "Plans and payment" },
-  { id: "integrations", icon: Globe, label: "Integrations", desc: "Connected services" },
+  {
+    desc: "Basic account settings",
+    icon: LayoutDashboard,
+    id: "general",
+    label: "General",
+  },
+  { desc: "Personal information", icon: User, id: "profile", label: "Profile" },
+  { desc: "Security and login", icon: Shield, id: "account", label: "Account" },
+  {
+    desc: "Email and push preferences",
+    icon: Bell,
+    id: "notifications",
+    label: "Notifications",
+  },
+  {
+    desc: "Theme and display",
+    icon: Moon,
+    id: "appearance",
+    label: "Appearance",
+  },
+  { desc: "Members and permissions", icon: Users, id: "team", label: "Team" },
+  { desc: "Plans and payment", icon: Key, id: "billing", label: "Billing" },
+  {
+    desc: "Connected services",
+    icon: Globe,
+    id: "integrations",
+    label: "Integrations",
+  },
 ];
 
 const timezoneOptions = [
-  { value: "UTC", label: "UTC" },
-  { value: "America/New_York", label: "Eastern Time (ET)" },
-  { value: "America/Chicago", label: "Central Time (CT)" },
-  { value: "America/Denver", label: "Mountain Time (MT)" },
-  { value: "America/Los_Angeles", label: "Pacific Time (PT)" },
-  { value: "Europe/London", label: "London (GMT/BST)" },
-  { value: "Europe/Paris", label: "Paris (CET/CEST)" },
-  { value: "Asia/Tokyo", label: "Tokyo (JST)" },
+  { label: "UTC", value: "UTC" },
+  { label: "Eastern Time (ET)", value: "America/New_York" },
+  { label: "Central Time (CT)", value: "America/Chicago" },
+  { label: "Mountain Time (MT)", value: "America/Denver" },
+  { label: "Pacific Time (PT)", value: "America/Los_Angeles" },
+  { label: "London (GMT/BST)", value: "Europe/London" },
+  { label: "Paris (CET/CEST)", value: "Europe/Paris" },
+  { label: "Tokyo (JST)", value: "Asia/Tokyo" },
 ];
 
 const localeOptions = [
-  { value: "en-US", label: "English (US)" },
-  { value: "en-GB", label: "English (UK)" },
-  { value: "es-ES", label: "Español" },
-  { value: "fr-FR", label: "Français" },
-  { value: "de-DE", label: "Deutsch" },
-  { value: "ja-JP", label: "日本語" },
+  { label: "English (US)", value: "en-US" },
+  { label: "English (UK)", value: "en-GB" },
+  { label: "Español", value: "es-ES" },
+  { label: "Français", value: "fr-FR" },
+  { label: "Deutsch", value: "de-DE" },
+  { label: "日本語", value: "ja-JP" },
 ];
 
 function SectionNavItem({
@@ -84,14 +111,16 @@ function SectionNavItem({
   );
 }
 
-function SettingsForm({ section }: { section: typeof sections[0] }) {
+function SettingsForm({ section }: { section: (typeof sections)[0] }) {
   switch (section.id) {
-    case "general":
+    case "general": {
       return (
         <div className="space-y-6">
           <Field name="workspaceName">
             <FieldLabel>Workspace name</FieldLabel>
-            <FieldDescription>This is the name shown to members.</FieldDescription>
+            <FieldDescription>
+              This is the name shown to members.
+            </FieldDescription>
             <Input id="workspaceName" defaultValue="Kromm Workspace" />
           </Field>
           <Field name="workspaceUrl">
@@ -109,7 +138,8 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </Field>
         </div>
       );
-    case "profile":
+    }
+    case "profile": {
       return (
         <div className="space-y-6">
           <Field name="displayName">
@@ -119,7 +149,9 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </Field>
           <Field name="email">
             <FieldLabel>Email</FieldLabel>
-            <FieldDescription>Used for login and notifications.</FieldDescription>
+            <FieldDescription>
+              Used for login and notifications.
+            </FieldDescription>
             <Input id="email" type="email" defaultValue="jane@kromm.dev" />
           </Field>
           <Field name="timezone">
@@ -134,7 +166,8 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </Field>
         </div>
       );
-    case "account":
+    }
+    case "account": {
       return (
         <div className="space-y-6">
           <Field name="password">
@@ -155,38 +188,54 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </Field>
         </div>
       );
-    case "notifications":
+    }
+    case "notifications": {
       return (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <FieldLabel htmlFor="email-notifications">Email notifications</FieldLabel>
-              <FieldDescription>Receive emails for important updates.</FieldDescription>
+              <FieldLabel htmlFor="email-notifications">
+                Email notifications
+              </FieldLabel>
+              <FieldDescription>
+                Receive emails for important updates.
+              </FieldDescription>
             </div>
             <Switch id="email-notifications" defaultChecked />
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <FieldLabel htmlFor="push-notifications">Push notifications</FieldLabel>
-              <FieldDescription>Receive browser notifications.</FieldDescription>
+              <FieldLabel htmlFor="push-notifications">
+                Push notifications
+              </FieldLabel>
+              <FieldDescription>
+                Receive browser notifications.
+              </FieldDescription>
             </div>
             <Switch id="push-notifications" defaultChecked />
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <FieldLabel htmlFor="marketing-emails">Marketing emails</FieldLabel>
-              <FieldDescription>Receive product updates and tips.</FieldDescription>
+              <FieldLabel htmlFor="marketing-emails">
+                Marketing emails
+              </FieldLabel>
+              <FieldDescription>
+                Receive product updates and tips.
+              </FieldDescription>
             </div>
             <Switch id="marketing-emails" />
           </div>
         </div>
       );
-    case "appearance":
+    }
+    case "appearance": {
       return (
         <div className="space-y-6">
           <Field name="theme">
             <FieldLabel>Theme</FieldLabel>
-            <FieldDescription>Choose your preferred color scheme.</FieldDescription>
+            <FieldDescription>
+              Choose your preferred color scheme.
+            </FieldDescription>
             <NativeSelect id="theme" defaultValue="system">
               <NativeSelectOption value="system">System</NativeSelectOption>
               <NativeSelectOption value="light">Light</NativeSelectOption>
@@ -205,7 +254,8 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </Field>
         </div>
       );
-    case "team":
+    }
+    case "team": {
       return (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
@@ -217,9 +267,24 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </div>
           <div className="space-y-3">
             {[
-              { name: "Jane Doe", email: "jane@kromm.dev", role: "Owner", initials: "JD" },
-              { name: "John Smith", email: "john@kromm.dev", role: "Admin", initials: "JS" },
-              { name: "Alice Brown", email: "alice@kromm.dev", role: "Member", initials: "AB" },
+              {
+                email: "jane@kromm.dev",
+                initials: "JD",
+                name: "Jane Doe",
+                role: "Owner",
+              },
+              {
+                email: "john@kromm.dev",
+                initials: "JS",
+                name: "John Smith",
+                role: "Admin",
+              },
+              {
+                email: "alice@kromm.dev",
+                initials: "AB",
+                name: "Alice Brown",
+                role: "Member",
+              },
             ].map((member) => (
               <div key={member.email} className="flex items-center gap-3">
                 <div className="flex size-8 items-center justify-center rounded-full bg-muted text-sm font-medium">
@@ -227,7 +292,9 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{member.name}</p>
-                  <p className="truncate text-xs text-muted-foreground">{member.email}</p>
+                  <p className="truncate text-xs text-muted-foreground">
+                    {member.email}
+                  </p>
                 </div>
                 <Badge variant="secondary" className="rounded-full">
                   {member.role}
@@ -237,23 +304,30 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           </div>
         </div>
       );
-    case "billing":
+    }
+    case "billing": {
       return (
         <div className="space-y-6">
           <div className="rounded-lg border border-border p-4">
             <p className="text-sm font-medium">Current plan: Pro</p>
-            <p className="text-xs text-muted-foreground mt-1">$20/month per member, billed annually</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              $20/month per member, billed annually
+            </p>
             <Button variant="outline" size="sm" className="mt-4">
               Manage billing
             </Button>
           </div>
         </div>
       );
-    case "integrations":
+    }
+    case "integrations": {
       return (
         <div className="space-y-4">
           {["GitHub", "Slack", "Linear", "Jira", "Vercel"].map((name) => (
-            <div key={name} className="flex items-center justify-between rounded-lg border border-border p-3">
+            <div
+              key={name}
+              className="flex items-center justify-between rounded-lg border border-border p-3"
+            >
               <div className="flex items-center gap-3">
                 <div className="flex size-8 items-center justify-center rounded-lg bg-muted">
                   <Globe className="size-4 text-muted-foreground" />
@@ -267,13 +341,17 @@ function SettingsForm({ section }: { section: typeof sections[0] }) {
           ))}
         </div>
       );
-    default:
+    }
+    default: {
       return null;
+    }
   }
 }
 
 export function AppShell10() {
   const [activeSection, setActiveSection] = useState(sections[0].id);
+  const currentSection =
+    sections.find((s) => s.id === activeSection) ?? sections[0];
 
   return (
     <div className="flex h-svh w-full overflow-hidden bg-background text-foreground">
@@ -286,7 +364,10 @@ export function AppShell10() {
           <span className="text-sm font-semibold">Kromm</span>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto p-3" aria-label="Settings">
+        <nav
+          className="flex-1 space-y-1 overflow-y-auto p-3"
+          aria-label="Settings"
+        >
           {sections.map((section) => (
             <SectionNavItem
               key={section.id}
@@ -321,22 +402,26 @@ export function AppShell10() {
           >
             <div className="flex items-start gap-3">
               <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                {sections.find((s) => s.id === activeSection)?.icon &&
-                  React.createElement(sections.find((s) => s.id === activeSection)!.icon, { className: "size-4" })}
+                {React.createElement(currentSection.icon, {
+                  className: "size-4",
+                })}
               </div>
               <div>
-                <h2 id={`${activeSection}-title`} className="text-base font-semibold">
-                  {sections.find((s) => s.id === activeSection)?.label}
+                <h2
+                  id={`${activeSection}-title`}
+                  className="text-base font-semibold"
+                >
+                  {currentSection.label}
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  {sections.find((s) => s.id === activeSection)?.desc}
+                  {currentSection.desc}
                 </p>
               </div>
             </div>
 
             <Card className="space-y-6">
               <CardContent className="pt-6 pb-6">
-                <SettingsForm section={sections.find((s) => s.id === activeSection)!} />
+                <SettingsForm section={currentSection} />
               </CardContent>
             </Card>
           </section>

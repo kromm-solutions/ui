@@ -1,6 +1,6 @@
 "use client";
 
-import { Eraser, Save, Undo2 } from "lucide-react";
+import { Eraser, Undo2 } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -11,9 +11,7 @@ import {
   SignaturePadClear,
   SignaturePadUndo,
 } from "@/registry-kromm-ui/bases/base/kromm-ui/signature-pad";
-import type {
-  SignatureData,
-} from "@/registry-kromm-ui/bases/base/kromm-ui/signature-pad";
+import type { SignatureData } from "@/registry-kromm-ui/bases/base/kromm-ui/signature-pad";
 import { Button } from "@/registry/bases/base/ui/button";
 import {
   Field,

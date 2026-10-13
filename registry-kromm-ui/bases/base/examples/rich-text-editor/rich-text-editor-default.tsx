@@ -15,10 +15,7 @@ import {
 
 export function RichTextEditorDefault() {
   return (
-    <RichTextEditor
-      className="w-full max-w-2xl"
-      placeholder="Escribe algo…"
-    >
+    <RichTextEditor className="w-full max-w-2xl" placeholder="Escribe algo…">
       <RichTextEditorToolbar>
         <RichTextEditorToolbarGroup>
           <RichTextEditorToolbarButton aria-label="Undo" command="undo" />
@@ -27,10 +24,7 @@ export function RichTextEditorDefault() {
         <RichTextEditorToolbarSeparator />
         <RichTextEditorToolbarGroup>
           <RichTextEditorToolbarButton aria-label="Bold" command="bold" />
-          <RichTextEditorToolbarButton
-            aria-label="Italic"
-            command="italic"
-          />
+          <RichTextEditorToolbarButton aria-label="Italic" command="italic" />
           <RichTextEditorToolbarButton
             aria-label="Underline"
             command="underline"

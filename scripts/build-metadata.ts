@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { z } from "zod";
 
@@ -13,25 +12,13 @@ const EXAMPLE_META_SCHEMA = z.array(
   })
 );
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const REGISTRY_DIR = path.join(ROOT, "registry-kromm-ui");
 const META_OUT = path.join(REGISTRY_DIR, "_meta");
 const EXAMPLES_ROOT = path.join(REGISTRY_DIR, "bases");
 
-const COMMON_PACKAGES = new Set([
-  "react",
-  "react-dom",
-  "next",
-  "@types/react",
-  "@types/react-dom",
-]);
-
 async function ensureDir(p: string) {
   await fs.mkdir(p, { recursive: true });
-}
-
-function normalizeBaseName(b: string) {
-  return b.toLowerCase();
 }
 
 async function build() {
@@ -85,7 +72,9 @@ async function build() {
           "utf-8"
         );
       }
-    } catch {}
+    } catch {
+      /* unparseable meta.json — counted as missing */
+    }
   }
   console.log(
     "✅ Metadatos de componentes generados en registry-kromm-ui/_meta"

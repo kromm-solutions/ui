@@ -1,11 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { createJiti } from "jiti";
 import { z } from "zod";
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const REGISTRY_DIR = path.join(ROOT, "registry-kromm-ui");
 const META_OUT = path.join(REGISTRY_DIR, "_meta");
 const EXAMPLES_ROOT = path.join(REGISTRY_DIR, "bases");
@@ -39,7 +38,7 @@ const EXAMPLE_META_SCHEMA = z.array(
 const collectedErrors: string[] = [];
 const collectedWarnings: string[] = [];
 
-async function fail(msg: string) {
+function fail(msg: string) {
   console.error(`❌ ${msg}`);
   process.exit(1);
 }
@@ -52,12 +51,14 @@ function collectWarning(msg: string) {
   collectedWarnings.push(msg);
 }
 
-async function flushCollected() {
+function flushCollected() {
   for (const warning of collectedWarnings) {
     console.warn(`⚠️  ${warning}`);
   }
   if (collectedErrors.length > 0) {
-    console.error(`❌ ${collectedErrors.length} problema(s) en el registry emitido:`);
+    console.error(
+      `❌ ${collectedErrors.length} problema(s) en el registry emitido:`
+    );
     for (const error of collectedErrors) {
       console.error(`   - ${error}`);
     }
@@ -109,7 +110,9 @@ async function checkMetaConsistency() {
           await fail(`_meta faltante ${metaOutFile}`);
         }
       }
-    } catch {}
+    } catch {
+      /* metadata shard absent — reported via the existence check above */
+    }
   }
 }
 
@@ -131,7 +134,9 @@ async function checkMdxImports() {
       ) {
         await fail(`MDX ${base} no usa examples/`);
       }
-    } catch {}
+    } catch {
+      /* metadata shard absent — reported via the existence check above */
+    }
   }
 }
 
@@ -225,11 +230,13 @@ const IMPORT_PATTERNS = [
 // source code taught inside a template string is not mistaken for a real
 // import statement.
 function stripTemplateLiteralContent(code: string): string {
-  return code.replace(/`(?:\\[\s\S]|\${[^`]*}*|[^\\`])*`/g, (literal) =>
-    `\`${literal
-      .slice(1, -1)
-      .replace(/\{\{[^}]*\}\}/g, " ")
-      .replace(/[^{}\n]/g, " ")}\``
+  return code.replaceAll(
+    /`(?:\\[\s\S]|\${[^`]*}*|[^\\`])*`/g,
+    (literal) =>
+      `\`${literal
+        .slice(1, -1)
+        .replaceAll(/\{\{[^}]*\}\}/g, " ")
+        .replaceAll(/[^{}\n]/g, " ")}\``
   );
 }
 
@@ -283,7 +290,7 @@ async function readJson(file: string): Promise<Record<string, unknown> | null> {
   }
 }
 
-async function checkDependencyCompleteness(
+function checkDependencyCompleteness(
   itemLabel: string,
   item: Record<string, unknown>,
   declaredKinds: Set<string>
@@ -300,8 +307,8 @@ async function checkDependencyCompleteness(
   // Completeness is measured against the item's own dependencies array — that
   // is what the CLI installs. Repo-level package.json presence is irrelevant.
   const declared = new Set(
-    ((item.dependencies as string[]) ?? []).map((dep) =>
-      packageNameFromImport(dep.replace(/@[\w.~^>=-]+$/, "")) ?? dep
+    ((item.dependencies as string[]) ?? []).map(
+      (dep) => packageNameFromImport(dep.replace(/@[\w.~^>=-]+$/, "")) ?? dep
     )
   );
   const missing = [...imported].filter(
@@ -323,8 +330,9 @@ async function checkDependencyCompleteness(
   }
 }
 
-async function checkItemLeaks(itemLabel: string, item: Record<string, unknown>) {
-  for (const file of (item.files as { path?: string; content?: string }[]) ?? []) {
+function checkItemLeaks(itemLabel: string, item: Record<string, unknown>) {
+  for (const file of (item.files as { path?: string; content?: string }[]) ??
+    []) {
     if (typeof file.content !== "string") {
       continue;
     }
@@ -342,14 +350,18 @@ async function checkItemLeaks(itemLabel: string, item: Record<string, unknown>) 
     for (const line of file.content.split("\n")) {
       // SVG path data is the only legitimate ultra-long line.
       if (line.length > 2000 && !line.includes("<path")) {
-        collectError(`${label}: línea de ${line.length} chars (posible minificación accidental)`);
+        collectError(
+          `${label}: línea de ${line.length} chars (posible minificación accidental)`
+        );
       }
     }
   }
 }
 
 async function checkBuiltRegistry() {
-  const pkg = JSON.parse(await fs.readFile(path.join(ROOT, "package.json"), "utf-8")) as {
+  const pkg = JSON.parse(
+    await fs.readFile(path.join(ROOT, "package.json"), "utf-8")
+  ) as {
     dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;
     peerDependencies?: Record<string, string>;
@@ -420,14 +432,16 @@ async function checkBuiltRegistry() {
           !Array.isArray(deps) ||
           deps.some((dep) => typeof dep !== "string" || dep.length === 0)
         ) {
-          collectError(`${label}: ${depKind} debe ser un array de strings no vacíos`);
+          collectError(
+            `${label}: ${depKind} debe ser un array de strings no vacíos`
+          );
         } else if (depKind === "registryDependencies") {
           pendingRegistryDepChecks.push({ deps: deps as string[], label });
         }
       }
 
       if (FILE_CARRYING_TYPES.has(parsedType.data as string)) {
-        const files = json.files;
+        const { files } = json;
         if (!Array.isArray(files) || files.length === 0) {
           collectError(`${label}: sin files[]`);
           continue;
@@ -447,17 +461,14 @@ async function checkBuiltRegistry() {
     }
 
     const baseName = styleSlug.split("-")[0];
-    namesPerBase.set(
-      baseName,
-      [...new Set([...(namesPerBase.get(baseName) ?? []), ...itemNames])] as string[]
-    );
+    namesPerBase.set(baseName, [
+      ...new Set([...(namesPerBase.get(baseName) ?? []), ...itemNames]),
+    ] as string[]);
   }
 
   // Any bare registryDependency naming one of our own shipped items must go
   // through the @kromm/ namespace.
-  const allKnownNames = new Set(
-    [...namesPerBase.values()].flat()
-  );
+  const allKnownNames = new Set([...namesPerBase.values()].flat());
   for (const { deps, label } of pendingRegistryDepChecks) {
     for (const dep of deps) {
       if (!dep.includes("/") && !dep.includes(":") && allKnownNames.has(dep)) {
@@ -470,7 +481,7 @@ async function checkBuiltRegistry() {
 
   // Cross-base coverage parity is a warning, not an error: bases legitimately
   // differ in coverage, but a divergence this visible deserves a human look.
-  const sorted = [...namesPerBase.keys()].sort();
+  const sorted = [...namesPerBase.keys()].toSorted();
   for (let i = 1; i < sorted.length; i++) {
     const a = namesPerBase.get(sorted[0]) ?? [];
     const b = namesPerBase.get(sorted[i]) ?? [];

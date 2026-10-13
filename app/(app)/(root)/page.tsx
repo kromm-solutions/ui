@@ -1,4 +1,3 @@
-import { CommandBox } from "@/components/agent/command-box";
 import { Announcement } from "@/components/home/announcement";
 import { HomeCtas } from "@/components/home/home-ctas";
 import { PageTransition } from "@/components/layout/page-transition";
@@ -23,9 +22,8 @@ export default function IndexPage() {
 
             <p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">
               Headless UI components for Base UI, Radix and React Aria with a
-              shared visual contract — eight styles compiled at build time —
-              and a registry designed for AI agents. Install it with the
-              shadcn CLI.
+              shared visual contract — eight styles compiled at build time — and
+              a registry designed for AI agents. Install it with the shadcn CLI.
             </p>
 
             <HomeCtas className="mt-4" />

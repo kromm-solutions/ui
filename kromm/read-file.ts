@@ -1,12 +1,8 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 // Package root (packages/registry) — resolvable regardless of process.cwd().
-const PACKAGE_ROOT = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  ".."
-);
+const PACKAGE_ROOT = path.resolve(import.meta.dirname, "..");
 
 // Candidate roots, in order: the registry package (registry/, registry-kromm-ui/,
 // lib/, scripts/) and the current working directory (the Next.js app: content/,
@@ -23,5 +19,5 @@ export const readFileFromRoot = async (relativePath: string) => {
       lastError = error;
     }
   }
-  throw lastError;
+  throw lastError instanceof Error ? lastError : new Error(String(lastError));
 };

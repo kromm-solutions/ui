@@ -25,8 +25,8 @@
  */
 
 /**
- * Where a "component" comes from. components.json aliases ui to
- * @/components/ui, which holds no primitives, so the real roots are named.
+ * Where a "component" comes from. components.json maps the ui alias to
+ * the components/ui folder, which holds no primitives, so the real roots are named.
  */
 export const COMPONENT_IMPORTS = [
   "@/registry/bases/aria/ui",
@@ -49,7 +49,7 @@ export function sharedSettings(note) {
 /**
  * The rule vocabulary and its baseline severities.
  *
- * @param {object} options
+ * @param {object} options  Recognition knobs for this repo.
  * @param {string[]} options.allowUnknown  Non-Tailwind classes that are legitimate
  *   in this repo (reserved prefixes, third-party stylesheet classes, classes a
  *   file declares in its own CSS). Everything else Tailwind cannot generate is an
@@ -139,16 +139,22 @@ export function localCssClasses(roots, { readdirSync, readFileSync, join }) {
         walk(full);
         continue;
       }
-      if (!entry.name.endsWith(".tsx")) continue;
-      const source = readFileSync(full, "utf8");
+      if (!entry.name.endsWith(".tsx")) {
+        continue;
+      }
+      const source = readFileSync(full, "utf-8");
       // Only look inside literals that actually read as CSS, so a JS member
       // expression (.length, .current) is never mistaken for a selector.
       for (const literal of source.match(CSS_LITERAL) ?? []) {
-        if (!/@keyframes|\{[^}]*:/.test(literal)) continue;
-        for (const m of literal.matchAll(CSS_SELECTOR)) found.add(m[1]);
+        if (!/@keyframes|\{[^}]*:/.test(literal)) {
+          continue;
+        }
+        for (const m of literal.matchAll(CSS_SELECTOR)) {
+          found.add(m[1]);
+        }
       }
     }
   };
   roots.forEach(walk);
-  return [...found].sort();
+  return [...found].toSorted();
 }

@@ -1,30 +1,15 @@
 import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import type { ChangelogPage } from "@/lib/changelog";
 import { getChangelogPages } from "@/lib/changelog";
-
-const formatDate = (date: Date | null) => {
-  if (!date) return "";
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
 
 const ChangelogGrid = ({ pages }: { pages: ChangelogPage[] }) => (
   <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
     {pages.map((page) => (
-      <Link
-        href={page.url}
-        key={page.url}
-        transitionTypes={["nav-forward"]}
-
-      >
-        <Card >
-          <CardHeader >
+      <Link href={page.url} key={page.url} transitionTypes={["nav-forward"]}>
+        <Card>
+          <CardHeader>
             {/* <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-2">
                 {page.data.version && (
@@ -54,9 +39,7 @@ const ChangelogGrid = ({ pages }: { pages: ChangelogPage[] }) => (
               ) : null}
              </div> */}
 
-            <CardTitle >
-              {page.data.title}
-            </CardTitle>
+            <CardTitle>{page.data.title}</CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
             {page.data.description ? (
