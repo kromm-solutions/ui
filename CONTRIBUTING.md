@@ -15,15 +15,34 @@ Node 22+ and pnpm 10.28.x (CI pins both — see `.github/actions/setup` and `.gi
 
 ## The quality gates (run these before a PR)
 
-| Command | What it enforces |
-| --- | --- |
-| `pnpm typecheck` | `tsc --noEmit` — zero errors |
-| `pnpm check` | ultracite (Biome) — app code style |
+| Command               | What it enforces                                                                |
+| --------------------- | ------------------------------------------------------------------------------- |
+| `pnpm typecheck`      | `tsc --noEmit` — zero errors                                                    |
+| `pnpm check`          | ultracite (Biome) — app code style                                              |
 | `pnpm lint:ds:errors` | design-system lint, errors only (`pnpm lint:ds` also shows the warning backlog) |
-| `pnpm registry:all` | metadata → build (24 style dirs + themes + fonts) → `pnpm registry:verify` |
-| `pnpm build` | full registry pipeline + production site build |
+| `pnpm registry:all`   | metadata → build (24 style dirs + themes + fonts) → `pnpm registry:verify`      |
+| `pnpm build`          | full registry pipeline + production site build                                  |
 
-CI runs all of the above on PRs and `main`.
+CI runs all of the above on PRs and pushes to `main` and `development`.
+
+## Branching
+
+| Branch                                       | Purpose                                                                     |
+| -------------------------------------------- | --------------------------------------------------------------------------- |
+| `main`                                       | Stable base. Releases and production deploys (`ui.kromm.io`) cut from here. |
+| `development`                                | Default working branch — day-to-day commits and PRs land here.              |
+| `feature/*` · `fix/*` · `docs/*` · `chore/*` | Short-lived branches off `development`, merged back by PR.                  |
+
+## Releases
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `ci:` …), which drive versioning:
+
+1. Work merges into `development`; when the base is solid, `development` merges into `main`.
+2. [release-please](https://github.com/googleapis/release-please) opens (and keeps updating) a Release PR on `main` with the generated `CHANGELOG.md`.
+3. Merging the Release PR tags `vX.Y.Z` and publishes the GitHub Release.
+4. Publishing the release triggers `.github/workflows/smoke.yml`: it probes the live registry endpoints in production and installs a component in a throwaway app with the real shadcn CLI — the distribution channel is verified end-to-end on every release.
+
+The component changelog at [ui.kromm.io/docs/changelog](https://ui.kromm.io/docs/changelog) tracks per-component additions in the docs; `CHANGELOG.md` tracks platform releases for developers.
 
 ## Registry conventions
 
@@ -48,7 +67,7 @@ Items are declared in `registry.ts`, following the `shadcn/schema` `Registry["it
 Sources may carry per-style Tailwind tokens:
 
 ```tsx
-"style-vega:rounded-sm style-nova:rounded-md style-luma:rounded-2xl …"
+"style-vega:rounded-sm style-nova:rounded-md style-luma:rounded-2xl …";
 ```
 
 Each variant must cover every style in `kromm/registry/resolve-styles.ts`. The build resolves tokens per `{base}-{style}` output directory, and the verifier hard-fails on any unresolved residue.

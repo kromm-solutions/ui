@@ -10,12 +10,18 @@
   <em>Work in progress — the registry ships installable components today; several capabilities below are in active development and marked as such.</em>
 </p>
 
+<p align="center">
+  <a href="https://github.com/kromm-solutions/ui/actions/workflows/ci.yml"><img src="https://github.com/kromm-solutions/ui/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" /></a>
+  <a href="https://github.com/kromm-solutions/ui/releases"><img src="https://img.shields.io/github/v/release/kromm-solutions/ui?display_name=tag" alt="Latest release" /></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
+</p>
+
 ## What we're building
 
 Three things that today live in different places, in one package:
 
 1. **Headless components.** Every item is authored against three headless bases — [Base UI](https://base-ui.com), [Radix UI](https://www.radix-ui.com) and [React Aria](https://react-spectrum.adobe.com/react-aria) — with the same component names, slot structure and Tailwind classes. You pick the base; the visual contract stays identical.
-2. **Visual adapters.** Eight visual styles (vega, nova, maia, lyra, mira, luma, sera, rhea) × twenty-four themes × font packs, resolved **at build time**. Sources can carry per-style Tailwind tokens (`style-luma:rounded-2xl style-sera:rounded-none …`); the registry build compiles them down so consumers receive plain, flat classes — zero variant machinery in your app. *(Style tokens are wired end-to-end; migrating the whole catalog to per-style recipes is in progress.)*
+2. **Visual adapters.** Eight visual styles (vega, nova, maia, lyra, mira, luma, sera, rhea) × twenty-four themes × font packs, resolved **at build time**. Sources can carry per-style Tailwind tokens (`style-luma:rounded-2xl style-sera:rounded-none …`); the registry build compiles them down so consumers receive plain, flat classes — zero variant machinery in your app. _(Style tokens are wired end-to-end; migrating the whole catalog to per-style recipes is in progress.)_
 3. **Agent-tooling.** The registry is designed to be consumed by AI agents, not just by them: agent skills under [`/.well-known/agent-skills`](/.well-known/agent-skills), [llms.txt](/llms.txt), an API catalog, a registry source API, and a design-system lint whose diagnostics are written for agents to act on.
 
 ## Why not just Radix UI or shadcn/ui?
@@ -57,13 +63,13 @@ Everything on [ui.kromm.io](https://ui.kromm.io) is served as static JSON from a
 
 ## Catalog (today)
 
-| Base | What ships |
-| ------ | ---------- |
-| `base` (Base UI) | badge, button, card, code-block, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, rich-text-editor, separator, signature-pad, skeleton, tabs, text-flip |
-| `radix` (Radix UI) | accordion, alert, aspect-ratio, badge, button, card, collapsible, command, context-menu, dialog, drawer, dropdown-menu, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, popover, rich-text-editor, separator, sheet, sidebar, signature-pad, skeleton, sonner, tabs, text-flip, toggle, tooltip |
-| `aria` (React Aria) | badge, button, card, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, rich-text-editor, separator, signature-pad, skeleton, text-flip |
-| hooks (all bases) | use-copy-to-clipboard, use-file-upload, use-scroll-position, use-slider-input |
-| themes & fonts | 24 themes (neutral, stone, zinc, mauve, olive, mist, taupe + hue accents), 47 font items (body + heading) |
+| Base                | What ships                                                                                                                                                                                                                                                                                                            |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base` (Base UI)    | badge, button, card, code-block, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, rich-text-editor, separator, signature-pad, skeleton, tabs, text-flip                                                                                                                                          |
+| `radix` (Radix UI)  | accordion, alert, aspect-ratio, badge, button, card, collapsible, command, context-menu, dialog, drawer, dropdown-menu, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, popover, rich-text-editor, separator, sheet, sidebar, signature-pad, skeleton, sonner, tabs, text-flip, toggle, tooltip |
+| `aria` (React Aria) | badge, button, card, field, input, kbd, label, laptop-mockup, native-select, phone-mockup, rich-text-editor, separator, signature-pad, skeleton, text-flip                                                                                                                                                            |
+| hooks (all bases)   | use-copy-to-clipboard, use-file-upload, use-scroll-position, use-slider-input                                                                                                                                                                                                                                         |
+| themes & fonts      | 24 themes (neutral, stone, zinc, mauve, olive, mist, taupe + hue accents), 47 font items (body + heading)                                                                                                                                                                                                             |
 
 All of it under every `base`-×-`style` combination in [`/r/styles`](/r/styles/index.json).
 
