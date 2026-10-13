@@ -1,14 +1,3 @@
-import { Badge } from "@/registry/bases/base/ui/badge";
-import { Button } from "@/registry/bases/base/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/registry/bases/base/ui/card";
-import { Separator } from "@/registry/bases/base/ui/separator";
-import { Skeleton } from "@/registry/bases/base/ui/skeleton";
 import { cn } from "cn";
 import {
   ArrowDownRight,
@@ -25,8 +14,20 @@ import {
   Users,
 } from "lucide-react";
 
+import { Badge } from "@/registry/bases/base/ui/badge";
+import { Button } from "@/registry/bases/base/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/registry/bases/base/ui/card";
+import { Separator } from "@/registry/bases/base/ui/separator";
+import { Skeleton } from "@/registry/bases/base/ui/skeleton";
+
 const sideNav = [
-  { icon: LayoutDashboard, label: "Overview", active: true },
+  { active: true, icon: LayoutDashboard, label: "Overview" },
   { icon: FolderKanban, label: "Projects" },
   { icon: BarChart3, label: "Analytics" },
   { icon: Users, label: "Customers" },
@@ -35,22 +36,22 @@ const sideNav = [
 ];
 
 const kpis = [
-  { label: "Total revenue", value: "$84,254", delta: "+12.5%", up: true },
-  { label: "Active users", value: "9,412", delta: "+8.1%", up: true },
-  { label: "Conversion", value: "3.42%", delta: "-0.4%", up: false },
-  { label: "Open tickets", value: "17", delta: "-3", up: true },
+  { delta: "+12.5%", label: "Total revenue", up: true, value: "$84,254" },
+  { delta: "+8.1%", label: "Active users", up: true, value: "9,412" },
+  { delta: "-0.4%", label: "Conversion", up: false, value: "3.42%" },
+  { delta: "-3", label: "Open tickets", up: true, value: "17" },
 ];
 
 const recentRows = [
-  { name: "Acme Inc.", status: "Paid", amount: "$4,200", tone: "emerald" },
-  { name: "Globex", status: "Pending", amount: "$1,890", tone: "amber" },
-  { name: "Initech", status: "Paid", amount: "$2,340", tone: "emerald" },
-  { name: "Umbrella", status: "Overdue", amount: "$780", tone: "red" },
+  { amount: "$4,200", name: "Acme Inc.", status: "Paid", tone: "emerald" },
+  { amount: "$1,890", name: "Globex", status: "Pending", tone: "amber" },
+  { amount: "$2,340", name: "Initech", status: "Paid", tone: "emerald" },
+  { amount: "$780", name: "Umbrella", status: "Overdue", tone: "red" },
 ];
 
 const toneClass: Record<string, string> = {
-  emerald: "bg-emerald-500",
   amber: "bg-amber-400",
+  emerald: "bg-emerald-500",
   red: "bg-red-500",
 };
 
@@ -68,7 +69,10 @@ export function AppShell05() {
           </div>
           <span className="text-sm font-semibold">Kromm</span>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto p-2" aria-label="Primary">
+        <nav
+          className="flex-1 space-y-0.5 overflow-y-auto p-2"
+          aria-label="Primary"
+        >
           {sideNav.map((item) => (
             <a
               key={item.label}
@@ -99,7 +103,10 @@ export function AppShell05() {
       {/* Content */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-[50px] items-center gap-2 border-b border-border px-4">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm">
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-1 text-sm"
+          >
             <a
               href="#"
               className="text-muted-foreground transition-colors hover:text-foreground"

@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cn";
 import {
   HashIcon,
   ImageIcon,
@@ -11,7 +12,6 @@ import {
   SendIcon,
   SmileIcon,
 } from "lucide-react";
-import { cn } from "cn";
 import { useState } from "react";
 
 import { Badge } from "@/registry/bases/base/ui/badge";
@@ -19,99 +19,99 @@ import { Button } from "@/registry/bases/base/ui/button";
 import { Input } from "@/registry/bases/base/ui/input";
 import { Separator } from "@/registry/bases/base/ui/separator";
 
-type Conversation = {
+interface Conversation {
   id: string;
   name: string;
   preview: string;
   time: string;
   unread: number;
   initials: string;
-};
+}
 
-type Message = {
+interface Message {
   id: number;
   author: string;
   initials: string;
   text: string;
   time: string;
   mine: boolean;
-};
+}
 
 const conversations: Conversation[] = [
   {
     id: "c1",
+    initials: "EP",
     name: "Equipo Producto",
     preview: "Sí, subo el mock en un rato 👍",
     time: "10:42",
     unread: 2,
-    initials: "EP",
   },
   {
     id: "c2",
+    initials: "MG",
     name: "María Gómez",
     preview: "¿Revisaste el PR de ayer?",
     time: "09:18",
     unread: 0,
-    initials: "MG",
   },
   {
     id: "c3",
+    initials: "SC",
     name: "Soporte Clientes",
     preview: "Caso #4812 resuelto y cerrado",
     time: "Ayer",
     unread: 0,
-    initials: "SC",
   },
   {
     id: "c4",
+    initials: "AR",
     name: "Ana Ruiz",
     preview: "La demo del viernes queda confirmada",
     time: "Ayer",
     unread: 4,
-    initials: "AR",
   },
   {
     id: "c5",
+    initials: "#r",
     name: "Canal #releases",
     preview: "v2.4.0 publicada en producción",
     time: "Lun",
     unread: 0,
-    initials: "#r",
   },
 ];
 
 const initialMessages: Message[] = [
   {
-    id: 1,
     author: "María Gómez",
+    id: 1,
     initials: "MG",
+    mine: false,
     text: "Buenos días, ¿ya está lista la propuesta del nuevo flujo de onboarding?",
     time: "09:02",
-    mine: false,
   },
   {
-    id: 2,
     author: "Tú",
+    id: 2,
     initials: "TU",
+    mine: true,
     text: "Casi. Me falta ajustar el paso de verificación de correo, lo cierro esta mañana.",
     time: "09:07",
-    mine: true,
   },
   {
-    id: 3,
     author: "María Gómez",
+    id: 3,
     initials: "MG",
+    mine: false,
     text: "Perfecto. Cuando lo tengas, lo revisamos juntos antes de enseñarlo al equipo.",
     time: "09:09",
-    mine: false,
   },
   {
-    id: 4,
     author: "Tú",
+    id: 4,
     initials: "TU",
+    mine: true,
     text: "Hecho, acabo de subir los cambios a la rama `feat/onboarding-v2`.",
     time: "10:41",
-    mine: true,
   },
 ];
 
@@ -120,7 +120,8 @@ export function AppShell07() {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [draft, setDraft] = useState("");
 
-  const active = conversations.find((c) => c.id === activeId) ?? conversations[0];
+  const active =
+    conversations.find((c) => c.id === activeId) ?? conversations[0];
 
   const sendMessage = () => {
     const text = draft.trim();
@@ -130,12 +131,12 @@ export function AppShell07() {
     setMessages((prev) => [
       ...prev,
       {
-        id: prev.length + 1,
         author: "Tú",
+        id: prev.length + 1,
         initials: "TU",
+        mine: true,
         text,
         time: "ahora",
-        mine: true,
       },
     ]);
     setDraft("");
@@ -152,7 +153,12 @@ export function AppShell07() {
         <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <MessageSquareIcon className="size-4" /> Mensajes
         </span>
-        <Button size="icon-sm" variant="ghost" className="ml-auto" aria-label="Más opciones">
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          className="ml-auto"
+          aria-label="Más opciones"
+        >
           <MoreHorizontalIcon />
         </Button>
       </header>
@@ -162,13 +168,21 @@ export function AppShell07() {
         <aside className="hidden w-[280px] shrink-0 flex-col border-r border-border md:flex">
           <div className="flex items-center justify-between px-4 pt-4 pb-3">
             <h1 className="text-sm font-semibold">Conversaciones</h1>
-            <Button size="icon-xs" variant="outline" aria-label="Nueva conversación">
+            <Button
+              size="icon-xs"
+              variant="outline"
+              aria-label="Nueva conversación"
+            >
               <PlusIcon />
             </Button>
           </div>
           <div className="relative mx-3 mb-2">
             <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input id="app-shell-07-search" placeholder="Buscar…" className="h-8 rounded-lg pl-8 text-sm" />
+            <Input
+              id="app-shell-07-search"
+              placeholder="Buscar…"
+              className="h-8 rounded-lg pl-8 text-sm"
+            />
           </div>
           <div className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-2 pb-3">
             {conversations.map((conversation) => (
@@ -188,13 +202,22 @@ export function AppShell07() {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2">
-                    <span className="truncate text-sm font-medium">{conversation.name}</span>
-                    <span className="shrink-0 text-[11px] text-muted-foreground">{conversation.time}</span>
+                    <span className="truncate text-sm font-medium">
+                      {conversation.name}
+                    </span>
+                    <span className="shrink-0 text-[11px] text-muted-foreground">
+                      {conversation.time}
+                    </span>
                   </span>
                   <span className="mt-0.5 flex items-center justify-between gap-2">
-                    <span className="truncate text-xs text-muted-foreground">{conversation.preview}</span>
+                    <span className="truncate text-xs text-muted-foreground">
+                      {conversation.preview}
+                    </span>
                     {conversation.unread > 0 && (
-                      <Badge variant="default" className="size-5 shrink-0 rounded-full p-0 text-[10px]">
+                      <Badge
+                        variant="default"
+                        className="size-5 shrink-0 rounded-full p-0 text-[10px]"
+                      >
                         {conversation.unread}
                       </Badge>
                     )}
@@ -223,12 +246,20 @@ export function AppShell07() {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={cn("flex items-end gap-2.5", message.mine && "flex-row-reverse")}
+                className={cn(
+                  "flex items-end gap-2.5",
+                  message.mine && "flex-row-reverse"
+                )}
               >
                 <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-medium">
                   {message.initials}
                 </span>
-                <div className={cn("flex max-w-[70%] flex-col gap-1", message.mine && "items-end")}>
+                <div
+                  className={cn(
+                    "flex max-w-[70%] flex-col gap-1",
+                    message.mine && "items-end"
+                  )}
+                >
                   <div
                     className={cn(
                       "rounded-lg border border-border bg-muted px-3.5 py-2 text-sm leading-relaxed",
@@ -260,7 +291,11 @@ export function AppShell07() {
                 }}
                 className="h-8 flex-1 rounded-md border-0 shadow-none focus-visible:ring-0"
               />
-              <Button size="icon-sm" variant="ghost" aria-label="Adjuntar archivo">
+              <Button
+                size="icon-sm"
+                variant="ghost"
+                aria-label="Adjuntar archivo"
+              >
                 <PaperclipIcon />
               </Button>
               <Button size="icon-sm" variant="ghost" aria-label="Añadir imagen">
@@ -281,7 +316,8 @@ export function AppShell07() {
               </Button>
             </div>
             <p className="mt-2 flex items-center gap-1.5 px-1 text-[11px] text-muted-foreground">
-              <HashIcon className="size-3" /> Enter para enviar · Shift+Enter para salto de línea
+              <HashIcon className="size-3" /> Enter para enviar · Shift+Enter
+              para salto de línea
             </p>
           </div>
         </main>

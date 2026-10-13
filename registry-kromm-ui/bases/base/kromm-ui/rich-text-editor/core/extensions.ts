@@ -1,16 +1,15 @@
 import type { Extensions } from "@tiptap/core";
-import { Placeholder } from "@tiptap/extensions";
 import Highlight from "@tiptap/extension-highlight";
 import Mention from "@tiptap/extension-mention";
 import { TableKit } from "@tiptap/extension-table";
 import { TaskItem } from "@tiptap/extension-task-item";
 import { TaskList } from "@tiptap/extension-task-list";
+import { Placeholder } from "@tiptap/extensions";
 import { StarterKit } from "@tiptap/starter-kit";
 
 import type { RichTextEditorFeatures, RichTextMentionSource } from "./types";
 
-export interface CreateRichTextExtensionsOptions
-  extends RichTextEditorFeatures {
+export interface CreateRichTextExtensionsOptions extends RichTextEditorFeatures {
   /**
    * Placeholder shown on empty paragraphs. Rendered as
    * `.is-empty:before { content: attr(data-placeholder) }` by CSS.
@@ -59,7 +58,9 @@ export function createRichTextExtensions(
 
   if (tables) {
     extensions.push(
-      TableKit.configure({ table: { lastColumnResizable: true, resizable: true } })
+      TableKit.configure({
+        table: { lastColumnResizable: true, resizable: true },
+      })
     );
   }
 

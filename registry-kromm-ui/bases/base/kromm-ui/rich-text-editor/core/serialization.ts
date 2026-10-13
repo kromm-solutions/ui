@@ -1,8 +1,8 @@
 import type { Extensions, JSONContent } from "@tiptap/core";
 import { generateHTML, generateJSON } from "@tiptap/core";
 
-import type { RichTextValue } from "./types";
 import { createRichTextExtensions } from "./extensions";
+import type { RichTextValue } from "./types";
 
 /**
  * Server-safe serializers built on `generateHTML` / `generateJSON`,
@@ -14,9 +14,7 @@ export interface RichTextSerializationOptions {
   extensions?: Extensions;
 }
 
-function resolveExtensions(
-  options?: RichTextSerializationOptions
-): Extensions {
+function resolveExtensions(options?: RichTextSerializationOptions): Extensions {
   return [...createRichTextExtensions(), ...(options?.extensions ?? [])];
 }
 

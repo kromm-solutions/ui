@@ -1,10 +1,11 @@
-﻿import type { RegistryItem } from "shadcn/schema";
+import type { RegistryItem } from "shadcn/schema";
 import { z } from "zod";
+
+import fontsData from "@/registry/data/fonts.json";
 
 import { parseData } from "./parse";
 import { fontDefinitionSchema } from "./schemas";
 import type { FontDefinition } from "./schemas";
-import fontsData from "@/registry/data/fonts.json";
 
 const definitions = parseData(
   fontsData,

@@ -1,4 +1,4 @@
-﻿export { parseData } from "./parse";
+export { parseData } from "./parse";
 export {
   baseDefinitionSchema,
   cssVarsSchema,

@@ -1,9 +1,10 @@
-﻿import type { RegistryItem } from "shadcn/schema";
+import type { RegistryItem } from "shadcn/schema";
 import { z } from "zod";
+
+import basesData from "@/registry/data/bases.json";
 
 import { parseData } from "./parse";
 import { baseDefinitionSchema } from "./schemas";
-import basesData from "@/registry/data/bases.json";
 
 const bases = parseData(
   basesData,

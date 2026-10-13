@@ -1,3 +1,4 @@
+import { cn } from "cn";
 import {
   ArrowDownUpIcon,
   DownloadIcon,
@@ -12,35 +13,90 @@ import {
   StarIcon,
   Trash2Icon,
 } from "lucide-react";
-import { cn } from "cn";
 
 import { Badge } from "@/registry/bases/base/ui/badge";
 import { Button } from "@/registry/bases/base/ui/button";
 import { Input } from "@/registry/bases/base/ui/input";
-import { NativeSelect, NativeSelectOption } from "@/registry/bases/base/ui/native-select";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/registry/bases/base/ui/native-select";
 import { Separator } from "@/registry/bases/base/ui/separator";
 
-type MediaItem = {
+interface MediaItem {
   id: string;
   name: string;
   kind: "Imagen" | "Audio" | "Documento";
   size: string;
   updated: string;
   selected?: boolean;
-};
+}
 
 const items: MediaItem[] = [
-  { id: "m1", name: "portada-hero.webp", kind: "Imagen", size: "1.8 MB", updated: "hace 2 h", selected: true },
-  { id: "m2", name: "logos-clientes.svg", kind: "Imagen", size: "96 KB", updated: "ayer" },
-  { id: "m3", name: "jingle-intro.mp3", kind: "Audio", size: "3.1 MB", updated: "hace 3 días" },
-  { id: "m4", name: "guia-de-marca.pdf", kind: "Documento", size: "4.6 MB", updated: "hace 4 días" },
-  { id: "m5", name: "screenshot-flow.png", kind: "Imagen", size: "920 KB", updated: "hace 1 semana" },
-  { id: "m6", name: "podcast-ep07.mp3", kind: "Audio", size: "28 MB", updated: "hace 2 semanas" },
-  { id: "m7", name: "contrato-2026.docx", kind: "Documento", size: "120 KB", updated: "hace 2 semanas" },
-  { id: "m8", name: "iconos-app.webp", kind: "Imagen", size: "340 KB", updated: "hace 1 mes" },
+  {
+    id: "m1",
+    kind: "Imagen",
+    name: "portada-hero.webp",
+    selected: true,
+    size: "1.8 MB",
+    updated: "hace 2 h",
+  },
+  {
+    id: "m2",
+    kind: "Imagen",
+    name: "logos-clientes.svg",
+    size: "96 KB",
+    updated: "ayer",
+  },
+  {
+    id: "m3",
+    kind: "Audio",
+    name: "jingle-intro.mp3",
+    size: "3.1 MB",
+    updated: "hace 3 días",
+  },
+  {
+    id: "m4",
+    kind: "Documento",
+    name: "guia-de-marca.pdf",
+    size: "4.6 MB",
+    updated: "hace 4 días",
+  },
+  {
+    id: "m5",
+    kind: "Imagen",
+    name: "screenshot-flow.png",
+    size: "920 KB",
+    updated: "hace 1 semana",
+  },
+  {
+    id: "m6",
+    kind: "Audio",
+    name: "podcast-ep07.mp3",
+    size: "28 MB",
+    updated: "hace 2 semanas",
+  },
+  {
+    id: "m7",
+    kind: "Documento",
+    name: "contrato-2026.docx",
+    size: "120 KB",
+    updated: "hace 2 semanas",
+  },
+  {
+    id: "m8",
+    kind: "Imagen",
+    name: "iconos-app.webp",
+    size: "340 KB",
+    updated: "hace 1 mes",
+  },
 ];
 
-const kindIcon = { Imagen: ImageIcon, Audio: Music2Icon, Documento: FileTypeIcon };
+const kindIcon = {
+  Audio: Music2Icon,
+  Documento: FileTypeIcon,
+  Imagen: ImageIcon,
+};
 
 export function AppShell09() {
   const selected = items.find((item) => item.selected) ?? items[0];
@@ -56,7 +112,12 @@ export function AppShell09() {
         <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <LayoutPanelLeftIcon className="size-4" /> Biblioteca multimedia
         </span>
-        <Button size="icon-sm" variant="ghost" className="ml-auto" aria-label="Más opciones">
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          className="ml-auto"
+          aria-label="Más opciones"
+        >
           <MoreHorizontalIcon />
         </Button>
       </header>
@@ -70,10 +131,20 @@ export function AppShell09() {
         <div className="ml-auto flex items-center gap-2">
           <div className="relative hidden w-56 md:block">
             <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input id="app-shell-09-search" placeholder="Buscar archivos…" className="h-8 rounded-lg pl-8 text-sm" />
+            <Input
+              id="app-shell-09-search"
+              placeholder="Buscar archivos…"
+              className="h-8 rounded-lg pl-8 text-sm"
+            />
           </div>
-          <NativeSelect aria-label="Tipo de archivo" size="sm" defaultValue="todos">
-            <NativeSelectOption value="todos">Todos los tipos</NativeSelectOption>
+          <NativeSelect
+            aria-label="Tipo de archivo"
+            size="sm"
+            defaultValue="todos"
+          >
+            <NativeSelectOption value="todos">
+              Todos los tipos
+            </NativeSelectOption>
             <NativeSelectOption value="imagen">Imagen</NativeSelectOption>
             <NativeSelectOption value="audio">Audio</NativeSelectOption>
             <NativeSelectOption value="documento">Documento</NativeSelectOption>
@@ -109,13 +180,17 @@ export function AppShell09() {
                     </span>
                     <span className="flex w-full flex-col gap-1 p-2.5">
                       <span className="flex items-center justify-between gap-2">
-                        <span className="truncate text-sm font-medium">{item.name}</span>
+                        <span className="truncate text-sm font-medium">
+                          {item.name}
+                        </span>
                       </span>
                       <span className="flex items-center justify-between gap-2">
                         <Badge variant="secondary" className="rounded-full">
                           {item.kind}
                         </Badge>
-                        <span className="text-xs text-muted-foreground">{item.size}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {item.size}
+                        </span>
                       </span>
                     </span>
                   </button>
@@ -129,7 +204,11 @@ export function AppShell09() {
         <aside className="hidden w-[280px] shrink-0 flex-col gap-4 overflow-y-auto border-l border-border p-4 lg:flex">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Detalles</h2>
-            <Button size="icon-xs" variant="ghost" aria-label="Destacar archivo">
+            <Button
+              size="icon-xs"
+              variant="ghost"
+              aria-label="Destacar archivo"
+            >
               <StarIcon />
             </Button>
           </div>
@@ -151,7 +230,9 @@ export function AppShell09() {
             <div className="flex items-center justify-between">
               <dt className="text-muted-foreground">Subido por</dt>
               <dd className="flex items-center gap-1.5 font-medium">
-                <span className="flex size-5 items-center justify-center rounded-full bg-muted text-[9px]">MG</span>
+                <span className="flex size-5 items-center justify-center rounded-full bg-muted text-[9px]">
+                  MG
+                </span>
                 María Gómez
               </dd>
             </div>

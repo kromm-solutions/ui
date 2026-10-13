@@ -20,7 +20,6 @@ const richTextEditorFiles = [
   type: "registry:ui" as const,
 }));
 
-
 const signaturePadFiles = [
   "index.ts",
   "signature-pad.tsx",
@@ -53,12 +52,12 @@ export const ui: Registry["items"] = [
     type: "registry:ui",
   },
   {
-    name: "signature-pad",
-    title: "Signature Pad",
     description: "Create a canvas for users to draw signatures.",
-    type: "registry:ui",
-    registryDependencies: ["button"],
     files: signaturePadFiles,
+    name: "signature-pad",
+    registryDependencies: ["button"],
+    title: "Signature Pad",
+    type: "registry:ui",
   },
   {
     dependencies: ["motion"],
@@ -170,40 +169,21 @@ export const ui: Registry["items"] = [
     },
   },
   {
-    name: "rich-text-editor",
-    title: "Rich Text Editor",
-    description:
-      "Headless Tiptap editor with toolbar, bubble menu, task lists, tables, mentions and token-mapped highlights.",
-    type: "registry:ui",
-    dependencies: [
-      "@tiptap/core",
-      "@tiptap/react",
-      "@tiptap/pm",
-      "@tiptap/starter-kit",
-      "@tiptap/extensions",
-      "@tiptap/extension-highlight",
-      "@tiptap/extension-mention",
-      "@tiptap/extension-table",
-      "@tiptap/extension-task-item",
-      "@tiptap/extension-task-list",
-      "lucide-react",
-    ],
-    files: richTextEditorFiles,
     css: {
       "@layer components": {
         // Highlight colors are theme tokens, never hardcoded palette
         // classes, so every shadcn theme can restyle marks.
         "[data-slot=rich-text-editor]": {
-          "--highlight-yellow":
-            "light-dark(color-mix(in oklch, var(--chart-4) 35%, white 50%), color-mix(in oklch, var(--chart-4) 30%, transparent))",
-          "--highlight-green":
-            "light-dark(color-mix(in oklch, var(--chart-2) 35%, white 50%), color-mix(in oklch, var(--chart-2) 30%, transparent))",
           "--highlight-blue":
             "light-dark(color-mix(in oklch, var(--chart-1) 35%, white 50%), color-mix(in oklch, var(--chart-1) 30%, transparent))",
+          "--highlight-green":
+            "light-dark(color-mix(in oklch, var(--chart-2) 35%, white 50%), color-mix(in oklch, var(--chart-2) 30%, transparent))",
           "--highlight-pink":
             "light-dark(color-mix(in oklch, var(--chart-3) 35%, white 50%), color-mix(in oklch, var(--chart-3) 30%, transparent))",
           "--highlight-violet":
             "light-dark(color-mix(in oklch, var(--chart-5) 35%, white 50%), color-mix(in oklch, var(--chart-5) 30%, transparent))",
+          "--highlight-yellow":
+            "light-dark(color-mix(in oklch, var(--chart-4) 35%, white 50%), color-mix(in oklch, var(--chart-4) 30%, transparent))",
         },
         "[data-slot=rich-text-editor] mark": {
           background: "var(--highlight-yellow)",
@@ -242,17 +222,15 @@ export const ui: Registry["items"] = [
         },
         // Selection + node selection follow the ring/primary tokens.
         "[data-slot=rich-text-editor-content] ::selection": {
-          background:
-            "color-mix(in oklch, var(--primary) 15%, transparent)",
+          background: "color-mix(in oklch, var(--primary) 15%, transparent)",
         },
         "[data-slot=rich-text-editor-content] .ProseMirror-selectednode": {
+          "border-radius": "var(--radius-sm)",
           outline:
             "2px solid color-mix(in oklch, var(--ring) 50%, transparent)",
-          "border-radius": "var(--radius-sm)",
         },
         "[data-slot=rich-text-editor-content] .selectedCell::after": {
-          background:
-            "color-mix(in oklch, var(--primary) 10%, transparent)",
+          background: "color-mix(in oklch, var(--primary) 10%, transparent)",
           content: "''",
           inset: "0",
           "pointer-events": "none",
@@ -273,6 +251,25 @@ export const ui: Registry["items"] = [
         },
       },
     },
+    dependencies: [
+      "@tiptap/core",
+      "@tiptap/react",
+      "@tiptap/pm",
+      "@tiptap/starter-kit",
+      "@tiptap/extensions",
+      "@tiptap/extension-highlight",
+      "@tiptap/extension-mention",
+      "@tiptap/extension-table",
+      "@tiptap/extension-task-item",
+      "@tiptap/extension-task-list",
+      "lucide-react",
+    ],
+    description:
+      "Headless Tiptap editor with toolbar, bubble menu, task lists, tables, mentions and token-mapped highlights.",
+    files: richTextEditorFiles,
+    name: "rich-text-editor",
+    title: "Rich Text Editor",
+    type: "registry:ui",
   },
 ];
 

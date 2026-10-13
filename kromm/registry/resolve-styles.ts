@@ -1,9 +1,10 @@
-﻿import { z } from "zod";
+import { z } from "zod";
+
+import stylesData from "@/registry/data/styles.json";
 
 import { parseData } from "./parse";
 import { styleDefinitionSchema } from "./schemas";
 import type { StyleDefinition } from "./schemas";
-import stylesData from "@/registry/data/styles.json";
 
 const styles = parseData(
   stylesData,

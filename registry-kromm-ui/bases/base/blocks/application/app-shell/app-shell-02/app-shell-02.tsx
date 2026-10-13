@@ -1,7 +1,3 @@
-import { Badge } from "@/registry/bases/base/ui/badge";
-import { Button } from "@/registry/bases/base/ui/button";
-import { Separator } from "@/registry/bases/base/ui/separator";
-import { Skeleton } from "@/registry/bases/base/ui/skeleton";
 import { cn } from "cn";
 import {
   BarChart3,
@@ -16,8 +12,13 @@ import {
   Users,
 } from "lucide-react";
 
+import { Badge } from "@/registry/bases/base/ui/badge";
+import { Button } from "@/registry/bases/base/ui/button";
+import { Separator } from "@/registry/bases/base/ui/separator";
+import { Skeleton } from "@/registry/bases/base/ui/skeleton";
+
 const railItems = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
+  { active: true, icon: LayoutDashboard, label: "Dashboard" },
   { icon: FolderKanban, label: "Projects" },
   { icon: FileText, label: "Documents" },
   { icon: Users, label: "People" },
@@ -27,12 +28,12 @@ const railItems = [
 
 const sections = [
   {
-    title: "Favorites",
     items: ["Overview", "Release notes", "Design system"],
+    title: "Favorites",
   },
   {
-    title: "Dashboards",
     items: ["Growth Q3", "Churn analysis", "NPS tracker", "Infra health"],
+    title: "Dashboards",
   },
 ];
 
@@ -107,7 +108,10 @@ export function AppShell02() {
             <span>Filter…</span>
           </div>
         </div>
-        <nav className="flex-1 space-y-5 overflow-y-auto p-3" aria-label="Secondary">
+        <nav
+          className="flex-1 space-y-5 overflow-y-auto p-3"
+          aria-label="Secondary"
+        >
           {sections.map((section) => (
             <div key={section.title}>
               <p className="px-2 pb-1.5 text-xs font-medium text-muted-foreground">

@@ -1,42 +1,45 @@
 // Vendored from https://github.com/keenthemes/reui (MIT License)
 // Copyright (c) 2025 Keenthemes Inc
 
-"use client"
+"use client";
 
-import { RefObject, useEffect, useState } from "react"
+import type { RefObject } from "react";
+import { useEffect, useState } from "react";
 
 interface IUseScrollPositionProps {
-  targetRef?: RefObject<HTMLElement | Document | undefined> // Ref to the scrollable element
+  targetRef?: RefObject<HTMLElement | Document | undefined>; // Ref to the scrollable element
 }
 
 const useScrollPosition = ({
   targetRef,
 }: IUseScrollPositionProps = {}): number => {
-  const [scrollPosition, setScrollPosition] = useState<number>(0)
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   useEffect(() => {
     // If the ref is not provided or its current value is null, fall back to document
-    const target = targetRef?.current || document
-    const scrollable = target === document ? window : target
+    const target = targetRef?.current || document;
+    const scrollable = target === document ? window : target;
 
     const updatePosition = () => {
       // Determine if we're scrolling the document or a specific element
       const scrollY =
-        target === document ? window.scrollY : (target as HTMLElement).scrollTop
-      setScrollPosition(scrollY)
-    }
+        target === document
+          ? window.scrollY
+          : (target as HTMLElement).scrollTop;
+      setScrollPosition(scrollY);
+    };
 
-    scrollable.addEventListener("scroll", updatePosition)
+    scrollable.addEventListener("scroll", updatePosition);
 
     // Set the initial position
-    updatePosition()
+    updatePosition();
 
     return () => {
-      scrollable.removeEventListener("scroll", updatePosition)
-    }
-  }, [targetRef])
+      scrollable.removeEventListener("scroll", updatePosition);
+    };
+  }, [targetRef]);
 
-  return scrollPosition
-}
+  return scrollPosition;
+};
 
-export { useScrollPosition }
+export { useScrollPosition };

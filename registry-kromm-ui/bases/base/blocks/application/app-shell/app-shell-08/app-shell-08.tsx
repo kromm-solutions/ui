@@ -1,3 +1,4 @@
+import { cn } from "cn";
 import {
   CalendarIcon,
   LayoutGridIcon,
@@ -8,137 +9,136 @@ import {
   SearchIcon,
   SquareKanbanIcon,
 } from "lucide-react";
-import { cn } from "cn";
 
 import { Badge } from "@/registry/bases/base/ui/badge";
 import { Button } from "@/registry/bases/base/ui/button";
 import { Input } from "@/registry/bases/base/ui/input";
 import { Separator } from "@/registry/bases/base/ui/separator";
 
-type Task = {
+interface Task {
   id: string;
   title: string;
   labels: string[];
   comments: number;
   assignee: string;
   date: string;
-};
+}
 
-type Column = {
+interface Column {
   id: string;
   title: string;
   dot: string;
   tasks: Task[];
-};
+}
 
 const columns: Column[] = [
   {
-    id: "backlog",
-    title: "Backlog",
     dot: "bg-muted-foreground",
+    id: "backlog",
     tasks: [
       {
-        id: "KB-14",
-        title: "Definir métricas de éxito para Q4",
-        labels: ["Estrategia"],
-        comments: 2,
         assignee: "AR",
+        comments: 2,
         date: "12 oct",
+        id: "KB-14",
+        labels: ["Estrategia"],
+        title: "Definir métricas de éxito para Q4",
       },
       {
-        id: "KB-15",
-        title: "Auditoría de accesibilidad en el checkout",
-        labels: ["A11y", "Pagos"],
+        assignee: "DL",
         comments: 0,
-        assignee: "DL",
         date: "14 oct",
+        id: "KB-15",
+        labels: ["A11y", "Pagos"],
+        title: "Auditoría de accesibilidad en el checkout",
       },
       {
-        id: "KB-16",
-        title: "Investigar soporte de notificaciones push",
-        labels: ["Investigación"],
+        assignee: "PO",
         comments: 5,
-        assignee: "PO",
         date: "17 oct",
+        id: "KB-16",
+        labels: ["Investigación"],
+        title: "Investigar soporte de notificaciones push",
       },
     ],
+    title: "Backlog",
   },
   {
-    id: "en-curso",
-    title: "En curso",
     dot: "bg-amber-400",
+    id: "en-curso",
     tasks: [
       {
-        id: "KB-11",
-        title: "Rediseño del header de navegación",
-        labels: ["UI", "Producto"],
+        assignee: "MG",
         comments: 8,
-        assignee: "MG",
         date: "9 oct",
+        id: "KB-11",
+        labels: ["UI", "Producto"],
+        title: "Rediseño del header de navegación",
       },
       {
-        id: "KB-12",
-        title: "API de webhooks para integraciones",
-        labels: ["Backend"],
+        assignee: "AR",
         comments: 3,
-        assignee: "AR",
         date: "10 oct",
+        id: "KB-12",
+        labels: ["Backend"],
+        title: "API de webhooks para integraciones",
       },
     ],
+    title: "En curso",
   },
   {
-    id: "revision",
-    title: "En revisión",
     dot: "bg-sky-500",
+    id: "revision",
     tasks: [
       {
-        id: "KB-9",
-        title: "Formulario de edición de perfil",
-        labels: ["UI", "Forms"],
-        comments: 12,
         assignee: "DL",
+        comments: 12,
         date: "8 oct",
+        id: "KB-9",
+        labels: ["UI", "Forms"],
+        title: "Formulario de edición de perfil",
       },
       {
-        id: "KB-10",
-        title: "Telemetría de errores en tiempo real",
-        labels: ["Backend", "Analítica"],
-        comments: 1,
         assignee: "PO",
+        comments: 1,
         date: "11 oct",
+        id: "KB-10",
+        labels: ["Backend", "Analítica"],
+        title: "Telemetría de errores en tiempo real",
       },
     ],
+    title: "En revisión",
   },
   {
-    id: "hecho",
-    title: "Hecho",
     dot: "bg-emerald-500",
+    id: "hecho",
     tasks: [
       {
-        id: "KB-5",
-        title: "Página 404 con estado ilustrado",
-        labels: ["UI"],
-        comments: 4,
         assignee: "MG",
+        comments: 4,
         date: "3 oct",
+        id: "KB-5",
+        labels: ["UI"],
+        title: "Página 404 con estado ilustrado",
       },
       {
-        id: "KB-6",
-        title: "Migración de tokens a OKLCH",
-        labels: ["Diseño"],
-        comments: 7,
         assignee: "AR",
+        comments: 7,
         date: "1 oct",
+        id: "KB-6",
+        labels: ["Diseño"],
+        title: "Migración de tokens a OKLCH",
       },
       {
-        id: "KB-7",
-        title: "Configurar CI para el registry",
-        labels: ["DevOps"],
-        comments: 2,
         assignee: "PO",
+        comments: 2,
         date: "30 sep",
+        id: "KB-7",
+        labels: ["DevOps"],
+        title: "Configurar CI para el registry",
       },
     ],
+    title: "Hecho",
   },
 ];
 
@@ -154,7 +154,12 @@ export function AppShell08() {
         <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <SquareKanbanIcon className="size-4" /> Tablero de producto
         </span>
-        <Button size="icon-sm" variant="ghost" className="ml-auto" aria-label="Más opciones">
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          className="ml-auto"
+          aria-label="Más opciones"
+        >
           <MoreHorizontalIcon />
         </Button>
       </header>
@@ -169,7 +174,11 @@ export function AppShell08() {
         <div className="ml-auto flex items-center gap-2">
           <div className="relative hidden w-56 sm:block">
             <SearchIcon className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input id="app-shell-08-search" placeholder="Buscar tarea…" className="h-8 rounded-lg pl-8 text-sm" />
+            <Input
+              id="app-shell-08-search"
+              placeholder="Buscar tarea…"
+              className="h-8 rounded-lg pl-8 text-sm"
+            />
           </div>
           <Button size="sm" variant="outline">
             <ListFilterIcon /> Filtros
@@ -194,7 +203,12 @@ export function AppShell08() {
               <Badge variant="secondary" className="rounded-full">
                 {column.tasks.length}
               </Badge>
-              <Button size="icon-xs" variant="ghost" className="ml-auto" aria-label={`Añadir tarea en ${column.title}`}>
+              <Button
+                size="icon-xs"
+                variant="ghost"
+                className="ml-auto"
+                aria-label={`Añadir tarea en ${column.title}`}
+              >
                 <PlusIcon />
               </Button>
             </div>
@@ -205,14 +219,24 @@ export function AppShell08() {
                   className="flex flex-col gap-2.5 rounded-lg border border-border bg-card p-3 shadow-sm"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm leading-snug font-medium">{task.title}</p>
-                    <Button size="icon-xs" variant="ghost" aria-label="Opciones de tarea">
+                    <p className="text-sm leading-snug font-medium">
+                      {task.title}
+                    </p>
+                    <Button
+                      size="icon-xs"
+                      variant="ghost"
+                      aria-label="Opciones de tarea"
+                    >
                       <MoreHorizontalIcon />
                     </Button>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {task.labels.map((label) => (
-                      <Badge key={label} variant="secondary" className="rounded-full">
+                      <Badge
+                        key={label}
+                        variant="secondary"
+                        className="rounded-full"
+                      >
                         {label}
                       </Badge>
                     ))}

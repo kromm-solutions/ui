@@ -47,7 +47,8 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ComponentProps<typeof ButtonPrimitive>,
+  extends
+    React.ComponentProps<typeof ButtonPrimitive>,
     VariantProps<typeof buttonVariants> {
   /** Render the button styles on the child element instead of a <button>. */
   asChild?: boolean;
@@ -80,7 +81,7 @@ const Button = ({
 
     return cloneElement(child, {
       className: cn(
-        buttonVariants({ variant, size }),
+        buttonVariants({ size, variant }),
         className,
         child.props.className
       ),

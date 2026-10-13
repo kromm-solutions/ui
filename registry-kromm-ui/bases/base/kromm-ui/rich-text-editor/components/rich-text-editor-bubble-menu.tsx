@@ -39,7 +39,7 @@ export function RichTextEditorBubbleMenu({
       return;
     }
 
-    const view = editor.view;
+    const { view } = editor;
     const { from, to } = view.state.selection;
     const start = view.coordsAtPos(from);
     const end = view.coordsAtPos(to);

@@ -27,16 +27,11 @@ export function RichTextEditorBlockHandle({
   } | null>(null);
 
   React.useEffect(() => {
-    if (
-      !editor ||
-      !features.blockHandle ||
-      readOnly ||
-      disabled
-    ) {
+    if (!editor || !features.blockHandle || readOnly || disabled) {
       return;
     }
 
-    const dom = editor.view.dom;
+    const { dom } = editor.view;
 
     const handleMouseMove = (event: MouseEvent) => {
       const pos = editor.view.posAtCoords({

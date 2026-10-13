@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "cn";
 import { EditorContent } from "@tiptap/react";
+import { cn } from "cn";
 import * as React from "react";
 
 import { useRichTextEditor } from "./rich-text-editor-context";

@@ -1,7 +1,3 @@
-import { Badge } from "@/registry/bases/base/ui/badge";
-import { Button } from "@/registry/bases/base/ui/button";
-import { Separator } from "@/registry/bases/base/ui/separator";
-import { Skeleton } from "@/registry/bases/base/ui/skeleton";
 import { cn } from "cn";
 import {
   Calendar,
@@ -17,9 +13,14 @@ import {
   Users,
 } from "lucide-react";
 
+import { Badge } from "@/registry/bases/base/ui/badge";
+import { Button } from "@/registry/bases/base/ui/button";
+import { Separator } from "@/registry/bases/base/ui/separator";
+import { Skeleton } from "@/registry/bases/base/ui/skeleton";
+
 const nav = [
   { icon: LayoutDashboard, label: "Home" },
-  { icon: Inbox, label: "Inbox", active: true, badge: "8" },
+  { active: true, badge: "8", icon: Inbox, label: "Inbox" },
   { icon: FolderKanban, label: "Projects" },
   { icon: FileText, label: "Docs" },
   { icon: Users, label: "Members" },
@@ -27,10 +28,10 @@ const nav = [
 ];
 
 const activity = [
-  { who: "AK", text: "commented on Invoice #1042", time: "2m" },
-  { who: "MR", text: "moved card to Review", time: "18m" },
-  { who: "JD", text: "created project Delta", time: "1h" },
-  { who: "SP", text: "closed incident #87", time: "3h" },
+  { text: "commented on Invoice #1042", time: "2m", who: "AK" },
+  { text: "moved card to Review", time: "18m", who: "MR" },
+  { text: "created project Delta", time: "1h", who: "JD" },
+  { text: "closed incident #87", time: "3h", who: "SP" },
 ];
 
 export function AppShell03() {
@@ -56,7 +57,10 @@ export function AppShell03() {
             </kbd>
           </div>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto p-3" aria-label="Primary">
+        <nav
+          className="flex-1 space-y-0.5 overflow-y-auto p-3"
+          aria-label="Primary"
+        >
           {nav.map((item) => (
             <a
               key={item.label}

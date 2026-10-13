@@ -1,14 +1,3 @@
-import { Badge } from "@/registry/bases/base/ui/badge";
-import { Button } from "@/registry/bases/base/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/registry/bases/base/ui/card";
-import { Separator } from "@/registry/bases/base/ui/separator";
-import { Skeleton } from "@/registry/bases/base/ui/skeleton";
 import { cn } from "cn";
 import {
   BarChart3,
@@ -22,9 +11,21 @@ import {
   Users,
 } from "lucide-react";
 
+import { Badge } from "@/registry/bases/base/ui/badge";
+import { Button } from "@/registry/bases/base/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/registry/bases/base/ui/card";
+import { Separator } from "@/registry/bases/base/ui/separator";
+import { Skeleton } from "@/registry/bases/base/ui/skeleton";
+
 const mainNav = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
-  { icon: FolderKanban, label: "Projects", badge: "12" },
+  { active: true, icon: LayoutDashboard, label: "Dashboard" },
+  { badge: "12", icon: FolderKanban, label: "Projects" },
   { icon: BarChart3, label: "Analytics" },
   { icon: Users, label: "Team" },
 ];
@@ -36,22 +37,22 @@ const workspaceNav = [
 
 const cards = [
   {
-    title: "Active deployments",
     description: "Last 24 hours",
-    value: "128",
+    title: "Active deployments",
     trend: "+12%",
+    value: "128",
   },
   {
-    title: "Open incidents",
     description: "Across all services",
-    value: "3",
+    title: "Open incidents",
     trend: "-2",
+    value: "3",
   },
   {
-    title: "Team members",
     description: "With access",
-    value: "24",
+    title: "Team members",
     trend: "+4",
+    value: "24",
   },
 ];
 

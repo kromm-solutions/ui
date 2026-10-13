@@ -23,10 +23,10 @@ import {
 const mainNav = ["Products", "Solutions", "Docs", "Pricing"];
 
 const tabItems = [
-  { value: "overview", label: "Overview" },
-  { value: "analytics", label: "Analytics" },
-  { value: "reports", label: "Reports" },
-  { value: "notifications", label: "Notifications", badge: "4" },
+  { label: "Overview", value: "overview" },
+  { label: "Analytics", value: "analytics" },
+  { label: "Reports", value: "reports" },
+  { badge: "4", label: "Notifications", value: "notifications" },
 ];
 
 function TabSkeleton({ className }: { className: string }) {

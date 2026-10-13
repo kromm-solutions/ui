@@ -1,3 +1,2 @@
-export { SignaturePad } from './signature-pad';
-export { SignaturePadCanvas } from './signature-pad-canvas';
-
+export { SignaturePad } from "./signature-pad";
+export { SignaturePadCanvas } from "./signature-pad-canvas";

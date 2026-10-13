@@ -27,19 +27,28 @@ export function SignaturePadCanvas({
 
   const animationFrame = React.useRef<number | null>(null);
 
-  const drawSegment = React.useCallback((canvasEl: HTMLCanvasElement, from: ReturnType<typeof getCanvasPoint>, to: ReturnType<typeof getCanvasPoint>) => {
-    const ctx = canvasEl.getContext("2d");
-    if (!ctx) return;
-    const rect = canvasEl.getBoundingClientRect();
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.strokeStyle = pen.color;
-    ctx.lineWidth = pen.width;
-    ctx.beginPath();
-    ctx.moveTo(from.x * rect.width, from.y * rect.height);
-    ctx.lineTo(to.x * rect.width, to.y * rect.height);
-    ctx.stroke();
-  }, [pen]);
+  const drawSegment = React.useCallback(
+    (
+      canvasEl: HTMLCanvasElement,
+      from: ReturnType<typeof getCanvasPoint>,
+      to: ReturnType<typeof getCanvasPoint>
+    ) => {
+      const ctx = canvasEl.getContext("2d");
+      if (!ctx) {
+        return;
+      }
+      const rect = canvasEl.getBoundingClientRect();
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = pen.color;
+      ctx.lineWidth = pen.width;
+      ctx.beginPath();
+      ctx.moveTo(from.x * rect.width, from.y * rect.height);
+      ctx.lineTo(to.x * rect.width, to.y * rect.height);
+      ctx.stroke();
+    },
+    [pen]
+  );
 
   React.useEffect(() => {
     const canvas = canvasRef.current;

@@ -17,8 +17,8 @@ import { transformers } from "@/lib/highlight-code";
  */
 const docsFrontmatterSchema = frontmatterSchema.extend({
   date: z.union([z.string(), z.date()]).optional(),
-  version: z.string().optional(),
   tags: z.array(z.string()).optional(),
+  version: z.string().optional(),
 });
 
 export default defineConfig({

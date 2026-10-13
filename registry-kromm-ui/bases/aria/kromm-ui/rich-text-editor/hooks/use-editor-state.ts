@@ -61,40 +61,39 @@ export function useRichTextEditorState(
 ): RichTextEditorState {
   return (
     useEditorState({
-    editor,
-    selector: (ctx) => {
-      if (!ctx.editor) {
-        return EMPTY_STATE;
-      }
+      editor,
+      selector: (ctx) => {
+        if (!ctx.editor) {
+          return EMPTY_STATE;
+        }
 
-      const e = ctx.editor;
-      const { empty, from, to } = e.state.selection;
+        const e = ctx.editor;
+        const { empty, from, to } = e.state.selection;
 
-      return {
-        blockquote: e.isActive("blockquote"),
-        bold: e.isActive("bold"),
-        bulletList: e.isActive("bulletList"),
-        canRedo: e.can().redo(),
-        canUndo: e.can().undo(),
-        code: e.isActive("code"),
-        codeBlock: e.isActive("codeBlock"),
-        heading1: e.isActive("heading", { level: 1 }),
-        heading2: e.isActive("heading", { level: 2 }),
-        heading3: e.isActive("heading", { level: 3 }),
-        highlightColor:
-          (e.getAttributes("highlight").color as string | undefined) ?? null,
-        isSelectionEmpty: empty,
-        italic: e.isActive("italic"),
-        link: e.isActive("link"),
-        orderedList: e.isActive("orderedList"),
-        selectionFrom: from,
-        selectionTo: to,
-        strike: e.isActive("strike"),
-        taskList: e.isActive("taskList"),
-        underline: e.isActive("underline"),
-      };
-    },
-    })
-    ?? EMPTY_STATE
+        return {
+          blockquote: e.isActive("blockquote"),
+          bold: e.isActive("bold"),
+          bulletList: e.isActive("bulletList"),
+          canRedo: e.can().redo(),
+          canUndo: e.can().undo(),
+          code: e.isActive("code"),
+          codeBlock: e.isActive("codeBlock"),
+          heading1: e.isActive("heading", { level: 1 }),
+          heading2: e.isActive("heading", { level: 2 }),
+          heading3: e.isActive("heading", { level: 3 }),
+          highlightColor:
+            (e.getAttributes("highlight").color as string | undefined) ?? null,
+          isSelectionEmpty: empty,
+          italic: e.isActive("italic"),
+          link: e.isActive("link"),
+          orderedList: e.isActive("orderedList"),
+          selectionFrom: from,
+          selectionTo: to,
+          strike: e.isActive("strike"),
+          taskList: e.isActive("taskList"),
+          underline: e.isActive("underline"),
+        };
+      },
+    }) ?? EMPTY_STATE
   );
 }

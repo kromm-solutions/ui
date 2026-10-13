@@ -34,8 +34,9 @@ const TabsList = ({
   />
 );
 
-export interface TabsTriggerProps
-  extends React.ComponentProps<typeof TabsPrimitive.Tab> {
+export interface TabsTriggerProps extends React.ComponentProps<
+  typeof TabsPrimitive.Tab
+> {
   /** Optional audio/haptic feedback sound played on select. */
   sound?: FeedbackType;
 }

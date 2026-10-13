@@ -17,43 +17,59 @@ import {
 } from "@/registry-kromm-ui/bases/base/kromm-ui/rich-text-editor";
 
 const initialDocument: NonNullable<RichTextValue> = {
-  type: "doc",
   content: [
     {
-      type: "heading",
       attrs: { level: 1 },
-      content: [{ type: "text", text: "Escalation Playbook" }],
-    },
-    {
-      type: "paragraph",
-      content: [
-        { type: "text", text: "How support hands a problem to engineering. Owned by " },
-        { type: "mention", attrs: { id: "usr_daniel", label: "Daniel Okafor" } },
-        { type: "text", text: "." },
-      ],
-    },
-    {
+      content: [{ text: "Escalation Playbook", type: "text" }],
       type: "heading",
-      attrs: { level: 2 },
-      content: [{ type: "text", text: "When to Escalate" }],
     },
     {
-      type: "taskList",
       content: [
         {
-          type: "taskItem",
-          attrs: { checked: true },
-          content: [{ type: "paragraph", content: [{ type: "text", text: "Tag the ticket with its tier" }] }],
+          text: "How support hands a problem to engineering. Owned by ",
+          type: "text",
         },
         {
+          attrs: { id: "usr_daniel", label: "Daniel Okafor" },
+          type: "mention",
+        },
+        { text: ".", type: "text" },
+      ],
+      type: "paragraph",
+    },
+    {
+      attrs: { level: 2 },
+      content: [{ text: "When to Escalate", type: "text" }],
+      type: "heading",
+    },
+    {
+      content: [
+        {
+          attrs: { checked: true },
+          content: [
+            {
+              type: "paragraph",
+              content: [{ type: "text", text: "Tag the ticket with its tier" }],
+            },
+          ],
           type: "taskItem",
+        },
+        {
           attrs: { checked: false },
-          content: [{ type: "paragraph", content: [{ type: "text", text: "Paste the search diagnostics" }] }],
+          content: [
+            {
+              type: "paragraph",
+              content: [{ type: "text", text: "Paste the search diagnostics" }],
+            },
+          ],
+          type: "taskItem",
         },
       ],
+      type: "taskList",
     },
     { type: "horizontalRule" },
   ],
+  type: "doc",
 };
 
 const mentionSource = (query: string): RichTextMentionItem[] => {
@@ -69,20 +85,27 @@ const mentionSource = (query: string): RichTextMentionItem[] => {
 
 function HighlightControls() {
   const { editor } = useRichTextEditor();
-  if (!editor) return null;
+  if (!editor) {
+    return null;
+  }
   return (
     <RichTextEditorToolbarGroup>
-      {(["yellow","green","blue","pink","violet"] as const).map((color) => (
+      {(["yellow", "green", "blue", "pink", "violet"] as const).map((color) => (
         <button
           aria-label={`Highlight ${color}`}
           className="size-6 rounded-full border"
           key={color}
-          onClick={() => editor.chain().focus().toggleHighlight({ color }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHighlight({ color }).run()
+          }
           style={{ background: `var(--highlight-${color})` }}
           type="button"
         />
       ))}
-      <RichTextEditorToolbarButton aria-label="Remove highlight" command="unsetHighlights" />
+      <RichTextEditorToolbarButton
+        aria-label="Remove highlight"
+        command="unsetHighlights"
+      />
     </RichTextEditorToolbarGroup>
   );
 }
@@ -91,7 +114,12 @@ export function RichTextEditorFull() {
   const [doc, setDoc] = React.useState<RichTextValue>(initialDocument);
   return (
     <div className="w-full max-w-2xl space-y-3">
-      <RichTextEditor ariaLabel="Playbook page" mentionItems={mentionSource} onValueChange={setDoc} value={doc}>
+      <RichTextEditor
+        ariaLabel="Playbook page"
+        mentionItems={mentionSource}
+        onValueChange={setDoc}
+        value={doc}
+      >
         <RichTextEditorToolbar>
           <RichTextEditorToolbarGroup>
             <RichTextEditorToolbarButton aria-label="Undo" command="undo" />
@@ -101,14 +129,19 @@ export function RichTextEditorFull() {
           <RichTextEditorToolbarGroup>
             <RichTextEditorToolbarButton aria-label="Bold" command="bold" />
             <RichTextEditorToolbarButton aria-label="Italic" command="italic" />
-            <RichTextEditorToolbarButton aria-label="Heading 2" command="heading2" />
+            <RichTextEditorToolbarButton
+              aria-label="Heading 2"
+              command="heading2"
+            />
           </RichTextEditorToolbarGroup>
           <RichTextEditorToolbarSeparator />
           <HighlightControls />
         </RichTextEditorToolbar>
         <RichTextEditorContent />
       </RichTextEditor>
-      <p className="text-muted-foreground text-xs">Controlled: {doc ? JSON.stringify(doc).length : 0} bytes of JSON.</p>
+      <p className="text-muted-foreground text-xs">
+        Controlled: {doc ? JSON.stringify(doc).length : 0} bytes of JSON.
+      </p>
     </div>
   );
 }

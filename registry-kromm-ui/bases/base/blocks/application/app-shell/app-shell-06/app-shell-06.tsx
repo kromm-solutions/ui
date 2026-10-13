@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cn";
 import {
   ArrowUpRightIcon,
   CircleCheckIcon,
@@ -9,16 +10,20 @@ import {
   SearchIcon,
   TagIcon,
 } from "lucide-react";
-import { cn } from "cn";
 import { useState } from "react";
 
 import { Badge } from "@/registry/bases/base/ui/badge";
 import { Button } from "@/registry/bases/base/ui/button";
 import { Input } from "@/registry/bases/base/ui/input";
 import { Separator } from "@/registry/bases/base/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/registry/bases/base/ui/tabs";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/registry/bases/base/ui/tabs";
 
-type Record = {
+interface Record {
   id: string;
   title: string;
   company: string;
@@ -29,80 +34,95 @@ type Record = {
   updated: string;
   tags: string[];
   description: string;
-};
+}
 
 const records: Record[] = [
   {
-    id: "RC-1021",
-    title: "Migración a la nueva API de pagos",
     company: "Northwind Labs",
+    description:
+      "Sustituir el procesador de pagos legacy por la nueva API unificada. Incluye reconciliación de facturas históricas y soporte multi-moneda.",
+    id: "RC-1021",
     owner: "María Gómez",
     ownerInitials: "MG",
     status: "Activo",
-    value: "$48,200",
-    updated: "hace 12 min",
     tags: ["Pagos", "Backend"],
-    description:
-      "Sustituir el procesador de pagos legacy por la nueva API unificada. Incluye reconciliación de facturas históricas y soporte multi-moneda.",
+    title: "Migración a la nueva API de pagos",
+    updated: "hace 12 min",
+    value: "$48,200",
   },
   {
-    id: "RC-1020",
-    title: "Rediseño del onboarding de clientes",
     company: "Acme Corp",
+    description:
+      "Nuevo flujo de alta en tres pasos con verificación de correo, wizard de datos de empresa y asignación automática de plan.",
+    id: "RC-1020",
     owner: "Diego Lara",
     ownerInitials: "DL",
     status: "Pendiente",
-    value: "$31,500",
-    updated: "hace 1 h",
     tags: ["Producto", "UX"],
-    description:
-      "Nuevo flujo de alta en tres pasos con verificación de correo, wizard de datos de empresa y asignación automática de plan.",
+    title: "Rediseño del onboarding de clientes",
+    updated: "hace 1 h",
+    value: "$31,500",
   },
   {
-    id: "RC-1019",
-    title: "Integración con CRM externo",
     company: "Globex",
+    description:
+      "Sincronización bidireccional de contactos y oportunidades. Pendiente de resolver conflictos de esquema con campos personalizados.",
+    id: "RC-1019",
     owner: "Ana Ruiz",
     ownerInitials: "AR",
     status: "Riesgo",
-    value: "$72,900",
-    updated: "hace 3 h",
     tags: ["Integraciones"],
-    description:
-      "Sincronización bidireccional de contactos y oportunidades. Pendiente de resolver conflictos de esquema con campos personalizados.",
+    title: "Integración con CRM externo",
+    updated: "hace 3 h",
+    value: "$72,900",
   },
   {
-    id: "RC-1018",
-    title: "Informe trimestral de retención",
     company: "Initech",
+    description:
+      "Dashboard de churn por cohortes con exportación a CSV y alertas automáticas cuando la retención baja del umbral.",
+    id: "RC-1018",
     owner: "Pablo Ortiz",
     ownerInitials: "PO",
     status: "Activo",
-    value: "$12,100",
-    updated: "ayer",
     tags: ["Analítica"],
-    description:
-      "Dashboard de churn por cohortes con exportación a CSV y alertas automáticas cuando la retención baja del umbral.",
+    title: "Informe trimestral de retención",
+    updated: "ayer",
+    value: "$12,100",
   },
   {
-    id: "RC-1017",
-    title: "Automatización de facturación anual",
     company: "Umbrella Inc.",
+    description:
+      "Facturación anual con prorrateo, recordatorios de renovación y portal de autoservicio para actualizar métodos de pago.",
+    id: "RC-1017",
     owner: "María Gómez",
     ownerInitials: "MG",
     status: "Pendiente",
-    value: "$25,400",
-    updated: "ayer",
     tags: ["Pagos", "Automatización"],
-    description:
-      "Facturación anual con prorrateo, recordatorios de renovación y portal de autoservicio para actualizar métodos de pago.",
+    title: "Automatización de facturación anual",
+    updated: "ayer",
+    value: "$25,400",
   },
 ];
 
 const activity = [
-  { who: "María Gómez", initials: "MG", text: "actualizó el estado a Activo", time: "hace 12 min" },
-  { who: "Diego Lara", initials: "DL", text: "añadió un comentario interno", time: "hace 42 min" },
-  { who: "Ana Ruiz", initials: "AR", text: "subió el documento de alcance", time: "hace 2 h" },
+  {
+    initials: "MG",
+    text: "actualizó el estado a Activo",
+    time: "hace 12 min",
+    who: "María Gómez",
+  },
+  {
+    initials: "DL",
+    text: "añadió un comentario interno",
+    time: "hace 42 min",
+    who: "Diego Lara",
+  },
+  {
+    initials: "AR",
+    text: "subió el documento de alcance",
+    time: "hace 2 h",
+    who: "Ana Ruiz",
+  },
 ];
 
 const files = [
@@ -165,12 +185,23 @@ export function AppShell06() {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <span className={cn("size-1.5 shrink-0 rounded-full", statusDot[record.status])} />
-                  <span className="min-w-0 flex-1 truncate text-sm font-medium">{record.title}</span>
-                  <span className="shrink-0 text-xs text-muted-foreground">{record.id}</span>
+                  <span
+                    className={cn(
+                      "size-1.5 shrink-0 rounded-full",
+                      statusDot[record.status]
+                    )}
+                  />
+                  <span className="min-w-0 flex-1 truncate text-sm font-medium">
+                    {record.title}
+                  </span>
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {record.id}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="truncate text-xs text-muted-foreground">{record.company}</span>
+                  <span className="truncate text-xs text-muted-foreground">
+                    {record.company}
+                  </span>
                   <span className="text-xs font-medium">{record.value}</span>
                 </div>
               </button>
@@ -183,15 +214,23 @@ export function AppShell06() {
           <div className="flex items-start justify-between gap-4 border-b border-border px-6 py-4">
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h2 className="truncate text-base font-semibold">{selected.title}</h2>
+                <h2 className="truncate text-base font-semibold">
+                  {selected.title}
+                </h2>
                 <ArrowUpRightIcon className="size-4 shrink-0 text-muted-foreground" />
               </div>
               <p className="mt-1 text-sm text-muted-foreground">
-                {selected.id} · {selected.company} · Actualizado {selected.updated}
+                {selected.id} · {selected.company} · Actualizado{" "}
+                {selected.updated}
               </p>
             </div>
             <Badge variant="outline" className="gap-1.5 rounded-full">
-              <span className={cn("size-1.5 rounded-full", statusDot[selected.status])} />
+              <span
+                className={cn(
+                  "size-1.5 rounded-full",
+                  statusDot[selected.status]
+                )}
+              />
               {selected.status}
             </Badge>
           </div>
@@ -220,7 +259,11 @@ export function AppShell06() {
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {selected.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="rounded-full">
+                      <Badge
+                        key={tag}
+                        variant="secondary"
+                        className="rounded-full"
+                      >
                         {tag}
                       </Badge>
                     ))}
@@ -240,7 +283,9 @@ export function AppShell06() {
                     <span className="flex size-6 items-center justify-center rounded-full bg-muted text-[10px] font-medium">
                       {selected.ownerInitials}
                     </span>
-                    <span className="text-sm font-medium">{selected.owner}</span>
+                    <span className="text-sm font-medium">
+                      {selected.owner}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -256,9 +301,13 @@ export function AppShell06() {
                     <div>
                       <p className="text-sm">
                         <span className="font-medium">{item.who}</span>{" "}
-                        <span className="text-muted-foreground">{item.text}</span>
+                        <span className="text-muted-foreground">
+                          {item.text}
+                        </span>
                       </p>
-                      <p className="text-xs text-muted-foreground">{item.time}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {item.time}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -274,7 +323,9 @@ export function AppShell06() {
                   >
                     <FileTextIcon className="size-4 text-muted-foreground" />
                     <span className="flex-1 truncate text-sm">{file.name}</span>
-                    <span className="text-xs text-muted-foreground">{file.size}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {file.size}
+                    </span>
                   </li>
                 ))}
               </ul>

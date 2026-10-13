@@ -50,13 +50,12 @@ const EXAMPLES = [
 export default defineConfig([
   {
     files: [...PRIMITIVES, ...EXAMPLES],
-    linterOptions: LINTER_OPTIONS,
     languageOptions: {
       parser: tsParser,
       parserOptions: { ecmaFeatures: { jsx: true }, sourceType: "module" },
     },
+    linterOptions: LINTER_OPTIONS,
     plugins: { shadcn },
-    settings: { shadcn: settings },
     rules: designSystemRules({
       allowUnknown: RESERVED,
       overrides: {
@@ -64,6 +63,7 @@ export default defineConfig([
         "shadcn/no-restyle": "off",
       },
     }),
+    settings: { shadcn: settings },
   },
 
   // Examples/blocks CONSUME the design system, so component ownership applies.
@@ -81,9 +81,9 @@ export default defineConfig([
   {
     files: PRIMITIVES,
     rules: {
-      "shadcn/no-restyle": "off",
       "shadcn/no-arbitrary-values": "off",
       "shadcn/no-inline-styles": "off",
+      "shadcn/no-restyle": "off",
     },
   },
 ]);

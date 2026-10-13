@@ -1,40 +1,42 @@
 // Vendored from https://github.com/keenthemes/reui (MIT License)
 // Copyright (c) 2025 Keenthemes Inc
 
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 
 export function useCopyToClipboard({
   timeout = 2000,
   onCopy,
 }: {
-  timeout?: number
-  onCopy?: () => void
+  timeout?: number;
+  onCopy?: () => void;
 } = {}) {
-  const [isCopied, setIsCopied] = useState(false)
+  const [isCopied, setIsCopied] = useState(false);
 
   const copyToClipboard = (value: string) => {
     if (typeof window === "undefined" || !navigator.clipboard.writeText) {
-      return
+      return;
     }
 
-    if (!value) return
+    if (!value) {
+      return;
+    }
 
     navigator.clipboard.writeText(value).then(() => {
-      setIsCopied(true)
+      setIsCopied(true);
 
       if (onCopy) {
-        onCopy()
+        onCopy();
       }
 
       if (timeout !== 0) {
         setTimeout(() => {
-          setIsCopied(false)
-        }, timeout)
+          setIsCopied(false);
+        }, timeout);
       }
-    }, console.error)
-  }
+    }, console.error);
+  };
 
-  return { isCopied, copyToClipboard }
+  return { copyToClipboard, isCopied };
 }

@@ -1,6 +1,13 @@
 "use client";
 
-import { SignaturePad, SignaturePadCanvas, SignaturePadActions, SignaturePadAction, SignaturePadUndo, SignaturePadClear } from "../index";
+import {
+  SignaturePad,
+  SignaturePadCanvas,
+  SignaturePadActions,
+  SignaturePadAction,
+  SignaturePadUndo,
+  SignaturePadClear,
+} from "../index";
 
 export function SignaturePadFormBlock() {
   return (

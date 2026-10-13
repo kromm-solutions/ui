@@ -6,9 +6,9 @@ import { SignaturePadFormPattern } from "./patterns/signature-pad-form-pattern";
 
 export const patterns = [
   {
+    Component: SignaturePadFormPattern,
+    description: "Patrón compuesto con SignaturePad + acciones absolutas",
     id: "signature-pad-form",
     title: "Signature Pad Form",
-    description: "Patrón compuesto con SignaturePad + acciones absolutas",
-    Component: SignaturePadFormPattern,
   },
 ];

@@ -207,7 +207,7 @@ const [doc, setDoc] = React.useState<JSONContent | null>(null);
 >
   <RichTextEditorToolbar />
   <RichTextEditorContent />
-</RichTextEditor>
+</RichTextEditor>;
 ```
 
 `value` takes a Tiptap `JSONContent` document. Pass `defaultValue` instead to let the
@@ -231,15 +231,15 @@ RichTextEditor
 Every extension is opt-in through the `features` prop, so the installed item never loads
 code you do not ask for. `features={{ toolbar: true }}` is the minimal working set.
 
-| Feature | Extension(s) | What it adds |
-| ------- | ------------ | ------------ |
-| — | StarterKit | Paragraphs, h1–h3, bold, italic, lists, blockquote, code and hr |
-| `tables` | Table, TableRow, TableHeader, TableCell | Tables with column resizing |
-| `tasks` | TaskList, TaskItem | Checkable task lists with line-through styling |
-| `mentions` | Mention | `@` mentions with `data-id` / `data-label` |
-| `highlights` | Highlight (multicolor) | Five highlight colors backed by theme tokens |
-| `bubbleMenu` | — | Floating menu over the current selection |
-| `blockHandle` | — | Add/drag handle rendered beside the hovered block |
+| Feature       | Extension(s)                            | What it adds                                                    |
+| ------------- | --------------------------------------- | --------------------------------------------------------------- |
+| —             | StarterKit                              | Paragraphs, h1–h3, bold, italic, lists, blockquote, code and hr |
+| `tables`      | Table, TableRow, TableHeader, TableCell | Tables with column resizing                                     |
+| `tasks`       | TaskList, TaskItem                      | Checkable task lists with line-through styling                  |
+| `mentions`    | Mention                                 | `@` mentions with `data-id` / `data-label`                      |
+| `highlights`  | Highlight (multicolor)                  | Five highlight colors backed by theme tokens                    |
+| `bubbleMenu`  | —                                       | Floating menu over the current selection                        |
+| `blockHandle` | —                                       | Add/drag handle rendered beside the hovered block               |
 
 ### Toolbar
 
@@ -283,16 +283,16 @@ becomes document content, so it is not read out as text.
 The editor stores a ProseMirror document. `RichTextEditorRef` exposes the imperative
 surface:
 
-| Method | Returns | Description |
-| ------ | ------- | ----------- |
-| `getJSON()` | `JSONContent` | The full document tree. Persist this. |
-| `getHTML()` | `string` | Serialized HTML for rendering outside the editor. |
-| `getText()` | `string` | Plain text, blocks joined by newlines. |
-| `setContent(doc)` | `void` | Replace the document programmatically. |
-| `focus()` | `void` | Move focus into the editable area. |
-| `clear()` | `void` | Empty the document and emit `onValueChange(null)`. |
-| `isEmpty()` | `boolean` | Whether the document has no content. |
-| `can().undo()` / `can().redo()` | `boolean` | History availability for toolbar state. |
+| Method                          | Returns       | Description                                        |
+| ------------------------------- | ------------- | -------------------------------------------------- |
+| `getJSON()`                     | `JSONContent` | The full document tree. Persist this.              |
+| `getHTML()`                     | `string`      | Serialized HTML for rendering outside the editor.  |
+| `getText()`                     | `string`      | Plain text, blocks joined by newlines.             |
+| `setContent(doc)`               | `void`        | Replace the document programmatically.             |
+| `focus()`                       | `void`        | Move focus into the editable area.                 |
+| `clear()`                       | `void`        | Empty the document and emit `onValueChange(null)`. |
+| `isEmpty()`                     | `boolean`     | Whether the document has no content.               |
+| `can().undo()` / `can().redo()` | `boolean`     | History availability for toolbar state.            |
 
 Access it with a ref, or from inside the tree with `useRichTextEditor()`:
 
@@ -310,31 +310,31 @@ const save = async () => {
 
 ## API
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `value` | `JSONContent \| null` | - | Controlled document. |
-| `defaultValue` | `JSONContent \| null` | - | Initial document for uncontrolled usage. |
-| `onValueChange` | `(doc: JSONContent \| null) => void` | - | Fires on every document change, in both modes. |
-| `placeholder` | `string` | - | Placeholder shown on empty nodes. |
-| `readOnly` | `boolean` | `false` | Renders content without editing. |
-| `disabled` | `boolean` | `false` | Disables editing and paints at reduced opacity. |
-| `features` | `RichTextEditorFeatures` | `{}` | Opt-in extensions: `toolbar`, `tables`, `tasks`, `mentions`, `highlights`, `bubbleMenu`, `blockHandle`. |
-| `className` | `string` | - | Applied to the outer surface. |
+| Prop            | Type                                 | Default | Description                                                                                             |
+| --------------- | ------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------- |
+| `value`         | `JSONContent \| null`                | -       | Controlled document.                                                                                    |
+| `defaultValue`  | `JSONContent \| null`                | -       | Initial document for uncontrolled usage.                                                                |
+| `onValueChange` | `(doc: JSONContent \| null) => void` | -       | Fires on every document change, in both modes.                                                          |
+| `placeholder`   | `string`                             | -       | Placeholder shown on empty nodes.                                                                       |
+| `readOnly`      | `boolean`                            | `false` | Renders content without editing.                                                                        |
+| `disabled`      | `boolean`                            | `false` | Disables editing and paints at reduced opacity.                                                         |
+| `features`      | `RichTextEditorFeatures`             | `{}`    | Opt-in extensions: `toolbar`, `tables`, `tasks`, `mentions`, `highlights`, `bubbleMenu`, `blockHandle`. |
+| `className`     | `string`                             | -       | Applied to the outer surface.                                                                           |
 
 ## Styling & tokens
 
 The editor content is styled through theme tokens only; no fixed colors ship inside:
 
-| Token | Used for |
-| ----- | -------- |
-| `bg-background` / `text-foreground` | Editor surface and body text |
-| `text-muted-foreground` | List markers, blockquotes, placeholders, checked tasks |
-| `bg-muted` | Code blocks, table headers |
-| `border-border` | Horizontal rules and table borders |
-| `bg-primary` / `text-primary` | Drop cursor, table resize handle, links, mention chips |
-| `bg-primary/10` | Mention chips and selected table cells |
-| `bg-primary/15` | Text selection |
-| `outline-ring/50` | Outline on a selected node (`ProseMirror-selectednode`) |
+| Token                                                                                                       | Used for                                                 |
+| ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| `bg-background` / `text-foreground`                                                                         | Editor surface and body text                             |
+| `text-muted-foreground`                                                                                     | List markers, blockquotes, placeholders, checked tasks   |
+| `bg-muted`                                                                                                  | Code blocks, table headers                               |
+| `border-border`                                                                                             | Horizontal rules and table borders                       |
+| `bg-primary` / `text-primary`                                                                               | Drop cursor, table resize handle, links, mention chips   |
+| `bg-primary/10`                                                                                             | Mention chips and selected table cells                   |
+| `bg-primary/15`                                                                                             | Text selection                                           |
+| `outline-ring/50`                                                                                           | Outline on a selected node (`ProseMirror-selectednode`)  |
 | `--highlight-yellow` / `--highlight-green` / `--highlight-blue` / `--highlight-pink` / `--highlight-violet` | Highlight mark colors, mapped to chart tokens by default |
 
 ## Accessibility

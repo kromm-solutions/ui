@@ -24,16 +24,16 @@ function versionedRegistryDestination(destination) {
 function createVersionedRegistryRedirects(source, destination) {
   return [
     {
-      source,
-      missing: [{ type: "query", key: "v" }],
       destination: versionedRegistryDestination(destination),
+      missing: [{ key: "v", type: "query" }],
       permanent: false,
+      source,
     },
     {
-      source,
-      has: [{ type: "query", key: "v", value: "(?<registryVersion>.*)" }],
       destination: `${destination}?v=:registryVersion`,
+      has: [{ key: "v", type: "query", value: "(?<registryVersion>.*)" }],
       permanent: true,
+      source,
     },
   ];
 }
@@ -43,7 +43,8 @@ const nextConfig = {
   allowedDevOrigins: ["192.168.100.124", "172.31.255.28"],
   devIndicators: false,
   // Lets Next bust its own static-asset URLs per deployment on Vercel.
-  deploymentId: registryDeploymentId === "local" ? undefined : registryDeploymentId,
+  deploymentId:
+    registryDeploymentId === "local" ? undefined : registryDeploymentId,
   experimental: {
     viewTransition: true,
   },
@@ -73,18 +74,18 @@ const nextConfig = {
 
     return [
       {
+        has: [{ key: "v", type: "query" }],
         headers: versionedRegistryHeaders,
-        has: [{ type: "query", key: "v" }],
         source: "/r/styles/:path*",
       },
       {
+        has: [{ key: "v", type: "query" }],
         headers: versionedRegistryHeaders,
-        has: [{ type: "query", key: "v" }],
         source: "/r/themes/:path*",
       },
       {
+        has: [{ key: "v", type: "query" }],
         headers: versionedRegistryHeaders,
-        has: [{ type: "query", key: "v" }],
         source: "/r/fonts/:path*",
       },
       { headers: [{ key: "Link", value: link }], source: ROUTES.HOME },

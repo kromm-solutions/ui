@@ -1,9 +1,10 @@
-﻿import type { RegistryItem } from "shadcn/schema";
+import type { RegistryItem } from "shadcn/schema";
 import { z } from "zod";
+
+import themesData from "@/registry/data/themes.json";
 
 import { parseData } from "./parse";
 import { themeDefinitionSchema } from "./schemas";
-import themesData from "@/registry/data/themes.json";
 
 const themes = parseData(
   themesData,

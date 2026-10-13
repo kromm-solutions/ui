@@ -29,17 +29,17 @@ const SponsorPage = async () => {
             Support the project
           </h1>
           <p className="text-base text-muted-foreground text-balance">
-            kromm ui is a multi-base component registry: headless primitives
-            for Base UI, Radix and React Aria, visual styles compiled at build
-            time, and tooling designed for AI agents. Every component is free
-            and that&apos;s not changing.
+            kromm ui is a multi-base component registry: headless primitives for
+            Base UI, Radix and React Aria, visual styles compiled at build time,
+            and tooling designed for AI agents. Every component is free and
+            that&apos;s not changing.
           </p>
           <p className="text-sm text-muted-foreground text-balance">
-            We&apos;re not going to paywall features or gate components behind
-            a sponsorship tier. But if kromm ui made your project better, or
-            you just like that this exists in the open, sponsoring is a nice
-            way to say so. It helps us justify spending real time on it
-            instead of treating it like a side-of-desk thing.
+            We&apos;re not going to paywall features or gate components behind a
+            sponsorship tier. But if kromm ui made your project better, or you
+            just like that this exists in the open, sponsoring is a nice way to
+            say so. It helps us justify spending real time on it instead of
+            treating it like a side-of-desk thing.
           </p>
           <p className="text-sm text-muted-foreground text-balance">
             Any amount is genuinely appreciated. And if money&apos;s not your

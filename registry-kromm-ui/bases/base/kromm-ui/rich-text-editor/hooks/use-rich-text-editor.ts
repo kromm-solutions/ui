@@ -4,15 +4,12 @@ import type { Editor, JSONContent } from "@tiptap/core";
 import { useEditor } from "@tiptap/react";
 import * as React from "react";
 
-import type {
-  CreateRichTextExtensionsOptions,
-} from "../core/extensions";
+import type { CreateRichTextExtensionsOptions } from "../core/extensions";
 import { createRichTextExtensions } from "../core/extensions";
 import { isSameRichTextDocument } from "../core/serialization";
 import type { RichTextValue } from "../core/types";
 
-export interface UseRichTextEditorOptions
-  extends CreateRichTextExtensionsOptions {
+export interface UseRichTextEditorOptions extends CreateRichTextExtensionsOptions {
   value?: RichTextValue;
   defaultValue?: RichTextValue;
   onValueChange?: (value: JSONContent) => void;

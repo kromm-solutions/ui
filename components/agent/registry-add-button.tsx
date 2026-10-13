@@ -79,7 +79,11 @@ export const RegistryAddButton = ({
     [registryName]
   );
 
-  const handleTriggerClick = (e: Parameters<NonNullable<React.ComponentProps<typeof Button>["onClick"]>>[0]) => {
+  const handleTriggerClick = (
+    e: Parameters<
+      NonNullable<React.ComponentProps<typeof Button>["onClick"]>
+    >[0]
+  ) => {
     trackEvent({
       name: "click_registry_add_button",
       properties: {
