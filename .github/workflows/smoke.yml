@@ -1,0 +1,55 @@
+name: Distribution smoke
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+  schedule:
+    # Mondays 06:00 UTC — catches distribution drift even without releases.
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+env:
+  BASE_URL: https://ui.kromm.io
+
+jobs:
+  http-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Probe registry endpoints in production
+        run: node scripts/smoke-distribution.mjs "$BASE_URL"
+
+  install-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Scaffold a throwaway consumer app
+        run: npx shadcn@latest init --yes --defaults --template vite consumer
+
+      - name: Register the kromm namespace
+        working-directory: consumer
+        run: npx shadcn@latest registry add "@kromm=$BASE_URL/r/styles/radix-nova/{name}.json"
+
+      - name: Install a real component from production
+        working-directory: consumer
+        run: npx shadcn@latest add "@kromm/$PROBE" --yes --overwrite
+        env:
+          PROBE: signature-pad
+
+      - name: Assert the component landed on disk
+        working-directory: consumer
+        run: |
+          test -d src/components/ui/signature-pad \
+            && echo "✓ signature-pad installed into src/components/ui/signature-pad" \
+            || { echo "❌ signature-pad files missing after shadcn add"; exit 1; }

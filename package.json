@@ -2,6 +2,14 @@
   "name": "kromm-ui-registry",
   "version": "0.1.0",
   "private": true,
+  "description": "kromm ui — a shadcn-compatible component registry: headless UI primitives across Base UI, Radix and React Aria, build-time visual styles, and AI-agent tooling.",
+  "homepage": "https://ui.kromm.io",
+  "bugs": "https://github.com/kromm-solutions/ui/issues",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kromm-solutions/ui.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "pnpm registry:all && next build",
@@ -79,11 +87,8 @@
     "typescript": "^6.0.3",
     "ultracite": "7.6.1"
   },
-  "description": "kromm ui — a shadcn-compatible component registry: headless UI primitives across Base UI, Radix and React Aria, build-time visual styles, and AI-agent tooling.",
-  "homepage": "https://ui.kromm.io",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kromm-solutions/ui.git"
+  "engines": {
+    "node": ">=22"
   },
-  "bugs": "https://github.com/kromm-solutions/ui/issues"
+  "packageManager": "pnpm@10.28.2"
 }

@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: ["*"]
   push:
-    branches: ["main"]
+    branches: ["main", "development"]
   merge_group:
   workflow_dispatch:
 
@@ -16,6 +16,17 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build and verify registry
+        run: pnpm registry:all
+
   lint-and-format:
     runs-on: ubuntu-latest
     steps:

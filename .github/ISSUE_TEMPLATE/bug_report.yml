@@ -30,7 +30,13 @@ body:
     id: base
     attributes:
       label: Headless base
-      options: ["base (Base UI)", "radix (Radix UI)", "aria (React Aria)", "all / not applicable"]
+      options:
+        [
+          "base (Base UI)",
+          "radix (Radix UI)",
+          "aria (React Aria)",
+          "all / not applicable",
+        ]
     validations:
       required: true
   - type: textarea
