@@ -6,8 +6,7 @@ import { ROUTES } from "@/constants/routes";
 import { YourComponent } from "@/registry-kromm-ui/bases/radix/kromm-ui/your-component";
 import { BreadcrumbJsonLd } from "@/seo/json-ld";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+export const revalidate = 600;
 
 export default function IndexPage() {
   return (
