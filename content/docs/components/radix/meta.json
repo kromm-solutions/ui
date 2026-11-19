@@ -1,1 +1,8 @@
-{"title":"Radix UI","pages":["signature-pad","your-component"]}
+{
+  "title": "Radix UI",
+  "pages": [
+    "paper",
+    "signature-pad",
+    "your-component"
+  ]
+}
