@@ -1,1 +1,10 @@
-{"title":"Base UI","pages":["code-block","signature-pad","rich-text-editor","your-component"]}
+{
+  "title": "Base UI",
+  "pages": [
+    "code-block",
+    "paper",
+    "signature-pad",
+    "rich-text-editor",
+    "your-component"
+  ]
+}
