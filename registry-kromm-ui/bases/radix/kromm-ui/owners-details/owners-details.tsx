@@ -1,4 +1,3 @@
-import { cn } from "cn";
-import { Item } from "@/registry/bases/radix/ui/item"
-
-
+// Placeholder for the owners-details component.
+// Implement the component before registering it.
+export {};
