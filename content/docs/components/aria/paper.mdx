@@ -1,0 +1,40 @@
+---
+title: Paper
+description: Paper sheet with a folded top-right corner and configurable dimensions.
+---
+
+import Paper from "@/registry-kromm-ui/bases/base/kromm-ui/paper";
+
+## Preview
+
+<Paper width={220} height={280}>
+  <strong>Documento</strong>
+  <p>Contenido de ejemplo</p>
+</Paper>
+
+## Usage
+
+```tsx
+import Paper from "@/registry-kromm-ui/bases/base/kromm-ui/paper";
+
+<Paper width={220} height={280} foldSize={32} className="shadow-sm">
+  <p>Contenido</p>
+</Paper>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| width | number | 220 | Width in pixels |
+| height | number | 280 | Height in pixels |
+| foldSize | number | 32 | Top-right fold size |
+| className | string | — | Additional CSS classes |
+| children | ReactNode | — | Content inside the paper |
+| style | CSSProperties | — | Inline styles |
+
+The component also accepts standard HTML div attributes.
+
+## Standalone preview
+
+Open `/paper` to see the component without the documentation layout.
